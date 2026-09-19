@@ -24,7 +24,10 @@
 **실제 모델에 들어간 프롬프트 전문** (변수 부분은 `{}`로 표시):
 
 ```
-_(여기에 그대로)_
+• 객관식 프롬프트 설계:
+  Question: {문제}\nOptions:\n{보기 A, B, C, D}\nAnswer with the option letter only.
+  • 주관식 프롬프트 설계:
+  Question: {문제}\nOptions:\n{보기}\nPlease select the correct answer from the options above.
 ```
 
 - **출처**: _(직접 설계 / 차용한 도구·저장소명 + 링크)_
