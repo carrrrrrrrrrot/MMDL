@@ -39,12 +39,12 @@ temp/
 outputs/
 output/
 
-# Logs
-logs/
-*.log
-wandb/
-zk.log
-span.log
+# # Logs
+# logs/
+# *.log
+# wandb/
+# zk.log
+# span.log
 
 # Data and models (large / local-only)
 data/
