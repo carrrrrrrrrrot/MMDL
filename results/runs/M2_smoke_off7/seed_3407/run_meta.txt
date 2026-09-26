@@ -1,0 +1,9 @@
+date: 2026-09-24T21:34:32+09:00
+repo_commit: 772ec89ab24ee4038097ca1c03a61eaf86fe3dd3
+repo_dirty_files: 2
+gpu: NVIDIA GeForce RTX 4090, 24564 MiB, 550.78
+model_path: /mnt/SSD-2TB/models/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17
+data_root: /mnt/SSD-2TB/models/MMMU
+command: python -m accelerate.commands.launch --num_processes=1 --main_process_port=12346 -m lmms_eval --model qwen3_vl --model_args pretrained=/mnt/SSD-2TB/models/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17,attn_implementation=sdpa --tasks mmmu_val_mmdl --include_path /home/dekim/workspace/MMDL/results/runs/M2_smoke_off7/seed_3407/task --batch_size 1 --seed 3407 --output_path /home/dekim/workspace/MMDL/results/runs/M2_smoke_off7/seed_3407 --log_samples --limit 1 --offset 7
+peak_vram_mib: 9159
+exit_status: 0

@@ -1,0 +1,41 @@
+# 회귀 테스트용 task (M1)
+# lmms-eval 기본 task `mmmu_val_local`(baseline run #2/#4)과 같은 평가 기준을
+# MMDL 쪽 task 파일로 재현합니다. 새 파일 구조(yaml 렌더링, --include_path,
+# include 없는 inline 설정)가 엔진에 제대로 연결되는지 확인하는 용도이며, 본 평가에는 쓰지 않습니다.
+#
+# __MMMU_DATA_ROOT__ 는 scripts/run_mmmu_eval.sh 가 --data_root 값으로 치환합니다.
+dataset_path: parquet
+dataset_kwargs:
+  data_files:
+    validation: "__MMMU_DATA_ROOT__/*/validation-*.parquet"
+task: "mmmu_val_mmdl_regress"
+test_split: validation
+output_type: generate_until
+doc_to_visual: !function lmms_eval.tasks.mmmu.utils.mmmu_doc_to_visual
+doc_to_text: !function lmms_eval.tasks.mmmu.utils.mmmu_doc_to_text
+doc_to_target: "answer"
+doc_to_messages: !function lmms_eval.tasks.mmmu.utils.mmmu_doc_to_messages
+process_results: !function lmms_eval.tasks.mmmu.utils.mmmu_process_results
+
+metric_list:
+  - metric: mmmu_acc
+    aggregation: !function lmms_eval.tasks.mmmu.utils.mmmu_aggregate_results
+    higher_is_better: true
+
+lmms_eval_specific_kwargs:
+  default:
+    prompt_type: "format"
+    multiple_choice_prompt: "Answer with the option's letter from the given choices directly."
+    open_ended_prompt: "Answer the question using a single word or phrase."
+  qwen3_vl:
+    format: "qwen3_vl"
+    pre_prompt: "Question: "
+    post_prompt: "Answer with the option letter only."
+    open_ended_prompt: "Please select the correct answer from the options above."
+
+# 원본은 _default_template_yaml 을 include 했습니다. 여기서는 같은 값을 직접 적습니다.
+generation_kwargs:
+  max_new_tokens: 128
+
+metadata:
+  version: 0.0

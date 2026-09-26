@@ -1,0 +1,47 @@
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--num_machines` was set to a value of `1`
+	`--mixed_precision` was set to a value of `'no'`
+	`--dynamo_backend` was set to a value of `'no'`
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+[32m2026-09-24 21:22:32[0m | [1mINFO    [0m | [36mlmms_eval.__main__[0m:[36mcli_evaluate[0m:[36m516[0m - [1mVerbosity set to INFO[0m
+[32m2026-09-24 21:22:32[0m | [1mINFO    [0m | [36mlmms_eval.__main__[0m:[36mcli_evaluate_single[0m:[36m643[0m - [1mIncluding path: /home/dekim/workspace/MMDL/results/runs/M1_smoke/seed_0_1234_1234_1234/task[0m
+[32m2026-09-24 21:22:34[0m | [1mINFO    [0m | [36mlmms_eval.__main__[0m:[36mcli_evaluate_single[0m:[36m653[0m - [1mEvaluation tracker args: {'output_path': '/home/dekim/workspace/MMDL/results/runs/M1_smoke/seed_0_1234_1234_1234'}[0m
+[32m2026-09-24 21:22:34[0m | [1mINFO    [0m | [36mlmms_eval.__main__[0m:[36mcli_evaluate_single[0m:[36m677[0m - [1mIncluding path: /home/dekim/workspace/MMDL/results/runs/M1_smoke/seed_0_1234_1234_1234/task[0m
+[32m2026-09-24 21:22:34[0m | [33m[1mWARNING [0m | [36mlmms_eval.__main__[0m:[36mcli_evaluate_single[0m:[36m683[0m - [33m[1m --limit SHOULD ONLY BE USED FOR TESTING.REAL METRICS SHOULD NOT BE COMPUTED USING LIMIT.[0m
+[32m2026-09-24 21:22:34[0m | [1mINFO    [0m | [36mlmms_eval.__main__[0m:[36mcli_evaluate_single[0m:[36m737[0m - [1mSelected Tasks: ['mmmu_val_mmdl_regress'][0m
+[32m2026-09-24 21:22:34[0m | [1mINFO    [0m | [36mlmms_eval.evaluator[0m:[36msimple_evaluate[0m:[36m486[0m - [1mSetting random seed to 0 | Setting numpy seed to 1234 | Setting torch manual seed to 1234[0m
+Loading weights:   0%|          | 0/713 [00:00<?, ?it/s]Loading weights:   4%|▍         | 31/713 [00:00<00:02, 303.16it/s]Loading weights:  11%|█         | 75/713 [00:00<00:01, 379.46it/s]Loading weights:  17%|█▋        | 124/713 [00:00<00:01, 429.33it/s]Loading weights:  24%|██▍       | 170/713 [00:00<00:01, 432.58it/s]Loading weights:  31%|███       | 220/713 [00:00<00:01, 454.87it/s]Loading weights:  37%|███▋      | 267/713 [00:00<00:00, 456.03it/s]Loading weights:  44%|████▍     | 313/713 [00:00<00:00, 444.62it/s]Loading weights:  51%|█████▏    | 366/713 [00:00<00:00, 465.22it/s]Loading weights:  75%|███████▍  | 532/713 [00:00<00:00, 827.69it/s]Loading weights: 100%|██████████| 713/713 [00:00<00:00, 720.73it/s]
+[32m2026-09-24 21:22:37[0m | [1mINFO    [0m | [36mlmms_eval.evaluator[0m:[36mevaluate[0m:[36m1047[0m - [1mRunning on rank 0 (local rank 0)[0m
+[32m2026-09-24 21:22:37[0m | [1mINFO    [0m | [36mlmms_eval.api.task[0m:[36mbuild_all_requests[0m:[36m473[0m - [1mBuilding contexts for mmmu_val_mmdl_regress on rank 0...[0m
+  0%|          | 0/2 [00:00<?, ?it/s]100%|██████████| 2/2 [00:00<00:00, 9289.71it/s]
+[32m2026-09-24 21:22:37[0m | [1mINFO    [0m | [36mlmms_eval.evaluator[0m:[36mevaluate[0m:[36m1202[0m - [1mRunning generate_until requests[0m
+Model Responding:   0%|          | 0/2 [00:00<?, ?it/s][transformers] Keyword argument `nframes` is not a valid argument for this processor and will be ignored.
+Model Responding:  50%|█████     | 1/2 [00:00<00:00,  1.78it/s][32m2026-09-24 21:22:38[0m | [1mINFO    [0m | [36mlmms_eval.models.model_utils.gen_metrics[0m:[36mlog_metrics[0m:[36m136[0m - [1mMetric summary - Total elapsed time: 0.453s, Total gen tokens: 4, Avg speed: 8.8 tokens/s, Additional metrics: rank: 0[0m
+Model Responding: 100%|██████████| 2/2 [00:00<00:00,  3.20it/s]
+Postprocessing:   0%|          | 0/2 [00:00<?, ?it/s]Postprocessing: 100%|██████████| 2/2 [00:00<00:00, 1786.33it/s]
+[32m2026-09-24 21:22:38[0m | [1mINFO    [0m | [36mlmms_eval.evaluator[0m:[36mevaluate[0m:[36m1402[0m - [1mPostprocessed 2 docs for mmmu_val_mmdl_regress/none with 4 worker(s) in 0.00s[0m
+{'Overall-Art and Design': {'num': 0, 'acc': 0}, 'Overall-Business': {'num': 2, 'acc': 1.0}, 'Accounting': {'num': 2, 'acc': 1.0}, 'Overall-Science': {'num': 0, 'acc': 0}, 'Overall-Health and Medicine': {'num': 0, 'acc': 0}, 'Overall-Humanities and Social Science': {'num': 0, 'acc': 0}, 'Overall-Tech and Engineering': {'num': 0, 'acc': 0}, 'Overall': {'num': 2, 'acc': 1.0}}
+[32m2026-09-24 21:22:38[0m | [1mINFO    [0m | [36mlmms_eval.loggers.evaluation_tracker[0m:[36msave_results_aggregated[0m:[36m187[0m - [1mSaving results aggregated[0m
+[32m2026-09-24 21:22:38[0m | [1mINFO    [0m | [36mlmms_eval.loggers.evaluation_tracker[0m:[36msave_results_samples[0m:[36m300[0m - [1mSaving samples to /home/dekim/workspace/MMDL/results/runs/M1_smoke/seed_0_1234_1234_1234/snapshots__ebb281ec70b05090aa6165b016eac8ec08e71b17/20260924_202234_samples_mmmu_val_mmdl_regress.jsonl[0m
+qwen3_vl (pretrained=/mnt/SSD-2TB/models/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17,attn_implementation=sdpa), gen_kwargs: (), limit: 2.0, offset: 0, num_fewshot: None, batch_size: 1
+
+LMMs-Eval: Probing Intelligence in the Real World
+> Good evaluation shapes what we build next.
+
+branch: main
+commit: 772ec89
+
+|        Tasks        |Filter|n-shot| Metric |   |Value|   |Stderr|
+|---------------------|------|-----:|--------|---|----:|---|------|
+|mmmu_val_mmdl_regress|none  |     0|mmmu_acc|↑  |    1|±  |N/A   |
+
+
+Throughput Summary
+
+|      Metric      |Value |  Unit  |
+|------------------|-----:|--------|
+|total_gen_tokens  |4.0000|tokens  |
+|total_elapsed_time|0.4530|seconds |
+|avg_speed         |8.8306|tokens/s|
+|avg_rank          |0.0000|varies  |
+
