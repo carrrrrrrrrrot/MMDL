@@ -1,0 +1,9 @@
+# Python 캐시·빌드 산출물
+__pycache__/
+*.pyc
+*.egg-info/
+
+# 비밀 정보 (API key 등은 repo 밖에 두지만, 실수로 복사되어도 커밋되지 않게)
+.openai_key
+*.key
+.env

@@ -1,0 +1,51 @@
+# MMMU validation 본 평가 task (Qwen3-VL-4B-Instruct baseline 및 fine-tune 후 재평가 공용)
+#
+# 평가 기준은 이 파일과 mmdl_utils.py 에 모두 고정되어 있습니다.
+# 동결 이후에는 수정하지 말고, 모델만 바꿔서(scripts/run_mmmu_eval.sh --model_path) 다시 평가합니다.
+#
+# /mnt/SSD-2TB/models/MMMU 는 scripts/run_mmmu_eval.sh 가 --data_root 값으로 치환합니다.
+# 데이터: MMMU/MMMU (HF revision 98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68) 30과목 validation parquet, 900문항
+dataset_path: parquet
+dataset_kwargs:
+  data_files:
+    validation: "/mnt/SSD-2TB/models/MMMU/*/validation-*.parquet"
+task: "mmmu_val_mmdl"
+test_split: validation
+output_type: generate_until
+
+# 프롬프트: mmdl_utils.py (lmms-eval 의 Qwen3-VL용 MMMU 프롬프트를 수정)
+doc_to_text: !function mmdl_utils.mmdl_doc_to_text
+doc_to_messages: !function mmdl_utils.mmdl_doc_to_messages
+doc_to_visual: !function lmms_eval.tasks.mmmu.utils.mmmu_doc_to_visual
+doc_to_target: "answer"
+
+# 채점·집계: lmms-eval 에 포팅된 MMMU 공식 eval_utils (수정 없이 사용)
+process_results: !function lmms_eval.tasks.mmmu.utils.mmmu_process_results
+metric_list:
+  - metric: mmmu_acc
+    aggregation: !function lmms_eval.tasks.mmmu.utils.mmmu_aggregate_results
+    higher_is_better: true
+
+lmms_eval_specific_kwargs:
+  default:
+    pre_prompt: "Question: "
+    multiple_choice_prompt: "Think step by step, then give your final answer on the last line in the form \"Answer: X\", where X is the option letter."
+    open_ended_prompt: "Think step by step, then give your final answer on the last line in the form \"Answer: <answer>\"."
+
+# 생성 설정: Qwen 공식 Instruct recipe (https://github.com/QwenLM/Qwen3-VL README "Generation Hyperparameters")
+#   greedy=false, seed=3407, top_p=0.8, top_k=20, temperature=0.7,
+#   repetition_penalty=1.0, presence_penalty=1.5, out_seq_length=32768
+# - seed 는 lmms-eval --seed 로 지정합니다 (scripts/run_mmmu_eval.sh --seeds, 기본 3407).
+# - HF transformers 백엔드(qwen3_vl)는 temperature/top_p/top_k 만 generate() 에 전달합니다.
+#   repetition_penalty=1.0 은 no-op 이라 결과가 같고, presence_penalty 는 적용되지 않습니다.
+# - max_new_tokens 는 M3 pilot 으로 확정합니다 (현재 값은 pilot 상한).
+generation_kwargs:
+  max_new_tokens: 4096
+  temperature: 0.7
+  top_p: 0.8
+  top_k: 20
+  repetition_penalty: 1.0
+  presence_penalty: 1.5
+
+metadata:
+  version: 0.1

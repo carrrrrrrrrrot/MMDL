@@ -1,0 +1,22 @@
+id,subject,gold,pred_3407,claude_label,claude_evidence,user_label,user_note
+validation_Math_3,Math,B,C,눈,"Graph1 지름 4개가 만나는 교차점을 ""중심 정점""으로 읽고 wheel로 해석. Graph2를 차수 4로 읽음(실제는 3-정규). 실제: Graph2만 이분 그래프라 정답 B",눈,"세 그래프 모두 사실은 점 8개, 선 12개, 차수 전부 3으로 똑같음. 그래서 이 문제는 차수 비교로는 절대 못 풀고, 홀수 사이클 유무(이분 그래프인지)로 구분하는 게 핵심인데, 모델은 그림을 잘못 읽어서 차수가 다르다고 착각하고 거기서 찍음."
+validation_Math_4,Math,A,D,눈,x=0에서 y=0(sine)이라고 읽음. 실제로는 x=0에서 최댓값 1(cosine)이고 정수마다 봉우리(주기 1) → cos 2πx,,
+validation_Math_5,Math,A,C,눈,"R의 오른쪽 경계를 (2,0)으로 읽음. 실제 R은 두 곡선의 교점(x=1.5)까지. 대수로 교점을 확인하지 않은 추론 누락도 있음",,
+validation_Math_9,Math,B,A,눈,정점 6개의 육각형 + 지름으로 읽음. 실제로는 정점 7개(가운데 정점 포함). 이분 그래프(4 대 3)라 해밀턴 회로 없음,,
+validation_Math_15,Math,"['24/7', '3.429']",24/7,채점,"모델 답 24/7은 정답 목록 [24/7, 3.429]에 있음. 정답이 문자열 ""[...]""로 저장되어 eval_open이 비교에 실패 (lmms-eval 포트의 채점 버그)",채점,"3.429는 24/7을 소수점으로 나타낸걸 반올림한거라 둘이 똑같은건데 문제에서 소수점이랑 분수형태 둘다 요구한적이 없는데 정답은 둘다 요구하게 되어있음. 그래서 애초에 모델이 소수점으로 도출할 생각 자체를 못한것 같음"
+validation_Math_20,Math,B,A,눈,"저해상도 스캔(510×179)에서 가중치를 잘못 읽음. 예: 1-5(18)를 1-8로, 4-5(7)를 4, 5-6(4)의 위치 혼동, 4-7(10) 누락. 보기 문구도 모호함",,
+validation_Math_28,Math,A,B,눈,"정점을 4개로 셈(실제 6개: 3-사이클 2개 + 빨간 대응 간선). ""라벨이 없으니 Cayley가 아니다""라는 추론 오류도 겹침 (혼합)",,
+validation_Chemistry_3,Chemistry,C,A,눈,7원환 cycloheptatriene(브롬화 트로필륨)을 bromobenzene으로 읽음 (256×160). 실제 생성물은 방향족 트로필륨 이온,,
+validation_Chemistry_4,Chemistry,trans-1-Chloro-4-methylcyclohexane,trans-1-chloro-2-methylcyclohexane,눈,"Cl과 CH3을 1,2 위치로 판단. 실제는 고리 반대편 1,4 위치. trans 판정은 맞음",,
+validation_Chemistry_5,Chemistry,C,A,뇌,"Fischer 투영의 치환기 배치는 정확히 옮김(H-C-Cl / Cl-C-H). 그런데 R/S 판정(CIP 회전 방향)을 틀림. 정답 2S,3S",,
+validation_Chemistry_7,Chemistry,C,B,눈,"178×85 이미지에서 골격을 판독하지 못함(""2,3-dibromo-2,3-dimethylbutane"" 등 추측 반복). 실제는 2,3,5,6-tetrabromoheptane(입체중심 4, 대칭 → 10)",,
+validation_Chemistry_12,Chemistry,A,C,눈,"약 150px 크기의 3중심 Fischer 투영 5개를 판독하지 못함(""원래 화합물이 텍스트로 그려져 있지 않다"" 등). 구조를 재구성하지 못한 채 추측",,
+validation_Chemistry_13,Chemistry,12.97,13.1 g,뇌,이미지와 수치는 정확함. 0.175×74.093 = 12.966을 13.066으로 잘못 계산 (산술 오류),,
+validation_Chemistry_14,Chemistry,B,A,뇌,"""문헌상 모르핀의 키랄 중심은 4개""라는 잘못된 지식에 의존 (실제 5: C5, C6, C9, C13, C14). 아래쪽 고리를 벤젠이라고 한 부분 판독 오류도 있음",,
+validation_Chemistry_20,Chemistry,5,1,뇌,"OH, N-CH3, 쐐기 표시는 인식함. 그런데 쐐기가 그려진 곳만 입체중심이라고 가정하는 추론 오류로 1개라고 답함 (모르핀, 실제 5)",,
+validation_Physics_2,Physics,A,B,뇌,"그림(N극이 오른쪽, 고리를 오른쪽으로 당김)은 정확히 읽음. 렌츠 법칙에서 유도 자기장 방향을 반대로 판단(감소하는 오른쪽 자속을 보강하는 방향 = 오른쪽)",,
+validation_Physics_7,Physics,E,D,눈,"타원의 장축을 세로(A–E)로 읽음. 실제로는 가로로 긴 타원이고, 초점 후보 B가 장축 위에 있음",,
+validation_Physics_11,Physics,B,C,뇌,굴절률 1.00 / 1.50 / 1.33은 정확히 읽음. t = λ/(4n)에서 막 안의 파장을 쓰지 않고 공기 중 파장을 써서 150nm라고 답함 (정답 100nm),,
+validation_Physics_15,Physics,D,C,뇌,"그림의 조건(n1<nf, n2<nf)은 정확히 읽음. 아래 계면(nf→n2)에서도 위상 반전이 있다고 판단(규칙 오류). 정답 λ/4",,
+validation_Physics_18,Physics,A,D,뇌,"처음에는 ""S는 전구 4와 직렬""로 올바르게 읽었지만, ""교과서에서는 스위치를 병렬로 둔다""는 추측으로 회로 해석을 스스로 뒤집음 (추론 흔들림)",,
+validation_Physics_20,Physics,A,B,눈,"문턱 진동수를 4(×10^14)로, (8, 2.0)을 지나는 것으로 읽음. 실제로는 약 3.6에서 x축과 만나고 기울기는 약 0.41 → φ ≈ 1.5 eV",,

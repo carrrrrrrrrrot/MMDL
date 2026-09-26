@@ -1,0 +1,7 @@
+# 진단 실험 전용 task (본 평가에는 쓰지 않음)
+# 본 평가 task(mmmu_val_mmdl.yaml)를 그대로 include 하고, 메시지 구성과 문항 필터만 진단용 함수로 바꿉니다.
+# 프롬프트 문구, 생성 설정, 채점은 본 평가와 같습니다. 진단 설정은 환경 변수로 받습니다 (mmdl_utils.py 참고).
+include: mmmu_val_mmdl.yaml
+task: "mmmu_val_mmdl_diag"
+doc_to_messages: !function mmdl_utils.mmdl_diag_doc_to_messages
+process_docs: !function mmdl_utils.mmdl_diag_process_docs

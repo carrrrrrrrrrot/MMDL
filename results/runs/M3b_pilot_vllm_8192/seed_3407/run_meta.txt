@@ -1,0 +1,13 @@
+date: 2026-09-25T01:28:37+09:00
+repo_commit: 772ec89ab24ee4038097ca1c03a61eaf86fe3dd3
+repo_dirty_files: 2
+gpu: NVIDIA GeForce RTX 4090, 24564 MiB, 550.78
+model_path: /mnt/SSD-2TB/models/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17
+data_root: /mnt/SSD-2TB/models/MMMU
+backend: vllm
+subjects: Electronics Finance Math Art_Theory History
+limit: none
+gen_override: max_new_tokens=8192
+command: /home/dekim/anaconda3/envs/vllm011/bin/python -m accelerate.commands.launch --num_processes=1 --main_process_port=12346 -m lmms_eval --model vllm --model_args model=/mnt/SSD-2TB/models/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17,is_qwen3_vl=True,gpu_memory_utilization=0.85,max_model_len=32768,limit_mm_per_prompt={"image":7},mm_processor_kwargs={"min_pixels":4096,"max_pixels":16777216} --gen_kwargs seed=3407,max_new_tokens=8192 --tasks mmmu_val_mmdl --include_path /home/dekim/workspace/MMDL/results/runs/M3b_pilot_vllm_8192/seed_3407/task --batch_size 256 --seed 3407 --output_path /home/dekim/workspace/MMDL/results/runs/M3b_pilot_vllm_8192/seed_3407 --log_samples
+peak_vram_mib: 20003
+exit_status: 0

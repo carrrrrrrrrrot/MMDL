@@ -1,0 +1,24 @@
+diff --git a/examples/models/qwen3vl.sh b/examples/models/qwen3vl.sh
+index 58b27432..6510c702 100755
+--- a/examples/models/qwen3vl.sh
++++ b/examples/models/qwen3vl.sh
+@@ -10,8 +10,8 @@ NUM_GPUS="${NUM_GPUS:-1}"
+ PORT="${MAIN_PROCESS_PORT:-12346}"
+ 
+ # Conda environment check (prefer temp env where lmms-eval & torch are configured)
+-if [ -d "/home/dekim/anaconda3/envs/temp/bin" ]; then
+-    export PATH="/home/dekim/anaconda3/envs/temp/bin:$PATH"
++if [ -d "/home/dekim/anaconda3/envs/vlm/bin" ]; then
++    export PATH="/home/dekim/anaconda3/envs/vlm/bin:$PATH"
+ fi
+ 
+ echo "================================================================="
+@@ -24,7 +24,7 @@ echo "================================================================="
+ 
+ accelerate launch --num_processes="${NUM_GPUS}" --main_process_port="${PORT}" -m lmms_eval \
+     --model qwen3_vl \
+-    --model_args=pretrained="${MODEL_PATH}",max_pixels=12845056,attn_implementation=sdpa,interleave_visuals=False \
++    --model_args=pretrained="${MODEL_PATH}",max_pixels=12845056,attn_implementation=flash_attention_2,interleave_visuals=True \
+     --tasks mmmu_val_local \
+     --batch_size 1 \
+     --output_path "${OUTPUT_PATH}" \
