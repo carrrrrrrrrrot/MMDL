@@ -1,6 +1,6 @@
 # MMMU-val Baseline Evaluation Report — Qwen3-VL-4B-Instruct
 
-- **팀명**: _(기입)_
+- **팀명**: 숭실대총장김다은
 - **팀원**: 김다은, 김어령, 서채원
 - **작성일**: 2026.9.28
 - **재현 커맨드**: `PYTHON=$(which python) bash scripts/run_mmmu_eval.sh --model_path <MODEL_DIR> --data_root <DATA_ROOT> --seeds "3407 1 2" --run_name baseline_reproduction`
