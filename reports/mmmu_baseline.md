@@ -1,9 +1,9 @@
 # MMMU-val Baseline Evaluation Report — Qwen3-VL-4B-Instruct
 
 - **팀명**: _(기입)_
-- **팀원**: _(기입)_
-- **작성일**: _(기입)_
-- **재현 커맨드**: `(예: bash scripts/run_mmmu_eval.sh)`
+- **팀원**: 김다은, 김어령, 서채원
+- **작성일**: 2026.9.28
+- **재현 커맨드**: `PYTHON=$(which python) bash scripts/run_mmmu_eval.sh --model_path <MODEL_DIR> --data_root <DATA_ROOT> --seeds "3407 1 2" --run_name baseline_reproduction`
 
 ---
 
@@ -12,12 +12,12 @@
 | 항목 | 값 |
 |---|---|
 | 모델 checkpoint | `Qwen/Qwen3-VL-4B-Instruct` (ebb281ec70b05090aa6165b016eac8ec08e71b17) |
-| 추론 백엔드 | _(예: transformers / vLLM, 버전)_ |
-| 사용 GPU | _(모델명, VRAM)_ |
-| 실측 peak VRAM | _(GB)_ |
-| 총 소요 시간 | _(900문제 기준)_ |
-| 의존성 | _(requirements.txt / environment.yml 경로 링크)_ |
-| 실행 커맨드 | ```bash\n_(모델 checkpoint 위치와 MMMU 데이터 위치가 인자로 드러나야 함 — 예: --model_path <경로 또는 HF repo id> --data_root <MMMU 데이터 경로>. 하드코딩된 절대경로 대신 인자/환경변수로 받아서, 채점자가 자기 경로만 바꿔 끼우면 그대로 재현되게 작성)_\n``` |
+| 추론 백엔드 | vLLM 0.11.0 (Qwen 공식 생성 설정의 presence_penalty=1.5를 적용하고, 900문항을 연속 배치로 효율적으로 처리하기 위해 선택) |
+| 사용 GPU | NVIDIA RTX 4090 24 GB × 1 |
+| 실측 peak VRAM | 22.54 GiB |
+| 총 소요 시간 | 900문항당 seed별 2시간 5분 / 2시간 6분 / 2시간 2분 -> 3회 총 약 6시간 13분 |
+| 의존성 | [requirements.txt](https://github.com/carrrrrrrrrrot/MMDL/blob/main/requirements.txt)  |
+| 실행 커맨드 | `PYTHON="$(command -v python)" bash scripts/run_mmmu_eval.sh --model_path "/path/to/Qwen3-VL-4B-Instruct" --data_root "/path/to/MMMU" --seeds "3407 1 2" --run_name baseline_reproduction` |
 
 ## 2. 프롬프트
 
