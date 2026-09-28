@@ -140,7 +140,7 @@ Pick the single best choice from the list above.
 |---|---|
 | 공식 (Qwen3-VL Technical Report) | 67.4 |
 | 우리 재현 결과 | 61.67|
-| 차이 (Δ) | −5.70pt |
+| 차이 (Δ) | −5.73pt |
 
 ## 7. 격차 분석
 
