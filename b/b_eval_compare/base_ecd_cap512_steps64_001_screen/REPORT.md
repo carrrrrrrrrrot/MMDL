@@ -35,3 +35,7 @@ base는 `Qwen/Qwen3-VL-4B-Instruct` revision `ebb281ec70b05090aa6165b016eac8ec08
 이 평가는 **6000의 한 시드 선별 결과**다. 새 후보의 +12문항과 기존 후보 대비 +6문항은 최종 성능 향상 판정이 아니며, 4090 공식 3시드 비교도 아니다. A의 공통 SFT 부모에서 시작하는 GRPO는 어댑터와 검증된 입력을 받은 뒤 별도 실험으로 수행해야 한다.
 
 원본 서버 실행: `/data/chaewon/mmdl_grpo_runs/base_ecd_pilot_cap512_steps64_001`; 병합 모델: `/data/chaewon/mmdl_merged_models/base_ecd_grpo_cap512_steps64_001`; 평가: `/data/chaewon/mmdl_eval_runs/base_ecd_grpo_cap512_steps64_001_screen`.
+
+## 후속 seed 1 선별 결과 (2026-11-18)
+
+동일한 512토큰·64스텝 어댑터를 6000 v1.2의 seed 1에서 900문항 평가했다. 후보는 **550/900**, 같은 GPU·시드의 원본 기준선은 **555/900**으로 −5문항(−0.56%p)이다. A가 요청한 후보 통과선 564/900 이상에도 못 미쳤다. seed 3407의 +12문항과 결과 방향이 달라, 이 문서의 한 시드 점수를 안정적인 성능 향상으로 해석할 수 없다. [seed 1 보고서](../base_ecd_cap512_steps64_seed1_20261118_screen/REPORT.md), [대응 요약](../base_ecd_cap512_steps64_seed1_20261118_screen/comparison_summary.json), [문항별 CSV](../base_ecd_cap512_steps64_seed1_20261118_screen/paired_items.csv)에 근거를 보존했다.
