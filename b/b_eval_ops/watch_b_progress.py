@@ -84,7 +84,10 @@ def snapshot(args: argparse.Namespace) -> str:
         required = ("sft_adapter", "sft_adapter_sha256", "a_converted_jsonl",
                     "c_approved_ids", "c_clearance_json", "image_root",
                     "dataset_revision", "max_steps", "min_train_rows")
-        missing = [name for name in required if not config.get(name)]
+        path_fields = {"sft_adapter", "a_converted_jsonl", "c_approved_ids",
+                       "c_clearance_json", "image_root"}
+        missing = [name for name in required
+                   if not config.get(name) or (name in path_fields and not Path(config[name]).exists())]
         handoff_text = ("실데이터 공통 부모: A·C 입력 대기 (" + ", ".join(missing) + ")"
                         if missing else "실데이터 공통 부모: 입력 검증 대기")
     return "\n".join((now, queue_text, pilot_text, handoff_text))
