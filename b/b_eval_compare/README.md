@@ -30,3 +30,5 @@ files join on the **same seed and question ID**, and include score changes,
 parsed-answer equality, missing final answers, and any explicit length stop
 metadata. Saved lmms-eval JSONL may omit `finish_reason`; the script reports
 that field as unavailable instead of inferring truncation.
+
+The controlled 512-token/64-step tuning run, its one-seed 6000 screen, and both paired comparison files are in [the B tuning report](base_ecd_cap512_steps64_001_screen/REPORT.md). This is a base→GRPO insurance experiment; the 4090 official three-seed result and same-SFT-parent GRPO are still separate.
