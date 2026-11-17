@@ -1,0 +1,7 @@
+{
+  "version": "b-grpo-synthetic-strict-2026-11-17",
+  "lowercase_mc": false,
+  "numeric_abs_tolerance": "0",
+  "unitless_allows_unit": false,
+  "allow_cm_m_conversion": false
+}

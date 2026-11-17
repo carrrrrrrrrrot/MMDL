@@ -1,0 +1,7 @@
+{
+  "version": "b-grpo-proposed-2026-11-17",
+  "lowercase_mc": true,
+  "numeric_abs_tolerance": "0.10",
+  "unitless_allows_unit": false,
+  "allow_cm_m_conversion": true
+}

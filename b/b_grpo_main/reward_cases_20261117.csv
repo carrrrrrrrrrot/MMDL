@@ -1,0 +1,25 @@
+case_id,answer_type,gold_answer,model_output,finish_reason,expected_reward,actual_reward,v12_reward,differs_from_v12,parsed_answer,reason,reward_version,pass
+R01,mc,B,Answer: B,unavailable,1,1.0,1,False,B,correct,b-grpo-synthetic-strict-2026-11-17,True
+R02,mc,B,Answer: C,unavailable,0,0.0,0,False,C,wrong_answer,b-grpo-synthetic-strict-2026-11-17,True
+R03,mc,B,"B seems likely.
+Answer: C",unavailable,0,0.0,0,False,C,wrong_answer,b-grpo-synthetic-strict-2026-11-17,True
+R04,mc,B,B is the answer.,unavailable,0,0.0,0,False,,missing_answer_line,b-grpo-synthetic-strict-2026-11-17,True
+R05,mc,B,"Answer: C
+Answer: B",unavailable,1,1.0,1,False,B,correct,b-grpo-synthetic-strict-2026-11-17,True
+R06,mc,B,"Answer: B
+Answer:",unavailable,0,0.0,0,False,,empty_last_answer,b-grpo-synthetic-strict-2026-11-17,True
+R07,mc,B,Answer: B or C,unavailable,0,0.0,0,False,,ambiguous_or_invalid_mc,b-grpo-synthetic-strict-2026-11-17,True
+R08,mc,B,Answer: E,unavailable,0,0.0,0,False,,ambiguous_or_invalid_mc,b-grpo-synthetic-strict-2026-11-17,True
+R09,mc,B,Answer: b,unavailable,0,0.0,0,False,,ambiguous_or_invalid_mc,b-grpo-synthetic-strict-2026-11-17,True
+R10,number,15,Answer: 15,unavailable,1,1.0,1,False,15,correct,b-grpo-synthetic-strict-2026-11-17,True
+R11,number,15,Answer: 15.10,unavailable,0,0.0,0,False,15.10,wrong_answer,b-grpo-synthetic-strict-2026-11-17,True
+R12,number,15,Answer: 15.1001,unavailable,0,0.0,0,False,15.1001,wrong_answer,b-grpo-synthetic-strict-2026-11-17,True
+R13,number,15,Answer: 15 cm,unavailable,0,0.0,1,True,15 cm,unexpected_unit,b-grpo-synthetic-strict-2026-11-17,True
+R14,quantity,15 cm,Answer: 0.15 m,unavailable,0,0.0,0,False,0.15 m,unit_conversion_disabled,b-grpo-synthetic-strict-2026-11-17,True
+R15,quantity,15 cm,Answer: 15 kg,unavailable,0,0.0,0,False,15 kg,unknown_unit,b-grpo-synthetic-strict-2026-11-17,True
+R16,quantity,15 cm,Answer: 15,unavailable,0,0.0,0,False,,missing_or_invalid_unit,b-grpo-synthetic-strict-2026-11-17,True
+R17,number,15,"풀이 중…
+Answe",unavailable,0,0.0,0,False,,missing_answer_line,b-grpo-synthetic-strict-2026-11-17,True
+R18,number,15,Answer: NaN,unavailable,0,0.0,0,False,,invalid_number,b-grpo-synthetic-strict-2026-11-17,True
+R07-C,mc,C,Answer: B or C,unavailable,0,0.0,1,True,,ambiguous_or_invalid_mc,b-grpo-synthetic-strict-2026-11-17,True
+LENGTH-ANSWER,number,15,Answer: 15,length,1,1.0,1,False,15,correct_length_stop,b-grpo-synthetic-strict-2026-11-17,True
