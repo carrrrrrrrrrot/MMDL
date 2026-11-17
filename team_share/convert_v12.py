@@ -168,6 +168,7 @@ def convert(rec):
 
     assistant = None
     if final is not None:
+        reasoning = reasoning.strip()  # 앞 공백·줄바꿈이 있으면 prompt/답 경계 토큰이 합쳐짐 (11/17 수정)
         assistant = (reasoning + "\n" if reasoning else "") + f"Answer: {final}"
         flags["answer_source"] = src or "short_answer"
     msgs = [{"role": "system", "content": [{"type": "text", "text": SYSTEM_PROMPT}]},

@@ -44,6 +44,7 @@
 
 - `SFT-pilot-0b | A | 완료(속도 측정) | Qwen3-VL-4B-Instruct ebb281e | 4090, train env | SFT-pilot-0과 같은 ok 507건 | SFT-pilot-0과 같고 max_pixels 16,777,216, max_length 20000(초과 0) | 평가 안 함 | — | — | peak reserved 15,090 MiB, 332초(0.655초/샘플, 4,014,080 대비 1.42배), loss 1.321→0.547 | A 서버 | 학습 max_pixels 결정 근거`
 
+- `SFT1-main-0 | A | 학습 중 (11/17 20:20 시작) | Qwen3-VL-4B-Instruct ebb281e | 4090, train env | MAmmoTH-VL shard_1 7,278 + ECD 5,000 = 12,278건 (seed 3407) | LoRA r16/α32 LM q/k/v/o, microbatch 1 × GA 8 = 1,535 step, lr 1e-4 cosine, warmup 0.03, max_pixels 16,777,216 | 끝나면 v1.2 900문항 seed 3407 | - | - | 초기 peak reserved 13.5 GB, 초기 약 0.6초/샘플 | A 서버 | 평가 후 기준선 대비 비교 → 공통 부모 판정`
 ### 학습 해상도별 속도 (같은 507건, 1 epoch = 64 step)
 
 | max_pixels | 1 epoch | 초/샘플 | step 시간 중앙 / 최대 | peak reserved | loss 처음 → 마지막 |
@@ -87,6 +88,8 @@
 - **processor의 기본 이미지 크기 설정이 작은 이미지를 키웁니다.** 기본 `shortest_edge`가 65,536이라, 그대로 두면 평가(min_pixels 4,096)와 다르게 작은 이미지가 확대됩니다. processor size를 [4,096, max_pixels]로 맞추고, 이미지는 평가와 같은 `qwen_vl_utils.fetch_image(image_patch_size=16)`로 처리합니다.
 - max_length를 넘는 샘플은 자르지 않고 학습에서 제외합니다 (마지막 `Answer:` 줄 보호).
 - **MAmmoTH 원본에 "Simple Answer: yes", "Revised Answer: no" 같은 줄이 있어 "Answer: Simple Answer: yes"처럼 이중 변환될 수 있습니다**(shard_1에서 141건, 대부분 clevr). `convert_v12.py`를 고쳐서(최종 답 정규식에 simple/short/revised/correct 접두어 추가) 이중 Answer 0건을 확인했습니다. 이 브랜치의 `convert_v12.py`는 수정본입니다.
+- **학습 답안이 공백·줄바꿈으로 시작하면 prompt와 답의 토큰 경계가 합쳐져 라벨 위치가 어긋납니다.** SFT1 첫 시작이 이 검사(assert)에 걸려 멈췄고(MAmmoTH 13건), 변환 단계에서 답 앞뒤 공백을 제거해 해결했습니다. SFT·DPO 공통이고, GRPO 프롬프트·응답을 따로 토큰화할 때도 해당될 수 있습니다.
+- **TRL의 비전 collator(SFT·DPO)도 Qwen3-VL processor 기본값으로 작은 이미지를 키웁니다.** `processor.image_processor.size`를 [4096, max_pixels]로 바꿔 넘겨야 평가와 같습니다. GRPO에도 해당될 수 있습니다.
 - 중간 저장(N step마다, 최근 K개 유지)과 이어서 학습(resume)을 실제로 중단 → 재개해서 확인했습니다. checkpoint 하나는 약 150 MB(어댑터 47 MB + optimizer 등).
 - **같은 설정·시드로 돌려도 학습이 비트 단위로 재현되지 않습니다.** loss가 step마다 0.001~0.004 차이 납니다(GPU 비결정성). 재현 비교를 할 때 이 정도 오차를 감안하세요.
 
