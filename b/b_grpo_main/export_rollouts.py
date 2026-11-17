@@ -52,10 +52,13 @@ def main() -> None:
                 short_groups.append(f"{file.name}:{step}:{sample_id}:{len(group)}")
             source = provenance.get(str(sample_id), {})
             kind = source.get("answer_type", "mc")
+            options = source.get("options")
+            if options is None and isinstance(source.get("choices"), dict):
+                options = list(source["choices"].values())
             for candidate_index, (_, item) in enumerate(group.iterrows()):
                 raw = str(item["completion"])
                 gold = str(item["gold_answer"])
-                outcome = score_response(raw, gold, kind, policy)
+                outcome = score_response(raw, gold, kind, policy, options=options)
                 logged_reward = float(item["reward_func"])
                 consistent = outcome.reward == logged_reward
                 inconsistent_rewards += int(not consistent)

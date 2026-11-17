@@ -44,6 +44,18 @@ answer, no ambiguous `B or C`, and zero reward for lowercase. The alternative
 `reward_policy.proposed.json` follows the B handoff's provisional R09/R11/R13/R14
 choices. **Neither policy is automatically the team's final real-data policy.**
 
+For A/C real-data handoff, use `reward_policy.v12.json`. It pins the frozen
+MMDL v1.2 scorer at commit `6102585`; MC rows must provide ordered `choices`
+(`A`, `B`, …) or an `options` string list in the JSONL manifest. Open answers
+use `answer_type: "open"` and a nonempty gold string, including MMMU-style
+string representations of answer lists. The prompt's final instruction is
+`Answer: X` for MC and `Answer: <answer>` for open/number/quantity. Images are
+resized with v1.2 `fetch_image(image_patch_size=16)` and the processor is set
+to 4,096–16,777,216 pixels. CPU checks passed A's 20 cases and all 2,700 saved
+M4_final responses against the frozen evaluator (0 scoring mismatches); the
+one/two-image pixel parity check also passed. See `test_v12_reward.py`,
+`test_v12_saved_parity.py`, and `test_pixel_parity.py`.
+
 Run the 18 handoff cases and two extras:
 
 ```bash

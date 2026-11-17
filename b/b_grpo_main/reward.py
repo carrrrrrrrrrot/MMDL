@@ -1,4 +1,4 @@
-"""Explicit GRPO answer reward. The policy is a team decision, not a scorer clone."""
+"""Explicit GRPO answer rewards, including frozen MMDL v1.2 parity mode."""
 
 from __future__ import annotations
 
@@ -8,6 +8,8 @@ from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
+
+from v12_scorer import normalize_gold, score_v12
 
 
 _NUMBER = r"[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?"
@@ -23,10 +25,17 @@ class RewardPolicy:
     numeric_abs_tolerance: Decimal
     unitless_allows_unit: bool
     allow_cm_m_conversion: bool
+    mode: str = "custom"
 
     @classmethod
     def from_file(cls, path: Path) -> "RewardPolicy":
         raw = json.loads(path.read_text(encoding="utf-8"))
+        if isinstance(raw, dict) and set(raw) == {"version", "mode", "eval_repo_commit"}:
+            if raw["mode"] != "v1_2" or raw["eval_repo_commit"] != "61025850563d0331e365bc974a63c0d3c4ed4c2c":
+                raise ValueError("v1.2 reward must pin MMDL evaluator commit 6102585")
+            if not isinstance(raw["version"], str) or not raw["version"].strip():
+                raise ValueError("Reward policy version must be a non-empty string")
+            return cls(raw["version"], False, Decimal("0"), False, False, mode="v1_2")
         keys = {
             "version", "lowercase_mc", "numeric_abs_tolerance",
             "unitless_allows_unit", "allow_cm_m_conversion",
@@ -57,7 +66,7 @@ class RewardPolicy:
 
 @dataclass(frozen=True)
 class RewardOutcome:
-    parsed_answer: str | None
+    parsed_answer: Any
     reward: float
     reason: str
 
@@ -98,7 +107,7 @@ def validate_gold(answer: str, answer_type: str) -> None:
     if not isinstance(answer, str) or not answer.strip():
         raise ValueError("Gold answer must be a non-empty string")
     if answer_type == "mc":
-        if not re.fullmatch(r"[A-D]", answer):
+        if not re.fullmatch(r"[A-Z]", answer):
             raise ValueError(f"Invalid MC gold answer: {answer!r}")
     elif answer_type == "number":
         if _decimal(answer) is None:
@@ -107,6 +116,10 @@ def validate_gold(answer: str, answer_type: str) -> None:
         parsed = _value_unit(answer)
         if parsed is None or parsed[1] not in _UNIT_TO_METRE:
             raise ValueError(f"Invalid quantity gold answer: {answer!r}")
+    elif answer_type == "open":
+        normalized = normalize_gold(answer)
+        if isinstance(normalized, list) and (not normalized or not all(item.strip() for item in normalized)):
+            raise ValueError(f"Invalid open gold answer list: {answer!r}")
     else:
         raise ValueError(f"Unsupported answer_type: {answer_type!r}")
 
@@ -117,9 +130,19 @@ def score_response(
     answer_type: str,
     policy: RewardPolicy,
     finish_reason: str | None = None,
+    options: list[str] | None = None,
 ) -> RewardOutcome:
     """Score the visible answer, even on a length stop if the answer is complete."""
     validate_gold(answer, answer_type)
+    if policy.mode == "v1_2":
+        correct, parsed_answer, reason = score_v12(text, answer, answer_type, options)
+        if correct and finish_reason == "length":
+            reason = "correct_length_stop"
+        return RewardOutcome(parsed_answer, float(correct), reason)
+    if answer_type == "open":
+        raise ValueError("Open text answers require the v1.2 reward mode")
+    if answer_type == "mc" and answer not in "ABCD":
+        raise ValueError("Custom MC reward supports A-D; use v1.2 mode for other choices")
     payload, status = final_answer_payload(text)
     if payload is None:
         return RewardOutcome(None, 0.0, status)
@@ -171,7 +194,7 @@ def completion_content(completion: Any) -> str:
 def make_grpo_reward(policy: RewardPolicy, observed: list[float] | None = None):
     """Return a TRL 1.14.2 reward callback with per-completion diagnostics."""
 
-    def reward_func(completions, answer, answer_type, sample_id=None, log_extra=None, **kwargs):
+    def reward_func(completions, answer, answer_type, sample_id=None, options=None, log_extra=None, **kwargs):
         count = len(completions)
         if len(answer) != count or len(answer_type) != count:
             raise ValueError("TRL reward columns do not match completion count")
@@ -184,10 +207,14 @@ def make_grpo_reward(policy: RewardPolicy, observed: list[float] | None = None):
             finish_reasons = [None] * count
         if len(finish_reasons) != count:
             raise ValueError("finish_reason count does not match completions")
+        if options is None:
+            options = [None] * count
+        if len(options) != count:
+            raise ValueError("option list count does not match completions")
         outcomes = [
-            score_response(completion_content(item), gold, kind, policy, reason)
-            for item, gold, kind, reason in zip(
-                completions, answer, answer_type, finish_reasons, strict=True
+            score_response(completion_content(item), gold, kind, policy, reason, item_options)
+            for item, gold, kind, reason, item_options in zip(
+                completions, answer, answer_type, finish_reasons, options, strict=True
             )
         ]
         if log_extra is not None:

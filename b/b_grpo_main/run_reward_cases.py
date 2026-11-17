@@ -45,13 +45,18 @@ SYNTHETIC_STRICT_OVERRIDES = {"R09": 0, "R11": 0, "R14": 0}
 
 
 def run_cases(policy: RewardPolicy, expected_profile: str = "proposed") -> list[dict]:
-    if expected_profile not in {"proposed", "synthetic_strict"}:
+    if expected_profile not in {"proposed", "synthetic_strict", "v12"}:
         raise ValueError(f"Unknown expected profile: {expected_profile}")
     rows = []
     for case_id, kind, answer, output, expected, finish_reason in CASES:
         if expected_profile == "synthetic_strict":
             expected = SYNTHETIC_STRICT_OVERRIDES.get(case_id, expected)
-        outcome = score_response(output, answer, kind, policy, finish_reason)
+        elif expected_profile == "v12":
+            expected = V12_EXPECTED[case_id]
+        outcome = score_response(
+            output, answer, kind, policy, finish_reason,
+            ["A", "B", "C", "D"] if kind == "mc" else [],
+        )
         rows.append({
             "case_id": case_id,
             "answer_type": kind,
@@ -74,7 +79,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--policy", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
-    parser.add_argument("--expected-profile", choices=("proposed", "synthetic_strict"), default="proposed")
+    parser.add_argument("--expected-profile", choices=("proposed", "synthetic_strict", "v12"), default="proposed")
     args = parser.parse_args()
     policy = RewardPolicy.from_file(args.policy)
     rows = run_cases(policy, args.expected_profile)

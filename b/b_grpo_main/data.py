@@ -78,9 +78,33 @@ def _prompt(row: dict[str, Any], line_number: int, image_count: int) -> list[dic
         )
     if row["question"].strip() not in user_text:
         raise ValueError(f"Line {line_number}: question is absent from user prompt")
-    if "Answer: X" not in user_text:
-        raise ValueError(f"Line {line_number}: user prompt must specify final Answer: X format")
+    instruction = "Answer: X" if row["answer_type"] == "mc" else "Answer: <answer>"
+    if instruction not in user_text:
+        raise ValueError(f"Line {line_number}: user prompt must specify final {instruction} format")
     return prompt
+
+
+def _options(row: dict[str, Any], line_number: int) -> list[str]:
+    if row["answer_type"] != "mc":
+        return []
+    choices = row.get("choices")
+    options = row.get("options")
+    if choices is not None and options is not None:
+        raise ValueError(f"Line {line_number}: provide choices or options, not both")
+    if choices is not None:
+        if not isinstance(choices, dict) or not choices:
+            raise ValueError(f"Line {line_number}: choices must be a non-empty A.. dictionary")
+        expected_letters = [chr(ord("A") + index) for index in range(len(choices))]
+        if list(choices) != expected_letters:
+            raise ValueError(f"Line {line_number}: choices must have A.. keys in order")
+        options = list(choices.values())
+    if not isinstance(options, list) or not 2 <= len(options) <= 26 or not all(
+        isinstance(item, str) and item.strip() for item in options
+    ):
+        raise ValueError(f"Line {line_number}: MC options must contain 2–26 non-empty strings")
+    if row["answer"] not in {chr(ord("A") + index) for index in range(len(options))}:
+        raise ValueError(f"Line {line_number}: gold choice is outside the option range")
+    return options
 
 
 def load_manifest(path: Path, selected_split: str = "train") -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -117,6 +141,7 @@ def load_manifest(path: Path, selected_split: str = "train") -> tuple[list[dict[
             answer = _string(raw, "answer", line_number)
             answer_type = _string(raw, "answer_type", line_number)
             validate_gold(answer, answer_type)
+            options = _options(raw, line_number)
             if ("image_path" in raw) == ("image_paths" in raw):
                 raise ValueError(f"Line {line_number}: provide exactly one of image_path or image_paths")
             if "image_path" in raw:
@@ -146,6 +171,7 @@ def load_manifest(path: Path, selected_split: str = "train") -> tuple[list[dict[
                     "prompt": prompt,
                     "answer": answer,
                     "answer_type": answer_type,
+                    "options": options,
                 }
                 if len(image_paths) == 1 and isinstance(prompt[1]["content"], str):
                     entry["image"] = image_paths[0]

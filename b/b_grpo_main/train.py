@@ -123,6 +123,25 @@ def weight_delta(model, initial: dict) -> float:
     )
 
 
+def prepare_images_v12(dataset, processor):
+    """Apply the frozen v1.2 Qwen image resize before the TRL processor."""
+    from qwen_vl_utils import fetch_image
+
+    image_mode = "images" if "images" in dataset.column_names else "image"
+
+    def resize(row):
+        images = row["images"] if image_mode == "images" else [row["image"]]
+        resized = [
+            fetch_image({"image": image.convert("RGB")}, image_patch_size=16)
+            for image in images
+        ]
+        return {image_mode: resized if image_mode == "images" else resized[0]}
+
+    dataset = dataset.map(resize, desc="Apply v1.2 Qwen image resize")
+    processor.image_processor.size = {"shortest_edge": 4096, "longest_edge": 16777216}
+    return dataset
+
+
 def run_training(args: argparse.Namespace, rows: list[dict], policy: RewardPolicy) -> dict:
     import torch
     from datasets import Dataset, Image as DatasetImage, Sequence
@@ -144,6 +163,7 @@ def run_training(args: argparse.Namespace, rows: list[dict], policy: RewardPolic
     else:
         dataset = dataset.cast_column("image", DatasetImage())
     processor = AutoProcessor.from_pretrained(model_path)
+    dataset = prepare_images_v12(dataset, processor)
     first = dataset[0]
     first_images = first["images"] if "images" in first else [first["image"]]
     messages = prepare_multimodal_messages(first["prompt"], images=first_images)
@@ -272,14 +292,16 @@ def main() -> None:
     policy_path = args.reward_policy.resolve(strict=True)
     policy = RewardPolicy.from_file(policy_path)
     parent = validate_parent(args)
-    case_rows = run_cases(policy)
+    case_rows = run_cases(policy, "v12" if policy.mode == "v1_2" else "proposed")
+    if policy.mode == "v1_2" and not all(row["pass"] for row in case_rows):
+        raise RuntimeError("v1.2 reward failed the 20-case preflight")
     review_ids = {"R07", "R07-C", "R09", "R11", "R13", "R14"}
     metadata = {
         "status": "validated" if args.validate_only else "running",
         **parent,
         "code_sha256": {
             name: file_sha256(Path(__file__).with_name(name))
-            for name in ("train.py", "data.py", "reward.py", "run_reward_cases.py", "export_rollouts.py")
+            for name in ("train.py", "data.py", "reward.py", "v12_scorer.py", "run_reward_cases.py", "export_rollouts.py")
         },
         "dataset": dataset_info,
         "reward_policy_path": str(policy_path),
@@ -302,6 +324,13 @@ def main() -> None:
         "max_completion_length": args.max_completion_length,
         "save_steps": args.save_steps,
         "lora": {"r": 16, "alpha": 32, "dropout": 0.0, "targets": "144 language q/k/v/o attention projections"},
+        "image_preprocessing": {
+            "method": "qwen_vl_utils.fetch_image",
+            "image_patch_size": 16,
+            "min_pixels": 4096,
+            "max_pixels": 16777216,
+            "processor_size": {"shortest_edge": 4096, "longest_edge": 16777216},
+        },
         "adapter_dir": None,
         "adapter_sha256": None,
     }
