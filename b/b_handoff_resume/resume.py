@@ -259,6 +259,17 @@ def _verify_eval_handoff(plan: dict[str, Any], mode: str) -> dict[str, Any]:
     return handoff
 
 
+def _verify_conversion(plan: dict[str, Any], config: dict[str, Any], converted: Path) -> None:
+    conversion = _json(converted.with_suffix(converted.suffix + ".report.json"))
+    if (conversion.get("source_sha256") != plan["inputs"]["converted_sha256"]
+            or conversion.get("approved_sha256") != plan["inputs"]["approved_sha256"]
+            or conversion.get("output_sha256") != sha256(converted)
+            or conversion.get("rendered_parity_count") != conversion.get("converted_count")
+            or conversion.get("structural_parity_count") != conversion.get("converted_count")
+            or conversion.get("converted_count", 0) < config["min_train_rows"]):
+        raise ValueError("A/C conversion report failed hashes, parity, or minimum train-row count")
+
+
 def execute(config: dict[str, Any], plan: dict[str, Any], *, train: bool) -> dict[str, Any]:
     root = Path(plan["work_root"])
     root.mkdir(parents=True, exist_ok=True)
@@ -294,14 +305,32 @@ def execute(config: dict[str, Any], plan: dict[str, Any], *, train: bool) -> dic
                 "--processor", str(config["base_model"]),
                 "--render-limit", "0",
             ])
-            conversion = _json(converted.with_suffix(converted.suffix + ".report.json"))
-            if (conversion.get("source_sha256") != plan["inputs"]["converted_sha256"]
-                    or conversion.get("approved_sha256") != plan["inputs"]["approved_sha256"]
-                    or conversion.get("output_sha256") != sha256(converted)
-                    or conversion.get("rendered_parity_count") != conversion.get("converted_count")
-                    or conversion.get("structural_parity_count") != conversion.get("converted_count")
-                    or conversion.get("converted_count", 0) < config["min_train_rows"]):
-                raise ValueError("A/C conversion report failed hashes, parity, or minimum train-row count")
+            _verify_conversion(plan, config, converted)
+            state = {"status": "waiting_gpu_merge", "fingerprint": plan["fingerprint"],
+                     "inputs": plan["inputs"], "dataset_manifest": str(converted)}
+            _write_state(state_path, state)
+        except Exception as exc:
+            _write_state(state_path, {"status": "failed", "fingerprint": plan["fingerprint"],
+                                       "error": f"{type(exc).__name__}: {exc}"})
+            raise
+    elif previous.get("status") == "waiting_gpu_merge":
+        if not converted.is_file() or parent.exists() or train_dir.exists():
+            raise RuntimeError("Waiting merge has missing conversion or unexpected GPU outputs")
+        _verify_conversion(plan, config, converted)
+        state = previous
+    else:
+        state = previous
+        _run(_train_command(config, plan, validate_only=True))
+    if state["status"] == "waiting_gpu_merge":
+        gpu = gpu_gate(config)
+        if gpu["status"] != "ready":
+            state = {**state, "gpu_gate": gpu}
+            _write_state(state_path, state)
+            return {**state, "status": "waiting_gpu"}
+        state = {**state, "status": "preparing"}
+        state.pop("gpu_gate", None)
+        _write_state(state_path, state)
+        try:
             _run([
                 python, str(config["merge_wrapper"]), "--stage", "sft",
                 "--shared-script", str(config["shared_merge_script"]),
@@ -326,9 +355,6 @@ def execute(config: dict[str, Any], plan: dict[str, Any], *, train: bool) -> dic
             _write_state(state_path, {"status": "failed", "fingerprint": plan["fingerprint"],
                                       "error": f"{type(exc).__name__}: {exc}"})
             raise
-    else:
-        state = previous
-        _run(_train_command(config, plan, validate_only=True))
     if not train:
         return state
     gpu = gpu_gate(config)

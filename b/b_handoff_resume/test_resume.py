@@ -184,6 +184,38 @@ class ResumeTests(unittest.TestCase):
             pilot.write_text('{"status":"complete"}')
             self.assertEqual(resume.gpu_gate(self.config)["status"], "ready")
 
+    def test_gpu_gate_precedes_sft_merge_and_resumes_cpu_conversion(self) -> None:
+        plan = resume._status(self.config)
+        converted = Path(plan["dataset_manifest"])
+        parent = Path(plan["sft_parent"])
+        calls: list[list[str]] = []
+
+        def fake_run(argv: list[str]) -> None:
+            calls.append(argv)
+            if "--output" in argv:
+                converted.write_text("{}\n", encoding="utf-8")
+
+        with (patch.object(resume, "_run", side_effect=fake_run),
+              patch.object(resume, "_verify_conversion") as verify,
+              patch.object(resume, "gpu_gate", side_effect=[
+                  {"status": "waiting", "reason": "GPU busy"},
+                  {"status": "ready", "gpu_memory_used_mib": 0},
+              ]) as gate):
+            waiting = resume.execute(self.config, plan, train=False)
+            self.assertEqual(waiting["status"], "waiting_gpu")
+            self.assertEqual(len(calls), 1)  # CPU conversion only
+            self.assertFalse(parent.exists())
+            state_path = Path(plan["work_root"]) / "state.json"
+            self.assertEqual(json.loads(state_path.read_text())["status"], "waiting_gpu_merge")
+
+            prepared = resume.execute(self.config, plan, train=False)
+            self.assertEqual(prepared["status"], "prepared")
+            self.assertEqual(len(calls), 4)
+            self.assertEqual([argv[argv.index("--stage") + 1] for argv in calls[1:3]],
+                             ["sft", "sft"])
+            self.assertEqual(gate.call_count, 2)
+            self.assertEqual(verify.call_count, 2)
+
 
 if __name__ == "__main__":
     unittest.main()
