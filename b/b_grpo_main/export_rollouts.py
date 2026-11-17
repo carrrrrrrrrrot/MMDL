@@ -31,6 +31,7 @@ def main() -> None:
     parser.add_argument("--policy", required=True, type=Path)
     parser.add_argument("--dataset-manifest", type=Path)
     parser.add_argument("--max-completion-length", type=int, default=256)
+    parser.add_argument("--num-generations", type=int, choices=(4, 8), default=4)
     args = parser.parse_args()
     policy = RewardPolicy.from_file(args.policy)
     tokenizer = AutoTokenizer.from_pretrained(args.run_dir / "processor")
@@ -41,15 +42,15 @@ def main() -> None:
 
     exported = []
     inconsistent_rewards = 0
-    short_groups = []
+    wrong_size_groups = []
     for file in parquet_files:
         frame = pd.read_parquet(file)
         required = {"step", "completion", "reward_func", "gold_answer", "sample_id"}
         if not required <= set(frame.columns):
             raise ValueError(f"Completion file missing columns {required - set(frame.columns)}: {file}")
         for (step, sample_id), group in frame.groupby(["step", "sample_id"], sort=False, dropna=False):
-            if len(group) != 4:
-                short_groups.append(f"{file.name}:{step}:{sample_id}:{len(group)}")
+            if len(group) != args.num_generations:
+                wrong_size_groups.append(f"{file.name}:{step}:{sample_id}:{len(group)}")
             source = provenance.get(str(sample_id), {})
             kind = source.get("answer_type", "mc")
             options = source.get("options")
@@ -90,9 +91,9 @@ def main() -> None:
                     "exact_generated_token_count": "unavailable",
                     "reward_version": policy.version,
                 })
-    if short_groups or inconsistent_rewards:
+    if wrong_size_groups or inconsistent_rewards:
         raise ValueError(
-            f"Rollout export validation failed: groups_not_four={short_groups[:8]}, "
+            f"Rollout export validation failed: groups_wrong_size={wrong_size_groups[:8]}, "
             f"reward_mismatches={inconsistent_rewards}"
         )
 
@@ -107,8 +108,10 @@ def main() -> None:
         writer.writerows(exported)
     summary = {
         "rollouts": len(exported),
-        "groups": len(exported) // 4,
-        "groups_with_exactly_four": True,
+        "groups": len(exported) // args.num_generations,
+        "num_generations": args.num_generations,
+        "groups_with_expected_candidates": True,
+        "groups_with_exactly_four": args.num_generations == 4,
         "reward_mismatches": inconsistent_rewards,
         "finish_reason_available": False,
         "exact_generated_token_count_available": False,

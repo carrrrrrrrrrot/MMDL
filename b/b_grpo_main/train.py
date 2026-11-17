@@ -37,6 +37,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-steps", required=True, type=int)
     parser.add_argument("--learning-rate", default=1e-5, type=float)
     parser.add_argument("--max-completion-length", default=256, type=int)
+    parser.add_argument("--num-generations", default=4, type=int, choices=(4, 8),
+                        help="Completions per prompt; accumulation matches this value")
     parser.add_argument("--save-steps", default=25, type=int)
     parser.add_argument("--seed", default=3407, type=int)
     parser.add_argument("--validate-only", action="store_true", help="Check data and lineage without loading torch")
@@ -211,8 +213,8 @@ def run_training(args: argparse.Namespace, rows: list[dict], policy: RewardPolic
         seed=args.seed, data_seed=args.seed,
         max_steps=args.max_steps,
         per_device_train_batch_size=1,
-        gradient_accumulation_steps=4,
-        num_generations=4,
+        gradient_accumulation_steps=args.num_generations,
+        num_generations=args.num_generations,
         max_completion_length=args.max_completion_length,
         learning_rate=args.learning_rate,
         beta=0.0,
@@ -238,7 +240,15 @@ def run_training(args: argparse.Namespace, rows: list[dict], policy: RewardPolic
     result = trainer.train()
     delta = weight_delta(trainer.model, initial)
     finite_loss = math.isfinite(float(result.training_loss))
-    groups = [observed_rewards[i:i + 4] for i in range(0, len(observed_rewards), 4)]
+    if len(observed_rewards) % args.num_generations:
+        raise RuntimeError(
+            f"Observed {len(observed_rewards)} rewards, not divisible by "
+            f"num_generations={args.num_generations}"
+        )
+    groups = [
+        observed_rewards[i:i + args.num_generations]
+        for i in range(0, len(observed_rewards), args.num_generations)
+    ]
     mixed_groups = sum(len(set(group)) > 1 for group in groups)
     adapter_dir = args.output_dir / "adapter"
     trainer.model.save_pretrained(adapter_dir, safe_serialization=True)
@@ -322,6 +332,8 @@ def main() -> None:
         "max_steps": args.max_steps,
         "learning_rate": args.learning_rate,
         "max_completion_length": args.max_completion_length,
+        "num_generations": args.num_generations,
+        "gradient_accumulation_steps": args.num_generations,
         "save_steps": args.save_steps,
         "lora": {"r": 16, "alpha": 32, "dropout": 0.0, "targets": "144 language q/k/v/o attention projections"},
         "image_preprocessing": {
@@ -352,6 +364,7 @@ def main() -> None:
                 "--policy", str(policy_path),
                 "--dataset-manifest", str(args.dataset_manifest.resolve(strict=True)),
                 "--max-completion-length", str(args.max_completion_length),
+                "--num-generations", str(args.num_generations),
             ],
             check=True,
         )

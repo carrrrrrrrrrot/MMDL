@@ -96,6 +96,13 @@ use `--parent-kind merged_sft`, `--parent-model` set to A's locally merged SFT
 model, `--parent-manifest` set to its `model_manifest.json`, and
 `--expected-sft-adapter-sha256` set to A's transferred adapter SHA256.
 
+`--num-generations` defaults to 4 and optionally accepts 8. The training
+accumulation and rollout export group size follow this value, which is recorded
+in the run manifest. An 8-generation run uses more computation. Its
+20-step training path and reward export passed validation; see the
+[4-versus-8 rollout diagnostic](base_ecd_numgen8_20261118/REPORT.md).
+Use the same value when exporting rollouts separately.
+
 Each training run must have a new `--output-dir`. Output includes:
 
 - `run_manifest.json`: parent/base/dataset/policy hashes, LoRA setup, train
@@ -134,7 +141,7 @@ The CPU-only `--validate-only` check passed: train/heldout split, source, three
 task counts, model revision, and policy file were accepted. Schedule this GPU
 comparison after the baseline and GRPO training when time permits.
 
-The exported rollout file requires exactly four candidates per logged group
+The exported rollout file requires exactly `--num-generations` candidates per logged group
 and recomputes every reward against the logged value. TRL's Parquet files lack
 per-candidate `finish_reason` and exact generated token IDs. The export marks
 these **unavailable**; token counts are re-tokenized proxies, and `clipped_proxy`
