@@ -104,6 +104,8 @@
 
 3. **ECD 데이터 구성** (`ChartFoundation/ECD-10k-Images` @ 284489f, QA json만 받아 변환 집계, 이미지는 아직 안 받음): 321,544건 = descriptive 188,931(최종 답 없음 → 제외) + reasoning 132,613. reasoning 중 추론과 최종 답이 모두 있는 것 129,976건이고, 그중 **52%(67,372건)는 최종 답이 40자를 넘는 문장형**(예: "There are 6 green candlesticks, 3 of which close above 55 USD"). 나머지 62,604건이 짧은 최종 답. 모두 보기 없는 open 문항, 추론 글자 수 중앙값 242. 문장형 최종 답은 v1.2 open 채점에서 맞기 어렵고, 추론이 짧아 1번 관찰(응답 길이 감소)을 키울 수 있음.
 
+4. **ECD 정답 중 "Not Applicable"류가 있음**: 학습 후보 62,604건 중 4,982건(8%)의 최종 답이 "Not Applicable", "N/A", "None", "Cannot be determined" 같은 값. **SFT1-main-0에 쓴 ECD 5,000건 중 864건(17%)이 이런 문항**(선별 때 거르지 않음). MMMU에서 "해당 없음"류 답을 내는 경향이 생길 수 있어 SFT1 평가에서 확인 예정. 이후 ECD 사용(DPO·GRPO·재학습)에서는 제외 권장 → `ecd_candidates_for_c.jsonl`의 `excluded_reason`.
+
 ## 5. 미결 사항
 
 | 항목 | 담당 | 상태 |
