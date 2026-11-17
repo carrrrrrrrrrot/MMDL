@@ -1,0 +1,20 @@
+{"case_id": "R01", "question_type": "multiple-choice", "options": ["A", "B", "C", "D"], "gold": "B", "model_output": "Answer: B", "expected_grpo_reward": 1, "v1_2_score": 1, "note": "정상 정답"}
+{"case_id": "R02", "question_type": "multiple-choice", "options": ["A", "B", "C", "D"], "gold": "B", "model_output": "Answer: C", "expected_grpo_reward": 0, "v1_2_score": 0, "note": "정상 오답"}
+{"case_id": "R03", "question_type": "multiple-choice", "options": ["A", "B", "C", "D"], "gold": "B", "model_output": "B가 유력하다.\nAnswer: C", "expected_grpo_reward": 0, "v1_2_score": 0, "note": "중간의 B 무시"}
+{"case_id": "R04", "question_type": "multiple-choice", "options": ["A", "B", "C", "D"], "gold": "B", "model_output": "B가 정답이다.", "expected_grpo_reward": 0, "v1_2_score": 0, "note": "Answer 표시 누락"}
+{"case_id": "R05", "question_type": "multiple-choice", "options": ["A", "B", "C", "D"], "gold": "B", "model_output": "Answer: C\nAnswer: B", "expected_grpo_reward": 1, "v1_2_score": 1, "note": "마지막 답 사용"}
+{"case_id": "R06", "question_type": "multiple-choice", "options": ["A", "B", "C", "D"], "gold": "B", "model_output": "Answer: B\nAnswer:", "expected_grpo_reward": 0, "v1_2_score": 0, "note": "마지막 답이 비어 있음"}
+{"case_id": "R07", "question_type": "multiple-choice", "options": ["A", "B", "C", "D"], "gold": "B", "model_output": "Answer: B or C", "expected_grpo_reward": 0, "v1_2_score": 0, "note": "복수 답: GRPO 거부, v1.2는 C 선택"}
+{"case_id": "R08", "question_type": "multiple-choice", "options": ["A", "B", "C", "D"], "gold": "B", "model_output": "Answer: E", "expected_grpo_reward": 0, "v1_2_score": 0, "note": "선택지 범위 밖"}
+{"case_id": "R09", "question_type": "multiple-choice", "options": ["A", "B", "C", "D"], "gold": "B", "model_output": "Answer: b", "expected_grpo_reward": 1, "v1_2_score": 0, "note": "정책: 소문자 허용"}
+{"case_id": "R10", "question_type": "open", "options": [], "gold": "15", "model_output": "Answer: 15", "expected_grpo_reward": 1, "v1_2_score": 1, "note": "수치 일치"}
+{"case_id": "R11", "question_type": "open", "options": [], "gold": "15", "model_output": "Answer: 15.10", "expected_grpo_reward": 1, "v1_2_score": 0, "note": "정책: 오차 경계 포함(≤0.10)"}
+{"case_id": "R12", "question_type": "open", "options": [], "gold": "15", "model_output": "Answer: 15.1001", "expected_grpo_reward": 0, "v1_2_score": 0, "note": "허용 오차 초과"}
+{"case_id": "R13", "question_type": "open", "options": [], "gold": "15", "model_output": "Answer: 15 cm", "expected_grpo_reward": 0, "v1_2_score": 1, "note": "정책: 단위 없는 문항의 단위 표기"}
+{"case_id": "R14", "question_type": "open", "options": [], "gold": "15 cm", "model_output": "Answer: 0.15 m", "expected_grpo_reward": 1, "v1_2_score": 0, "note": "정책: 단위 환산"}
+{"case_id": "R15", "question_type": "open", "options": [], "gold": "15 cm", "model_output": "Answer: 15 kg", "expected_grpo_reward": 0, "v1_2_score": 0, "note": "부적합 단위"}
+{"case_id": "R16", "question_type": "open", "options": [], "gold": "15 cm", "model_output": "Answer: 15", "expected_grpo_reward": 0, "v1_2_score": 0, "note": "필수 단위 누락"}
+{"case_id": "R17", "question_type": "open", "options": [], "gold": "15", "model_output": "풀이 중…\nAnswe", "expected_grpo_reward": 0, "v1_2_score": 0, "note": "답안 표시 잘림"}
+{"case_id": "R18", "question_type": "open", "options": [], "gold": "15", "model_output": "Answer: NaN", "expected_grpo_reward": 0, "v1_2_score": 0, "note": "유효하지 않은 수치"}
+{"case_id": "X01", "question_type": "open", "options": [], "gold": "15", "model_output": "Answer: 15", "expected_grpo_reward": 1, "v1_2_score": 1, "note": "finish_reason=length 인데 답 있음 (v1.2는 종료 사유 모름)", "finish_reason": "length"}
+{"case_id": "X02", "question_type": "multiple-choice", "options": ["A", "B", "C", "D"], "gold": "C", "model_output": "Answer: B or C", "expected_grpo_reward": 0, "v1_2_score": 1, "note": "R07에서 정답만 C: GRPO 거부, v1.2는 정답 처리"}
