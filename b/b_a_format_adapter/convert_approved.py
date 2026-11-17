@@ -100,8 +100,8 @@ def _answer(messages: list[dict[str, Any]], kind: str) -> tuple[str | None, str 
         return (answer, None) if re.fullmatch(r"[A-D]", answer) else (None, "invalid_mc_gold")
     if kind != "open":
         return None, "unsupported_question_type"
-    if len(answer) > 40 or re.search(r"\b(?:or|and)\b|[;\n]", answer, re.I):
-        return None, "ambiguous_or_long_open_gold"
+    if len(answer) > 40:
+        return None, "long_open_gold"
     return answer, None
 
 

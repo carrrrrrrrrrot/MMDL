@@ -57,11 +57,18 @@ class AdapterTests(unittest.TestCase):
         self.assertEqual(row["answer"], "8.0")
         self.assertEqual(row["split"], "heldout")
 
-    def test_reject_ambiguous_open(self) -> None:
-        rec = fixture("example.png", "open", "8 or 9")
+    def test_short_ecd_style_open_answers(self) -> None:
+        for answer in ("Between 1550 and 1600.", "Urban Schools; 2020", "8 or 9"):
+            rec = fixture("example.png", "open", answer)
+            row, reason, _ = convert_row(rec, Approval(None, rec["id"], "train"), self.root, "shard_1")
+            self.assertIsNone(reason)
+            self.assertEqual(row["answer"], answer)
+
+    def test_reject_long_open(self) -> None:
+        rec = fixture("example.png", "open", "A sentence longer than the forty character limit for A data")
         row, reason, _ = convert_row(rec, Approval(None, rec["id"], "train"), self.root, "shard_1")
         self.assertIsNone(row)
-        self.assertEqual(reason, "ambiguous_or_long_open_gold")
+        self.assertEqual(reason, "long_open_gold")
 
     def test_reject_non_ok_status(self) -> None:
         rec = fixture("example.png")

@@ -10,8 +10,10 @@ The approval list may be CSV with `source,id,split` columns, JSONL objects
 with those fields, or plain IDs (only when unique across sources). `split`
 defaults to `train`; `heldout` is also allowed. The adapter rejects missing
 approved IDs, duplicate source/ID pairs, missing images, invalid MC answer,
-long or ambiguous open answer, and changed image/text block order. It writes
-JSONL plus `<output>.report.json` with source/approval/output SHA256 and
+open answer longer than A's 40-character limit, and changed image/text block
+order. Short open answers containing `and`, `or`, or `;` remain eligible under
+A's policy; C reviews answer quality. The adapter writes JSONL plus
+`<output>.report.json` with source/approval/output SHA256 and
 rejection reasons.
 
 ```bash
@@ -33,11 +35,13 @@ rows. The adapter outputs `answer_type=mc` or `open`; MC option texts are
 stored as an ordered `choices` dictionary for B's loader. B's reward and data
 loader must use the team's confirmed **v1.2 scoring policy** for actual C data.
 
-CPU verification on the 6000: five unit cases passed. An integration test
+CPU verification on the 6000: six unit cases passed. An integration test
 using A's actual `convert_v12.py`, a mock C-approved CSV, and the fixed Qwen
 processor passed for one MC and one open record, with exact structural and
 rendered prompt parity 2/2; B's `load_manifest` also accepted both records
-and their MC option texts. No real C data or GPU training was used.
+and their MC option texts. With A's latest `convert_ecd.py`, three ECD-style
+open answers also passed the adapter, B loader, and rendered prompt parity
+3/3. No real C data or GPU training was used in these integration checks.
 
 ## Image-size parity
 
@@ -50,7 +54,8 @@ grid (16 patches). B's training code must set this policy and apply the same
 fetch step before **real** A/C GRPO data is used. Chat-template parity alone
 does not prove pixel parity.
 
-The team `a/shared` branch at `468f7bce6dbdfa6f15841eb18662c9cd8cd05434`
-contains documentation, conversion code, reward cases and a common merge
-script. It does not contain a common SFT parent adapter or C-approved training
-rows; those remain separate handoffs.
+The team `a/shared` branch at `046fba19503eac3f3c84008f8c4d1ef3a412689d`
+also contains `c_list_sft1.jsonl`, A's 12,278 **SFT1 training** IDs for C's
+leakage audit, and the ECD converter. It does not contain the selected common
+SFT parent adapter or C-approved **GRPO** training rows; those remain separate
+handoffs.
