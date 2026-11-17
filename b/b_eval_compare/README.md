@@ -14,6 +14,7 @@ in [the baseline report](b6000_baseline_20261117/REPORT.md).
 The C-approved 104-row ECD **base→GRPO** pilot and its 6000 full 900-item,
 single-seed screening result are in [the real ECD pilot report](base_ecd_pilot_001_screen/REPORT.md).
 This is separate from the earlier [synthetic base insurance result](base_insurance_001_screen/REPORT.md).
+The real ECD base-to-GRPO pilot took about 132 seconds end-to-end for 20 optimizer steps (Trainer 119.68 seconds); the 900-item seed 3407 screening evaluation took 46 minutes 37 seconds. A run from the selected SFT parent may take a different amount of time.
 
 ```bash
 /data/chaewon/mmdl_envs/vllm011_repro/bin/python /data/chaewon/mmdl_b_compare/compare_runs.py \
