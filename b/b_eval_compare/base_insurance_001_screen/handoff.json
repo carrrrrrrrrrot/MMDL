@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "requested_at_utc": "2026-11-17T09:10:17.915770+00:00",
+  "run_name": "base_insurance_001_screen",
+  "mode": "screen",
+  "seeds": [
+    "3407"
+  ],
+  "limit": null,
+  "evaluation_repo_commit": "61025850563d0331e365bc974a63c0d3c4ed4c2c",
+  "evaluation_script_sha256": "9a463d36b522bd9f4fe5d3d9647901283a4a00764cc0e987a2025d9466ec7992",
+  "model_manifest_sha256": "8277f72bda00ba52a0acf53f77c2bb791f61135d25e6c99391883e2ed97af3df",
+  "model_path": "/data/chaewon/mmdl_merged_models/base_insurance_001",
+  "model_lineage_sha256": "f0a7556c7d00262c7c2291d048765feafb2a78a38d1820e69fbdd8a4698e29c5",
+  "training_manifest_sha256": "933199fdab96d21119072059bc5a6237d6eca41dfdcb67d9dbe618fdaae17026",
+  "data_root": "/home/chaewon/.cache/huggingface/hub/datasets--MMMU--MMMU/snapshots/98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+  "eval_python": "/data/chaewon/mmdl_envs/vllm011_repro/bin/python3.10",
+  "baseline_run": "/data/chaewon/mmdl_eval_runs/b6000_baseline_v12_20261117",
+  "command": [
+    "bash",
+    "/home/chaewon/projects/qwen_eval_project/MMDL_eval_v1_2/scripts/run_mmmu_eval.sh",
+    "--model_path",
+    "/data/chaewon/mmdl_merged_models/base_insurance_001",
+    "--data_root",
+    "/home/chaewon/.cache/huggingface/hub/datasets--MMMU--MMMU/snapshots/98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+    "--seeds",
+    "3407",
+    "--output_path",
+    "/data/chaewon/mmdl_eval_runs",
+    "--run_name",
+    "base_insurance_001_screen"
+  ],
+  "completed_at_utc": "2026-11-17T09:56:35.061359+00:00",
+  "result_files": {
+    "3407": {
+      "samples": {
+        "path": "/data/chaewon/mmdl_eval_runs/base_insurance_001_screen/seed_3407/mmdl_merged_models__base_insurance_001/20261117_171022_samples_mmmu_val_mmdl.jsonl",
+        "sha256": "66a6f6af2042582d76356c77ba11c7b769d1404f8e5801d62e749ea872c3eeaa"
+      },
+      "results": {
+        "path": "/data/chaewon/mmdl_eval_runs/base_insurance_001_screen/seed_3407/mmdl_merged_models__base_insurance_001/20261117_171022_results.json",
+        "sha256": "74d07d47fe4f160a4557c74c259733a853cfe2fcb91e3813751dc6513a02d33f"
+      },
+      "run_meta": {
+        "path": "/data/chaewon/mmdl_eval_runs/base_insurance_001_screen/seed_3407/run_meta.txt",
+        "sha256": "96e3671fae84bf20f40884059feecd72801bd1dfa393664bd399455e0d80a61d"
+      }
+    }
+  },
+  "comparison_summary": "/data/chaewon/mmdl_eval_runs/base_insurance_001_screen/comparison/comparison_summary.json",
+  "note": "6000 screen/full values are screening results; final official result requires 4090 v1.2 3 seeds."
+}

@@ -1,4 +1,4 @@
-"""Run a four-step v1.2 GRPO GPU integration pilot after the active screen ends.
+"""Run a bounded v1.2 GRPO GPU integration pilot after the active screen ends.
 
 The synthetic rows verify the runtime path only; this pilot is not a model
 quality experiment and must not be reported as common-parent GRPO.
@@ -31,9 +31,12 @@ def main() -> None:
     parser.add_argument("--reward-policy", type=Path, required=True)
     parser.add_argument("--base-model", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
+    parser.add_argument("--max-steps", type=int, default=64)
     parser.add_argument("--poll-seconds", type=float, default=15)
     parser.add_argument("--timeout-seconds", type=float, default=7200)
     args = parser.parse_args()
+    if args.max_steps < 1:
+        parser.error("max-steps must be positive")
     for path in (args.queue_state, args.python, args.train_script,
                  args.dataset_manifest, args.reward_policy, args.base_model):
         if not path.exists():
@@ -45,7 +48,7 @@ def main() -> None:
         "--dataset-manifest", str(args.dataset_manifest),
         "--reward-policy", str(args.reward_policy),
         "--parent-kind", "base", "--parent-model", str(args.base_model),
-        "--output-dir", str(args.output_dir), "--max-steps", "4",
+        "--output-dir", str(args.output_dir), "--max-steps", str(args.max_steps),
     ]
     subprocess.run(command + ["--validate-only"], check=True)
     deadline = time.monotonic() + args.timeout_seconds
@@ -60,7 +63,7 @@ def main() -> None:
             if not args.screen_handoff.is_file():
                 raise RuntimeError("Queue reports complete without screen handoff")
             if gpu_used_mib() <= 4096:
-                print("Screen complete; starting v1.2 four-step GPU pilot", flush=True)
+                print(f"Screen complete; starting v1.2 {args.max_steps}-step GPU pilot", flush=True)
                 subprocess.run(command, check=True)
                 manifest = json.loads((args.output_dir / "run_manifest.json").read_text(encoding="utf-8"))
                 if manifest.get("status") != "complete" or not manifest.get("adapter_sha256"):

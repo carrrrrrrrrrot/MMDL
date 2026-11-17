@@ -22,7 +22,7 @@
   "compare_script": "/data/chaewon/mmdl_b_compare/compare_runs.py",
   "eval_run_prefix": "common_parent_001",
   "wait_for_queue_state": "/data/chaewon/mmdl_b_eval_ops/orchestrations/base_insurance_001/state.json",
-  "wait_for_pilot_manifest": "/data/chaewon/mmdl_grpo_runs/v12_gpu_pilot_001/run_manifest.json",
+  "wait_for_pilot_manifest": "/data/chaewon/mmdl_grpo_runs/v12_gpu_pilot_002/run_manifest.json",
   "work_root": "/data/chaewon/mmdl_handoff/common_parent_001",
   "max_steps": null,
   "min_train_rows": null

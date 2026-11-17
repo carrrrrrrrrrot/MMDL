@@ -1,0 +1,13 @@
+{
+  "rollouts": 256,
+  "groups": 64,
+  "groups_with_exactly_four": true,
+  "reward_mismatches": 0,
+  "finish_reason_available": false,
+  "exact_generated_token_count_available": false,
+  "retokenized_tokens_are_proxy": true,
+  "clipped_proxy_count": 4,
+  "reward_version": "b-grpo-v1.2-6102585",
+  "jsonl": "/data/chaewon/mmdl_grpo_runs/v12_gpu_pilot_002/rollouts.jsonl",
+  "csv": "/data/chaewon/mmdl_grpo_runs/v12_gpu_pilot_002/rollouts.csv"
+}

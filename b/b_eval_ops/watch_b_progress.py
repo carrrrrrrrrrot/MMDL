@@ -13,8 +13,8 @@ from zoneinfo import ZoneInfo
 
 DEFAULT_QUEUE = Path("/data/chaewon/mmdl_b_eval_ops/orchestrations/base_insurance_001/state.json")
 DEFAULT_QUEUE_LOG = Path("/data/chaewon/mmdl_b_eval_ops/base_insurance_001.queue.log")
-DEFAULT_PILOT = Path("/data/chaewon/mmdl_grpo_runs/v12_gpu_pilot_001/run_manifest.json")
-DEFAULT_PILOT_LOG = Path("/data/chaewon/mmdl_grpo_runs/v12_gpu_pilot_001.launch.log")
+DEFAULT_PILOT = Path("/data/chaewon/mmdl_grpo_runs/v12_gpu_pilot_002/run_manifest.json")
+DEFAULT_PILOT_LOG = Path("/data/chaewon/mmdl_grpo_runs/v12_gpu_pilot_002.launch.log")
 DEFAULT_CONFIG = Path("/data/chaewon/mmdl_handoff/common_parent_config.json")
 DEFAULT_HANDOFF = Path("/data/chaewon/mmdl_handoff/common_parent_001/state.json")
 
@@ -48,6 +48,13 @@ def screen_progress(log: str) -> tuple[int, int] | None:
     return tuple(int(value) for value in matches[-1])
 
 
+def pilot_progress(log: str) -> tuple[int, int] | None:
+    matches = re.findall(r"\b(\d+)/(\d+)\s*\[[^\r\n]*?\]", log)
+    if not matches:
+        return None
+    return tuple(int(value) for value in matches[-1])
+
+
 def snapshot(args: argparse.Namespace) -> str:
     now = datetime.now(ZoneInfo("Asia/Seoul")).strftime("%m-%d %H:%M:%S KST")
     queue = read_json(args.queue)
@@ -61,6 +68,10 @@ def snapshot(args: argparse.Namespace) -> str:
         pilot_text = "v1.2 보상 GPU 파일럿: 완료"
     elif pilot:
         pilot_text = f"v1.2 보상 GPU 파일럿: {pilot.get('status', '상태 확인 중')}"
+        if pilot.get("status") == "running":
+            progress = pilot_progress(tail(args.pilot_log))
+            if progress:
+                pilot_text += "  " + bar(*progress)
     else:
         log = tail(args.pilot_log, 3000)
         pilot_text = ("v1.2 보상 GPU 파일럿: 앞선 900문항 평가 완료 대기"
