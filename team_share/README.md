@@ -10,6 +10,8 @@ main과 평가 기준(v1.2: `scripts/`, `eval_tasks/`)은 건드리지 않는 �
 | `convert_v12.py` | C | MAmmoTH-VL 레코드 → v1.2 학습 형식 변환 코드 |
 | `per_item_v1.2.csv` | B, C | 4090 기준선 M4_final(v1.2 재채점) 문항 × 시드 정오표와 최종 답. 시드별 555/557/554 → 61.70 ± 0.17 |
 | `reward_cases.jsonl` | B, C | 보상 테스트 20개 (R01–R18 + 추가 2개). GRPO 보상은 v1.2 채점과 같은 판정으로 확정 → `v1_2_score` 열이 기대값 |
+| `c_list_sft1.jsonl` | C | **SFT1 본학습에 실제로 쓴 12,278문항** (MAmmoTH-VL 7,278 + ECD 5,000). 누수 검사용. 필드: idx, id, source, image(데이터셋 안 상대경로), question·answer(원본 첫 질문·답), status, question_type, flags, dataset. MAmmoTH 이미지는 `MAmmoTH-VL/MAmmoTH-VL-Instruct-12M`의 `single_image_data/shard_1.tar.gz`, ECD 이미지는 `ChartFoundation/ECD-10k-Images`의 `images.tar` 안 경로 |
+| `convert_ecd.py` | C | ECD QA → v1.2 학습 형식 변환 코드 |
 | `merge_lora.py` | B | LoRA 어댑터를 base에 병합 (양쪽 모두 이 스크립트 사용). `--adapter --out [--base]`, base 기본값은 `$MMDL_BASE_MODEL` 또는 HF repo id + 고정 revision. 결과 폴더에 MERGE_INFO.json(어댑터 SHA256, revision 등) 기록. 학습 전·후 어댑터 모두 병합 → vLLM v1.2 스모크까지 확인 (2026-11-17) |
 
 ## 확정 사항 (2026-11-17)
