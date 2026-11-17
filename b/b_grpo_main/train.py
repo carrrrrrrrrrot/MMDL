@@ -277,6 +277,10 @@ def main() -> None:
     metadata = {
         "status": "validated" if args.validate_only else "running",
         **parent,
+        "code_sha256": {
+            name: file_sha256(Path(__file__).with_name(name))
+            for name in ("train.py", "data.py", "reward.py", "run_reward_cases.py", "export_rollouts.py")
+        },
         "dataset": dataset_info,
         "reward_policy_path": str(policy_path),
         "reward_policy_sha256": file_sha256(policy_path),
