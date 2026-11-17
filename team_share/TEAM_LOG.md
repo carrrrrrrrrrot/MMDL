@@ -51,6 +51,16 @@
 
 - 507건 중 큰 이미지는 77장뿐이라, 본 데이터의 이미지 크기 분포에 따라 배율이 달라질 수 있음.
 
+### 데이터: MAmmoTH-VL shard_1 전체 처리 (2026-11-17)
+
+- 다운로드: `mammoth_si_10M.json` 21,787,215,953 B + `single_image_data/shard_1.tar.gz` 32,660,325,980 B (HF 크기와 일치, 6시간 13분)
+- shard_1 이미지 65,526장. JSON 10,140,972 레코드 중 shard_1에 이미지가 있는 것 147,528건
+- v1.2 변환 결과: **ok 16,513건** (객관식 8,941 / 주관식 7,572, 여러 턴 중 첫 턴 채택 182) / 짧은 답만 39,729 / 최종 답 없음 91,257 / 객관식 답 매핑 실패 29
+- ok 중 최종 답이 40자를 넘는 문장형 1,725건
+- **출처 편중**: geo170k(qa) 7,097(43%, 전부 객관식 기하), clevr 4,436(27%, 합성 3D 도형 주관식), mavis_math_rule_geo 계열 약 2,288(14%). 상위 3개가 84%
+- 답안 길이: 토큰 중앙값 141, 64~255토큰이 87%. 추론이 긴 출처(토큰 중앙값 200 이상: vision_flan, ureader_chart, geomverse, pathvqa 등)는 다 합쳐 약 1,300건
+- 학습 시간 추정(이미지 실제 크기 + 파일럿 ms/token 기준, 실측 아님): max_pixels 16,777,216에서 1 epoch 약 2.44시간(0.533초/샘플), 4,014,080에서 1.76시간
+
 ### SFT-pilot-0 세부
 
 - PASS 5단계: 1배치 검증(loss가 assistant 답안에만, 이미지가 `<image 1>` 자리, Answer 줄 잘림 없음, 학습 파라미터 수 일치) → 짧은 학습(loss 1.32 → 0.55, 전부 유한, grad_norm 최대 2.97) → 저장·새 프로세스 재로딩·생성 → 병합(713개 중 LM q/k/v/o 144개만 변함) → 평가 스모크
@@ -68,6 +78,7 @@
 - **TRL 1.14의 비전 데이터 경로는 `assistant_only_loss`를 지원하지 않습니다.** A는 collator를 직접 만들었습니다: prompt(system + user + generation prompt)를 같은 이미지로 토큰화한 길이만큼 앞부분 라벨을 -100으로 가리고, prompt 토큰이 전체 토큰의 앞부분과 같은지 샘플마다 assert로 확인합니다.
 - **processor의 기본 이미지 크기 설정이 작은 이미지를 키웁니다.** 기본 `shortest_edge`가 65,536이라, 그대로 두면 평가(min_pixels 4,096)와 다르게 작은 이미지가 확대됩니다. processor size를 [4,096, max_pixels]로 맞추고, 이미지는 평가와 같은 `qwen_vl_utils.fetch_image(image_patch_size=16)`로 처리합니다.
 - max_length를 넘는 샘플은 자르지 않고 학습에서 제외합니다 (마지막 `Answer:` 줄 보호).
+- **MAmmoTH 원본에 "Simple Answer: yes", "Revised Answer: no" 같은 줄이 있어 "Answer: Simple Answer: yes"처럼 이중 변환될 수 있습니다**(shard_1에서 141건, 대부분 clevr). `convert_v12.py`를 고쳐서(최종 답 정규식에 simple/short/revised/correct 접두어 추가) 이중 Answer 0건을 확인했습니다. 이 브랜치의 `convert_v12.py`는 수정본입니다.
 - 중간 저장(N step마다, 최근 K개 유지)과 이어서 학습(resume)을 실제로 중단 → 재개해서 확인했습니다. checkpoint 하나는 약 150 MB(어댑터 47 MB + optimizer 등).
 - **같은 설정·시드로 돌려도 학습이 비트 단위로 재현되지 않습니다.** loss가 step마다 0.001~0.004 차이 납니다(GPU 비결정성). 재현 비교를 할 때 이 정도 오차를 감안하세요.
 
@@ -85,6 +96,6 @@
 | MAmmoTH·ECD 혼합 비율과 답안 길이 기준 | A, C | shard_1 집계 후 |
 | 본학습 데이터 구성 (출처별 답안 길이 반영) | A, C | shard_1 전체 필터 후 |
 | 최종 답이 문장형인 레코드(long_final_answer) 처리, "Hint:" 잔여 문구 | C | 검수 요청 |
-| shard_1 문항 목록 → C 선별·MMMU/MMMU-Pro 누수 검사 | A → C | 다운로드 완료(11/17 밤) 후 |
+| shard_1 ok 문항 목록(16,513행) → C 선별·MMMU/MMMU-Pro 누수 검사 | A → C | 목록 준비 완료, 전달 예정 |
 | 6000 v1.2 기준선 3시드 결과와 판정 | B | 11/18 오전 목표 |
 | 공통 SFT 어댑터 + SHA256 + base revision 전달 | A → B | 11/19~20 |

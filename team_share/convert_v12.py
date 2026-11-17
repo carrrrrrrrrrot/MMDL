@@ -56,7 +56,7 @@ FORMAT_INSTRUCTIONS = [
     r"According to the question shown in the image, please (?:first )?(?:conduct|perform) reasoning, (?:and )?then (?:finally )?(?:answer the question and provide the final value|select the right answer from the choices), e\.g\., (?:The answer is xxx|Answer: xxx)\.?",
 ]
 FORMAT_RE = [re.compile(p, re.I) for p in FORMAT_INSTRUCTIONS]
-FINAL_LINE = re.compile(r"^\s*[-*#>]*\s*\**\s*(?:final )?answer\s*\**\s*[:：]\s*\**\s*(.+?)\s*\**\s*$", re.I)
+FINAL_LINE = re.compile(r"^\s*[-*#>]*\s*\**\s*(?:final |simple |short |revised |correct )?answer\s*\**\s*[:：]\s*\**\s*(.+?)\s*\**\s*$", re.I)
 EXTRACT = [
     re.compile(r"\\boxed\{([^{}]+)\}"),
     re.compile(r"(?:the )?(?:correct |final )?answer is[:\s]*\(?([^\n]+?)\)?\s*\.?\s*$", re.I),
@@ -98,6 +98,7 @@ ANSWER_PREFIX = re.compile(r"^(?:the )?(?:correct |final )?answer is[:\s]*", re.
 
 def _clean_final(x):
     x = re.sub(r"\\boxed\{([^{}]*)\}", r"\1", x).replace("**", "").strip()
+    x = re.sub(r"^(?:(?:final|simple|short|revised|correct)\s+)?answer\s*[:：]\s*", "", x, flags=re.I).strip()  # "Simple Answer: X"
     x = ANSWER_PREFIX.sub("", x).strip()
     return x.rstrip(".").strip()
 
