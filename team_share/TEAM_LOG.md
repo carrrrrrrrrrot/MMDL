@@ -115,5 +115,5 @@
 | SFT1 본학습 → 병합 → 1시드 평가(SFT1-main-0) | A | 11/17 밤 시작 |
 | 본학습 데이터 구성 (출처별 답안 길이 반영) | A, C | shard_1 전체 필터 후 |
 | 최종 답이 문장형인 레코드(long_final_answer) 처리, "Hint:" 잔여 문구 | C | 검수 요청 |
-| SFT1 실제 사용 문항 목록(MAmmoTH + ECD) → C 누수 검사 | A → C | 목록 생성 중 |
+| SFT1 누수 검사 (문항 목록 `c_list_sft1.jsonl` + 이미지 해시 `sft1_image_hashes.jsonl`) | C | 자료 전달 완료(11/17 22:45), 검사 진행 중 |
 | 공통 SFT 어댑터 + SHA256 + base revision 전달 | A → B | 11/19~20 |
