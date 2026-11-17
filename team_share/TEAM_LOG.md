@@ -49,6 +49,8 @@
 - `SFT-pilot-0b | A | 완료(속도 측정) | Qwen3-VL-4B-Instruct ebb281e | 4090, train env | SFT-pilot-0과 같은 ok 507건 | SFT-pilot-0과 같고 max_pixels 16,777,216, max_length 20000(초과 0) | 평가 안 함 | — | — | peak reserved 15,090 MiB, 332초(0.655초/샘플, 4,014,080 대비 1.42배), loss 1.321→0.547 | A 서버 | 학습 max_pixels 결정 근거`
 
 - `SFT1-main-0 | A | 학습 중 (11/17 20:20 시작) | Qwen3-VL-4B-Instruct ebb281e | 4090, train env | MAmmoTH-VL shard_1 7,278 + ECD 5,000 = 12,278건 (seed 3407) | LoRA r16/α32 LM q/k/v/o, microbatch 1 × GA 8 = 1,535 step, lr 1e-4 cosine, warmup 0.03, max_pixels 16,777,216 | 끝나면 v1.2 900문항 seed 3407 | - | - | 초기 peak reserved 13.5 GB, 초기 약 0.6초/샘플 | A 서버 | 평가 후 기준선 대비 비교 → 공통 부모 판정`
+- `B6000-baseline (B 기록, A 확인) | B | 완료 (11/17 18:15) | 원본 ebb281e | RTX PRO 6000, vllm 0.11, 평가 커밋 6102585 | MMMU val 900 | - | v1.2, seed 3407/1/2 | 558/555/559 → 61.93% (4090 61.70% 대비 +0.22%p) | 같은 시드 정오 일치 86.1/85.8/87.4%, 추출 답 일치 약 77~78%, 무응답 103/82/92 | - | B 브랜치 b/b_eval_compare/b6000_baseline_20261117/ | **통계적 재현**(평균 ±0.5%p 이내 + 일치율 ≥85%). 완전 재현(일치율 ≥90%)은 아님 → 6000은 선별 평가용, Δ는 6000 자체 기준선 61.93% 대비`
+- `base→GRPO 보험 선별 (B 기록) | B | 완료 | 원본 | RTX PRO 6000 | 합성 이미지 1,344개, 잠정 strict 보상, 128 step | - | v1.2 seed 3407 | 566 vs 6000 기준선 558 (+8, +0.89%p, 1시드) | 무응답 92 vs 103 | - | B 브랜치 b/b_eval_compare/base_insurance_001_screen/ | 경로 검증·탐색용. 1시드 ±9 이내라 판단 보류 구간`
 ### 학습 해상도별 속도 (같은 507건, 1 epoch = 64 step)
 
 | max_pixels | 1 epoch | 초/샘플 | step 시간 중앙 / 최대 | peak reserved | loss 처음 → 마지막 |
@@ -114,5 +116,4 @@
 | 본학습 데이터 구성 (출처별 답안 길이 반영) | A, C | shard_1 전체 필터 후 |
 | 최종 답이 문장형인 레코드(long_final_answer) 처리, "Hint:" 잔여 문구 | C | 검수 요청 |
 | SFT1 실제 사용 문항 목록(MAmmoTH + ECD) → C 누수 검사 | A → C | 목록 생성 중 |
-| 6000 v1.2 기준선 3시드 결과와 판정 | B | 11/18 오전 목표 |
 | 공통 SFT 어댑터 + SHA256 + base revision 전달 | A → B | 11/19~20 |
