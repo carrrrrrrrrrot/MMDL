@@ -9,7 +9,7 @@ main과 평가 기준(v1.2: `scripts/`, `eval_tasks/`)은 건드리지 않는 �
 | `convert_v12.py` | C | MAmmoTH-VL 레코드 → v1.2 학습 형식 변환 코드 |
 | `per_item_v1.2.csv` | B, C | 4090 기준선 M4_final(v1.2 재채점) 문항 × 시드 정오표와 최종 답. 시드별 555/557/554 → 61.70 ± 0.17 |
 | `reward_cases.jsonl` | B, C | 보상 테스트 20개 (R01–R18 + 추가 2개). GRPO 보상은 v1.2 채점과 같은 판정으로 확정 → `v1_2_score` 열이 기대값 |
-| `merge_lora.py` | B | (예정) 파일럿에서 학습된 어댑터 병합까지 확인한 뒤 추가 |
+| `merge_lora.py` | B | LoRA 어댑터를 base에 병합 (양쪽 모두 이 스크립트 사용). `--adapter --out [--base]`, base 기본값은 `$MMDL_BASE_MODEL` 또는 HF repo id + 고정 revision. 결과 폴더에 MERGE_INFO.json(어댑터 SHA256, revision 등) 기록. 학습 전·후 어댑터 모두 병합 → vLLM v1.2 스모크까지 확인 (2026-11-17) |
 
 ## 확정 사항 (2026-11-17)
 - 학습 스택: TRL 1.14.2 + PEFT 0.21.0 + transformers 4.57.1, base `Qwen/Qwen3-VL-4B-Instruct` @ `ebb281ec70b05090aa6165b016eac8ec08e71b17`
