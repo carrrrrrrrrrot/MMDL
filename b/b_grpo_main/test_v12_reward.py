@@ -44,6 +44,18 @@ def main() -> None:
     )
     if values != [1.0] * 4:
         raise AssertionError(values)
+    logged = {}
+    mixed = ["Answer: 6", "Answer: 6%", "Answer: X", "Answer: 6"]
+    reward(
+        completions=[[{"role": "assistant", "content": item}] for item in mixed],
+        answer=["6"] * 4,
+        answer_type=["open"] * 4,
+        sample_id=["mixed_parsed"] * 4,
+        log_extra=lambda key, value: logged.__setitem__(key, value),
+    )
+    parsed = logged["parsed_answer"]
+    if not all(isinstance(item, str) and isinstance(json.loads(item), list) for item in parsed):
+        raise AssertionError(f"Parsed answers are not Parquet-safe JSON strings: {parsed}")
     print("PASS: A's 20/20 v1.2 cases, null-gold guard, and TRL four-rollout callback")
 
 

@@ -219,7 +219,10 @@ def make_grpo_reward(policy: RewardPolicy, observed: list[float] | None = None):
         ]
         if log_extra is not None:
             log_extra("sample_id", sample_id)
-            log_extra("parsed_answer", [item.parsed_answer for item in outcomes])
+            # TRL writes this diagnostic column to Parquet. v1.2 open answers
+            # can contain both numbers and strings in the parsed candidate list,
+            # which PyArrow cannot infer as one column type.
+            log_extra("parsed_answer", [json.dumps(item.parsed_answer, ensure_ascii=False) for item in outcomes])
             log_extra("reward_reason", [item.reason for item in outcomes])
             log_extra("gold_answer", answer)
         values = [item.reward for item in outcomes]
