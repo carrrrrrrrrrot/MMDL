@@ -38,6 +38,17 @@
 - `merge-smoke-0 | A | 완료 | Qwen3-VL-4B-Instruct ebb281e | 4090, vllm011 | - | 학습 안 한 LoRA(B=0) 병합 | v1.2 vllm --limit 5, seed 3407 | 판정 안 함 | 병합본이 base와 713개 텐서 비트 단위 동일 | 평가 peak 18,671 MiB | A 서버 | merge_lora.py 검증용`
 - `SFT-pilot-0 | A | 완료(파이프라인 검증, 성능 판정 아님) | Qwen3-VL-4B-Instruct ebb281e | 4090, train env (torch 2.8.0, transformers 4.57.1, trl 1.14.2, peft 0.21.0), sdpa | MAmmoTH-VL shard_1 앞 2 GB × JSON 앞부분, ok 507건 (MC 249, open 258) | LoRA r16/α32/dropout 0.05, bf16, microbatch 1 × GA 8, lr 1e-4 cosine, warmup 0.03, 1 epoch = 64 step, grad ckpt, max_pixels 4,014,080, max_length 8192 | v1.2 vllm --limit 20, seed 3407 (스모크) | 판정 안 함 (참고 13/20, n=20) | Answer 추출 20/20, 무응답 0, 응답 글자수 중앙값 752 (기준선 같은 20문항 3,317) | 학습 peak reserved 10,930 MiB, 234초(0.46초/샘플), 평가 peak 18,677 MiB | 어댑터 SHA256 c20048ed5a431ce43643a09cb47ea8ee4ddc652cce303d81bc1b92f082cedf1a (A 서버) | 본학습 데이터 확정 후 SFT 1단계`
 
+- `SFT-pilot-0b | A | 완료(속도 측정) | Qwen3-VL-4B-Instruct ebb281e | 4090, train env | SFT-pilot-0과 같은 ok 507건 | SFT-pilot-0과 같고 max_pixels 16,777,216, max_length 20000(초과 0) | 평가 안 함 | — | — | peak reserved 15,090 MiB, 332초(0.655초/샘플, 4,014,080 대비 1.42배), loss 1.321→0.547 | A 서버 | 학습 max_pixels 결정 근거`
+
+### 학습 해상도별 속도 (같은 507건, 1 epoch = 64 step)
+
+| max_pixels | 1 epoch | 초/샘플 | step 시간 중앙 / 최대 | peak reserved | loss 처음 → 마지막 |
+|---|---|---|---|---|---|
+| 4,014,080 | 234초 | 0.462 | 3.2 / 6.5초 | 10,930 MiB | 1.321 → 0.549 |
+| 16,777,216 (평가와 같음) | 332초 | 0.655 | 4.2 / 12.2초 | 15,090 MiB | 1.321 → 0.547 |
+
+- 507건 중 큰 이미지는 77장뿐이라, 본 데이터의 이미지 크기 분포에 따라 배율이 달라질 수 있음.
+
 ### SFT-pilot-0 세부
 
 - PASS 5단계: 1배치 검증(loss가 assistant 답안에만, 이미지가 `<image 1>` 자리, Answer 줄 잘림 없음, 학습 파라미터 수 일치) → 짧은 학습(loss 1.32 → 0.55, 전부 유한, grad_norm 최대 2.97) → 저장·새 프로세스 재로딩·생성 → 병합(713개 중 LM q/k/v/o 144개만 변함) → 평가 스모크
@@ -55,17 +66,22 @@
 - **TRL 1.14의 비전 데이터 경로는 `assistant_only_loss`를 지원하지 않습니다.** A는 collator를 직접 만들었습니다: prompt(system + user + generation prompt)를 같은 이미지로 토큰화한 길이만큼 앞부분 라벨을 -100으로 가리고, prompt 토큰이 전체 토큰의 앞부분과 같은지 샘플마다 assert로 확인합니다.
 - **processor의 기본 이미지 크기 설정이 작은 이미지를 키웁니다.** 기본 `shortest_edge`가 65,536이라, 그대로 두면 평가(min_pixels 4,096)와 다르게 작은 이미지가 확대됩니다. processor size를 [4,096, max_pixels]로 맞추고, 이미지는 평가와 같은 `qwen_vl_utils.fetch_image(image_patch_size=16)`로 처리합니다.
 - max_length를 넘는 샘플은 자르지 않고 학습에서 제외합니다 (마지막 `Answer:` 줄 보호).
+- 중간 저장(N step마다, 최근 K개 유지)과 이어서 학습(resume)을 실제로 중단 → 재개해서 확인했습니다. checkpoint 하나는 약 150 MB(어댑터 47 MB + optimizer 등).
+- **같은 설정·시드로 돌려도 학습이 비트 단위로 재현되지 않습니다.** loss가 step마다 0.001~0.004 차이 납니다(GPU 비결정성). 재현 비교를 할 때 이 정도 오차를 감안하세요.
 
 ## 4. 관찰 (판정 아님)
 
 1. **응답 길이가 짧아짐**: 파일럿 모델의 스모크 20문항 응답 글자수 중앙값이 752로, 같은 문항의 기준선 3,317의 약 1/4. MAmmoTH 답안의 짧은 풀이 문체를 따라 간 것으로 보임. 기준선의 무응답(긴 반복 루프)을 줄일 수도, 깊은 추론이 필요한 문항에서 손해를 볼 수도 있음. 정확도 영향은 미확인 → 본학습 데이터 구성(출처별 답안 길이)을 정할 때 고려.
 2. **bf16 병합 반올림**: LoRA 변화량이 base 가중치의 약 0.4~0.5%로 작아, bf16으로 저장하면 원소의 35~40%가 반올림으로 base 값 그대로 남음(정확한 변화량과의 코사인 0.94~0.95). fp32로 병합한 뒤 bf16으로 저장해도 같음 → 저장 형식의 한계. 병합 모델 평가는 어댑터를 실행 중에 붙인 모델과 완전히 같지는 않음. 양쪽 모두 같은 방식(병합 후 평가)이라 후보 간 비교의 공정성에는 영향 없음. 본학습 후 병합 전·후 응답을 일부 비교해 확인 예정.
 
+3. **ECD 데이터 구성** (`ChartFoundation/ECD-10k-Images` @ 284489f, QA json만 받아 변환 집계, 이미지는 아직 안 받음): 321,544건 = descriptive 188,931(최종 답 없음 → 제외) + reasoning 132,613. reasoning 중 추론과 최종 답이 모두 있는 것 129,976건이고, 그중 **52%(67,372건)는 최종 답이 40자를 넘는 문장형**(예: "There are 6 green candlesticks, 3 of which close above 55 USD"). 나머지 62,604건이 짧은 최종 답. 모두 보기 없는 open 문항, 추론 글자 수 중앙값 242. 문장형 최종 답은 v1.2 open 채점에서 맞기 어렵고, 추론이 짧아 1번 관찰(응답 길이 감소)을 키울 수 있음.
+
 ## 5. 미결 사항
 
 | 항목 | 담당 | 상태 |
 |---|---|---|
-| 학습 이미지 max_pixels (4,014,080 vs 평가와 같은 16,777,216) | A | 16.7M 평균 속도 실측 후 결정 |
+| 학습 이미지 max_pixels (4,014,080 vs 평가와 같은 16,777,216) | A | 속도 실측 완료(1.42배), 결정 대기 |
+| ECD 사용 시 문장형 최종 답(52%) 포함 여부 | A, C | 결정 대기 |
 | 본학습 데이터 구성 (출처별 답안 길이 반영) | A, C | shard_1 전체 필터 후 |
 | 최종 답이 문장형인 레코드(long_final_answer) 처리, "Hint:" 잔여 문구 | C | 검수 요청 |
 | shard_1 문항 목록 → C 선별·MMMU/MMMU-Pro 누수 검사 | A → C | 다운로드 완료(11/17 밤) 후 |
