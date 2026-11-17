@@ -9,13 +9,20 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from candidate_eval import check_own_gpu_baseline, validate_training_lineage
+from candidate_eval import check_own_gpu_baseline, mode_settings, validate_training_lineage
 from merge_lora import validate_roles
 from orchestrate_insurance import proposed_baseline_gate
 from ops_common import BASE_REVISION, ordered_lineage, safe_name, sha256_json
 
 
 class ContractTests(unittest.TestCase):
+    def test_one_seed_screen_keeps_default_and_selects_seed_1(self) -> None:
+        self.assertEqual(mode_settings("screen", None)["seeds"], ("3407",))
+        self.assertEqual(mode_settings("screen", "1")["seeds"], ("1",))
+        self.assertEqual(mode_settings("full", None)["seeds"], ("3407", "1", "2"))
+        with self.assertRaises(ValueError):
+            mode_settings("full", "1")
+
     def test_role_order(self) -> None:
         for roles in (["sft"], ["grpo"], ["sft", "grpo"], ["sft", "dpo"]):
             validate_roles(roles)

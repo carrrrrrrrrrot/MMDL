@@ -42,12 +42,22 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--run-name", required=True)
     parser.add_argument("--mode", choices=tuple(MODE), required=True)
+    parser.add_argument("--screen-seed", choices=("3407", "1", "2"),
+                        help="Seed for a one-seed screen (default: 3407)")
     parser.add_argument("--baseline-run", type=Path, help="Own-GPU base or parent run for paired comparison")
     parser.add_argument("--compare-script", type=Path, help="compare_runs.py; required with --baseline-run")
     parser.add_argument("--verify-model-hashes", action="store_true", help="Rehash all saved model files before launch")
     parser.add_argument("--allow-busy-gpu", action="store_true", help="Explicitly override >4 GiB GPU-use guard")
     parser.add_argument("--dry-run", action="store_true", help="Validate and print command without launching evaluator")
     return parser.parse_args()
+
+
+def mode_settings(mode: str, screen_seed: str | None) -> dict[str, Any]:
+    if screen_seed is not None and mode != "screen":
+        raise ValueError("--screen-seed requires --mode screen")
+    if mode == "screen":
+        return {**MODE[mode], "seeds": (screen_seed or "3407",)}
+    return MODE[mode]
 
 
 def git_check(repo: Path) -> str:
@@ -180,7 +190,7 @@ def main() -> None:
         raise ValueError("--baseline-run and --compare-script must be passed together")
     if args.mode in {"screen", "full"} and baseline is None:
         raise ValueError("Screen/full evaluation requires an own-GPU baseline for paired Δ")
-    settings = MODE[args.mode]
+    settings = mode_settings(args.mode, args.screen_seed)
     if baseline is not None:
         check_own_gpu_baseline(baseline, settings["seeds"])
     command = [
