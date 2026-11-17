@@ -5,6 +5,7 @@ main과 평가 기준(v1.2: `scripts/`, `eval_tasks/`)은 건드리지 않는 �
 
 | 파일 | 대상 | 내용 |
 |---|---|---|
+| **`TEAM_LOG.md`** | B, C | **팀 실험 기록: 기준선, 결정 사항, 실험 결과(공통 양식), 구현 메모, 관찰, 미결 사항. 여기부터 보세요** |
 | `c_format_example.md` | B, C | 학습 프롬프트 형식 (v1.2 평가 프롬프트와 같은 구조), Answer 없는 원본 처리 규칙, 실제 변환 예시 5개. 문서 안의 `local/data_prep/convert_v12.py`는 이 폴더의 `convert_v12.py`와 같은 파일 |
 | `convert_v12.py` | C | MAmmoTH-VL 레코드 → v1.2 학습 형식 변환 코드 |
 | `per_item_v1.2.csv` | B, C | 4090 기준선 M4_final(v1.2 재채점) 문항 × 시드 정오표와 최종 답. 시드별 555/557/554 → 61.70 ± 0.17 |
