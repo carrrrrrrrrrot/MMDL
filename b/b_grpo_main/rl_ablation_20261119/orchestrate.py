@@ -42,7 +42,8 @@ def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
-def read_manifest_counts(path: Path) -> dict[str, Any]:
+def read_manifest_counts(path: Path, expected_train: int,
+                         expected_heldout: int) -> dict[str, Any]:
     counts: dict[str, int] = {}
     ids: set[str] = set()
     for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
@@ -59,8 +60,9 @@ def read_manifest_counts(path: Path) -> dict[str, Any]:
             raise ValueError(f"{path}:{line_no}: duplicate sample_id {sample_id}")
         ids.add(sample_id)
         counts[split] = counts.get(split, 0) + 1
-    if counts != {"train": 500, "heldout": 100}:
-        raise ValueError(f"{path}: expected exactly train=500 and heldout=100, got {counts}")
+    expected = {"train": expected_train, "heldout": expected_heldout}
+    if counts != expected:
+        raise ValueError(f"{path}: expected exactly {expected}, got {counts}")
     return {"split_counts": counts, "sha256": sha256(path), "rows": len(ids)}
 
 
@@ -75,6 +77,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--run-order", help="Comma-separated dataset_loss runs; default six-run order")
     parser.add_argument("--pause-after", type=int, default=0,
                         help="Pause after this many newly attempted runs; resume with same plan")
+    parser.add_argument("--expected-train", type=int, default=500)
+    parser.add_argument("--expected-heldout", type=int, default=100)
+    parser.add_argument("--max-steps", type=int, default=1000)
+    parser.add_argument("--save-steps", type=int, default=250)
     parser.add_argument("--reward-policy", required=True, type=Path)
     parser.add_argument("--train-script", required=True, type=Path)
     parser.add_argument("--python", required=True, type=Path)
@@ -84,6 +90,9 @@ def parse_args() -> argparse.Namespace:
 
 
 def make_plan(args: argparse.Namespace) -> dict[str, Any]:
+    if min(args.expected_train, args.expected_heldout,
+           args.max_steps, args.save_steps) < 1:
+        raise ValueError("expected-train, expected-heldout, max-steps and save-steps must be positive")
     supplied = {
         name: getattr(args, f"{name}_manifest")
         for name in ("ecd", "mammoth", "mixed")
@@ -117,7 +126,11 @@ def make_plan(args: argparse.Namespace) -> dict[str, Any]:
     policy = json.loads(paths["reward_policy"].read_text(encoding="utf-8"))
     if policy.get("mode") != "v1_2" or policy.get("eval_repo_commit") != EVAL_COMMIT:
         raise ValueError("Reward policy is not frozen v1.2")
-    counts = {name: read_manifest_counts(paths[f"{name}_manifest"]) for name in supplied}
+    counts = {
+        name: read_manifest_counts(paths[f"{name}_manifest"],
+                                   args.expected_train, args.expected_heldout)
+        for name in supplied
+    }
     return {
         "schema": "b_rl_ablation_plan_v1",
         "parent_kind": "base",
@@ -134,12 +147,12 @@ def make_plan(args: argparse.Namespace) -> dict[str, Any]:
         },
         "run_order": run_order,
         "seed": 3407,
-        "max_steps": 1000,
+        "max_steps": args.max_steps,
         "num_iterations": 2,
         "learning_rate": 1e-5,
         "max_completion_length": 512,
         "num_generations": 4,
-        "save_steps": 250,
+        "save_steps": args.save_steps,
     }
 
 
@@ -178,7 +191,9 @@ def preflight(plan: dict[str, Any], output_root: Path) -> None:
         found = metadata["dataset"]
         if found["manifest_sha256"] != plan["datasets"][dataset]["sha256"]:
             raise RuntimeError(f"{dataset}: validate-only read a different manifest")
-        if found["selected_examples"] != 500 or found["total_examples"] != 600:
+        expected = plan["datasets"][dataset]["split_counts"]
+        if (found["selected_examples"] != expected["train"]
+                or found["total_examples"] != expected["train"] + expected["heldout"]):
             raise RuntimeError(f"{dataset}: unexpected validated split counts")
         print(json.dumps({
             "dataset": dataset, "rows": found["total_examples"],

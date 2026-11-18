@@ -15,6 +15,9 @@ exactly 500 `train` and 100 `heldout` rows. The queue trains on `train` only.
 Every run uses seed 3407, BF16 language LoRA r16/alpha32, 4 rollouts, 512
 completion tokens, learning rate 1e-5, 2 iterations per rollout batch, 1,000
 optimizer steps, and checkpoints at steps 250/500/750/1000 (two retained).
+For a new, smaller quality-reviewed pilot, the queue accepts
+`--expected-train N --expected-heldout M --max-steps S --save-steps K`; record those values
+and use a distinct output root. The original defaults remain 500/100/1000.
 The first two runs are ECD GRPO and MAmmoTH GRPO. A zero-signal GRPO failure
 blocks the other loss variants for that dataset; other failures stop the queue.
 The first invocation pauses after two new runs for a signal check, then the
