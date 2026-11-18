@@ -1,5 +1,12 @@
 # B single-GPU GRPO/DAPO/SAPO queue (11/19)
 
+**Data-quality hold:** the first ECD GRPO run was intentionally stopped at
+140/1,000 steps after direct image/gold checks found wrong labels in the ECD
+and MAmmoTH manifests. See [QC_ABORT_20261119.md](QC_ABORT_20261119.md).
+Do not resume the original queue or reuse the `rl_20261119` manifests. The
+instructions below describe the automation only; use new reviewed manifests
+and a new output root for any resumed experiments.
+
 `orchestrate.py` uses the pinned base and v1.2 0/1 reward. It does **not**
 interpret C's leakage-only audit as quality approval: pass B's separately
 reviewed, immutable exploratory manifests explicitly. Each manifest must have
