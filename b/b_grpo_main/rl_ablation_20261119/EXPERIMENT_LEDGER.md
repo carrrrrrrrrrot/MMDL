@@ -13,9 +13,9 @@ The current `train.py` explicitly passes the loss type and SAPO temperatures. It
 | Initial ECD v1 | GRPO | **Stopped by B at 140/1,000** after image/gold errors; no validated adapter | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119/runs/ecd_grpo` | `f189d58b8b0e6019387b4dd0ae61b5c6930e74a646f99b36ec9c5b8c2a70f1f8` | None |
 | ECD quality filter v2, 500 train + 97 heldout | GRPO | **Complete**, 1,000/1,000 steps; saved and reloaded adapter | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_ecd_qc_v2/runs/ecd_grpo` | `c05d5962a4b028236c726c72246eb9e8378d2ee0d96c9db3d0912f108625f1ed` | Pending |
 | ECD quality filter v2 | DAPO | **Complete**, 1,000/1,000 steps; saved and reloaded adapter at 2026-11-19 05:56 KST | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_ecd_qc_v2/runs/ecd_dapo` | Same ECD v2 | Pending |
-| ECD quality filter v2 | SAPO | **Running**; started automatically after DAPO at 2026-11-19 05:56 KST | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_ecd_qc_v2/runs/ecd_sapo` | Same ECD v2 | Pending |
+| ECD quality filter v2 | SAPO | **Complete**, 1,000/1,000 steps; saved and reloaded adapter at approximately 2026-11-19 07:23 KST | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_ecd_qc_v2/runs/ecd_sapo` | Same ECD v2 | Pending |
 | MAmmoTH CLEVR v3, 500 train + 100 heldout | GRPO | **Complete**, 1,000/1,000 steps; saved and reloaded adapter at 2026-11-19 04:30 KST | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_clevr_v3/runs/mammoth_grpo` | `b2edb0e30acbdca0a0d64800405790fb5926f92af3f73c5e47072f3ff570a33d` | Pending |
-| MAmmoTH CLEVR v3 | DAPO | Queued after GRPO signal check | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_clevr_v3/runs/mammoth_dapo` | Same CLEVR v3 | Pending |
+| MAmmoTH CLEVR v3 | DAPO | **Running**; started automatically after ECD SAPO at approximately 2026-11-19 07:23 KST | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_clevr_v3/runs/mammoth_dapo` | Same CLEVR v3 | Pending |
 | MAmmoTH CLEVR v3 | SAPO | Queued after GRPO signal check | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_clevr_v3/runs/mammoth_sapo` | Same CLEVR v3 | Pending |
 
 ECD v2 and CLEVR v3 are **exploratory** datasets. C checked leakage within its documented scope; neither dataset has full item-level gold validation or C training approval. See the two dataset READMEs and [QC_ABORT_20261119.md](QC_ABORT_20261119.md). The easy-question-biased CLEVR heldout set is a regression check only. Candidate ranking will use fixed 300 MMMU v1.2 questions; top candidates will be checked on full 900 on the 6000, and official three-seed results belong to the 4090 run.
@@ -69,6 +69,10 @@ The three runs have the same `sample_id`, prompt and gold answer in the same ord
 | DAPO / SAPO | 88 | 0 | 830 | 88 | 88 | 1,858 |
 
 This is a paired **training rollout** audit. It demonstrates different sampled outputs while the aggregate correct counts tie; it is not an MMMU evaluation or evidence that the methods generalize equally.
+
+### ECD SAPO completed run
+
+The **completed** ECD SAPO run covered 500 unique training questions and 4,000 responses over 1,000 optimizer steps: 1,178 correct rewards, 2,222 wrong answers and 600 v1.2 `missing_final_answer` reward reasons. Of those 600 missing answers, 596 reached the 512-token cap. For comparison on the same ECD v2 manifest, GRPO recorded 1,178 correct / 2,092 wrong / 730 missing, while DAPO recorded 1,190 correct / 2,194 wrong / 616 missing. These are stochastic training rollouts, **not MMMU scores**. SAPO had mixed 0/1 rewards in 57/500 distinct four-rollout question groups and mean rollout reward 0.2945. Training loss was finite, LoRA L1 weight change was 2512.5074, peak CUDA memory was 11979 MiB, and the saved adapter reloaded successfully. Adapter SHA256: `30fc303e882c374e2dfb6eb23b7ea2e92356346067b4f6815e8d40851ab1f6ad`. No performance improvement is claimed before the common MMMU evaluation. CLEVR DAPO started automatically after ECD SAPO at approximately 2026-11-19 07:23 KST.
 
 ## CLEVR GRPO progress snapshot (not evaluation)
 
