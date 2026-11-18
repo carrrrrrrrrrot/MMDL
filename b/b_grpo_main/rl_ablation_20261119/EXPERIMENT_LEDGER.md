@@ -48,6 +48,10 @@ At optimizer step 750, 375 unique questions yielded 3,000 responses across 750 r
 
 The **completed** ECD DAPO run covered 500 unique training questions and 4,000 responses over 1,000 optimizer steps: 1,190 correct rewards, 2,194 wrong answers and 616 v1.2 `missing_final_answer` reward reasons. Of those 616 missing answers, 614 reached the 512-token cap. The same-manifest GRPO run recorded 1,178 correct, 2,092 wrong and 730 missing (726/730 at the cap). The correct-reward difference is small and these are stochastic training rollouts, not paired MMMU results. DAPO had mixed 0/1 rewards in 54/500 distinct four-rollout question groups and mean rollout reward 0.2975. Training loss was finite, LoRA L1 weight change was 2221.7934, peak CUDA memory was 11979 MiB, and the saved adapter reloaded successfully. Adapter SHA256: `8dffc2be7011092b839ca031659b6130ecd064682d908080be7ccf3ed08f2b73`. The run has **no MMMU score yet**, so no performance improvement is claimed. ECD SAPO started automatically after DAPO at approximately 2026-11-19 05:56 KST.
 
+## ECD SAPO progress snapshot (not evaluation)
+
+At optimizer step 100, 50 unique questions yielded 400 responses across 100 readable completion parquet files: 126 correct rewards, 224 wrong answers, and 50 v1.2 `missing_final_answer` reward reasons. All 50 missing-answer responses reached the 512-token generation cap. This is an intermediate training diagnostic, not an MMMU score or a validated final adapter.
+
 ## CLEVR GRPO progress snapshot (not evaluation)
 
 At optimizer step 100, 50 unique questions yielded 400 responses: 270 correct rewards, 102 wrong answers and 28 missing final answers. All 28 missing answers reached the 512-token cap. Thirteen of the 50 distinct four-rollout question groups had mixed 0/1 rewards (26/100 repeated optimizer-step records); gradient norm was nonzero in 26/100 records and loss in 12/100. No non-finite loss or gradient was observed. This is a partial training-signal check, not an MMMU result.
