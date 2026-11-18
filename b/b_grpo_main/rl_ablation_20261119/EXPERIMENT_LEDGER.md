@@ -12,7 +12,7 @@ The current `train.py` explicitly passes the loss type and SAPO temperatures. It
 | --- | --- | --- | --- | --- | --- |
 | Initial ECD v1 | GRPO | **Stopped by B at 140/1,000** after image/gold errors; no validated adapter | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119/runs/ecd_grpo` | `f189d58b8b0e6019387b4dd0ae61b5c6930e74a646f99b36ec9c5b8c2a70f1f8` | None |
 | ECD quality filter v2, 500 train + 97 heldout | GRPO | **Complete**, 1,000/1,000 steps; saved and reloaded adapter | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_ecd_qc_v2/runs/ecd_grpo` | `c05d5962a4b028236c726c72246eb9e8378d2ee0d96c9db3d0912f108625f1ed` | Pending |
-| ECD quality filter v2 | DAPO | **Running**; 100/1,000-step diagnostic captured | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_ecd_qc_v2/runs/ecd_dapo` | Same ECD v2 | Pending |
+| ECD quality filter v2 | DAPO | **Running**; 250/1,000-step checkpoint and diagnostic captured | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_ecd_qc_v2/runs/ecd_dapo` | Same ECD v2 | Pending |
 | ECD quality filter v2 | SAPO | Queued after GRPO signal check | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_ecd_qc_v2/runs/ecd_sapo` | Same ECD v2 | Pending |
 | MAmmoTH CLEVR v3, 500 train + 100 heldout | GRPO | **Complete**, 1,000/1,000 steps; saved and reloaded adapter at 2026-11-19 04:30 KST | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_clevr_v3/runs/mammoth_grpo` | `b2edb0e30acbdca0a0d64800405790fb5926f92af3f73c5e47072f3ff570a33d` | Pending |
 | MAmmoTH CLEVR v3 | DAPO | Queued after GRPO signal check | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_clevr_v3/runs/mammoth_dapo` | Same CLEVR v3 | Pending |
@@ -39,6 +39,8 @@ The **completed** ECD GRPO run has 75/500 distinct four-rollout question groups 
 ## ECD DAPO progress snapshot (not evaluation)
 
 At optimizer step 100, 50 unique questions yielded 400 responses across 100 readable completion parquet files: 130 correct rewards, 224 wrong answers, and 46 v1.2 `missing_final_answer` reward reasons. All 46 missing-answer responses reached the 512-token generation cap. This is an intermediate diagnostic only: the DAPO run has no validated final adapter or MMMU score yet.
+
+At optimizer step 250, 125 unique questions yielded 1,000 responses across 250 readable completion parquet files: 330 correct rewards, 542 wrong answers, and 128 v1.2 `missing_final_answer` reward reasons. All 128 missing-answer responses reached the 512-token cap, and `runs/ecd_dapo/trainer/checkpoint-250` exists. At the same step count on the same ECD v2 manifest, the GRPO arm had 316 correct rewards, 534 wrong answers, and 150 missing final answers (all 150 at the cap). These are stochastic **training rollout distributions**, not paired MMMU scores or evidence that DAPO improves generalization. Both runs still await the common v1.2 evaluation.
 
 ## CLEVR GRPO progress snapshot (not evaluation)
 
