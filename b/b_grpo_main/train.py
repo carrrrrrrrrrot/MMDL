@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import gc
+import hashlib
 import json
 import math
 import re
@@ -129,6 +130,16 @@ def weight_delta(model, initial: dict) -> float:
     )
 
 
+def trainable_fingerprint(initial: dict) -> str:
+    """Hash initial LoRA tensors so separate loss runs can prove equal starts."""
+    digest = hashlib.sha256()
+    for name in sorted(initial):
+        digest.update(name.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(initial[name].contiguous().numpy().tobytes())
+    return digest.hexdigest()
+
+
 def prepare_images_v12(dataset, processor):
     """Apply the frozen v1.2 Qwen image resize before the TRL processor."""
     from qwen_vl_utils import fetch_image
@@ -152,7 +163,7 @@ def run_training(args: argparse.Namespace, rows: list[dict], policy: RewardPolic
     import torch
     from datasets import Dataset, Image as DatasetImage, Sequence
     from peft import LoraConfig, PeftModel
-    from transformers import AutoProcessor, Qwen3VLForConditionalGeneration
+    from transformers import AutoProcessor, Qwen3VLForConditionalGeneration, set_seed
     from trl import GRPOConfig, GRPOTrainer
     from trl.data_utils import prepare_multimodal_messages
 
@@ -161,6 +172,10 @@ def run_training(args: argparse.Namespace, rows: list[dict], policy: RewardPolic
     wrong = {name: (version(name), expected) for name, expected in REQUIRED_VERSIONS.items() if version(name) != expected}
     if wrong:
         raise RuntimeError(f"Training stack differs from pinned versions: {wrong}")
+
+    # GRPOTrainer may attach PEFT before Trainer sets GRPOConfig.seed. Seed first
+    # so LoRA initialization is reproducible across separate loss processes.
+    set_seed(args.seed)
 
     model_path = args.parent_model.resolve(strict=True)
     dataset = Dataset.from_list(rows)
@@ -244,6 +259,10 @@ def run_training(args: argparse.Namespace, rows: list[dict], policy: RewardPolic
         processing_class=processor, peft_config=lora,
     )
     initial, trainable_count = trainable_snapshot(trainer.model, torch)
+    initial_lora_sha256 = trainable_fingerprint(initial)
+    (args.output_dir / "initial_lora_sha256.txt").write_text(
+        initial_lora_sha256 + "\n", encoding="utf-8"
+    )
     torch.cuda.reset_peak_memory_stats()
     result = trainer.train()
     delta = weight_delta(trainer.model, initial)
@@ -270,6 +289,7 @@ def run_training(args: argparse.Namespace, rows: list[dict], policy: RewardPolic
         "training_loss": float(result.training_loss),
         "finite_loss": finite_loss,
         "trainable_parameters": trainable_count,
+        "initial_lora_sha256": initial_lora_sha256,
         "lora_delta_l1": delta,
         "reward_groups": len(groups),
         "mixed_reward_groups": mixed_groups,
@@ -339,6 +359,7 @@ def main() -> None:
             for row in case_rows if row["case_id"] in review_ids
         ],
         "seed": args.seed,
+        "seed_set_before_model_and_lora_initialization": True,
         "max_steps": args.max_steps,
         "loss_type": args.loss_type,
         "num_iterations": args.num_iterations,

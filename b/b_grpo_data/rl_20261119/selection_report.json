@@ -1,0 +1,50 @@
+{
+  "status": "b_exploratory_qc_leakage_only_no_c_training_approval",
+  "c_audit_item_sha256": "008d9e3a2bba1ed58d9bd9693d0af6b589a390634a0d35b42fd7406e27189016",
+  "c_provenance_sha256": "b9e0d6a15cdfd8623e24f806c63d3b924224fe7fc319200f6117a62c45f206a6",
+  "ecd_tar_sha256": "8ae3d9fb5b8345a17f4df420d50b662d5102cc54d46539870b0becad92c09cc1",
+  "ecd_c_per_item_image_sha_available": false,
+  "ecd_input_sha256": "e05ae72d0e30bf79708cccd51b66b3a2be1ed48d4d69f77e5f0280ff00c7479f",
+  "mammoth900_input_sha256": "e2ac13c827a125714fabf27c8f1dcef9bce35135438bff57991ad596ce8853c8",
+  "seed": 3407,
+  "ecd_structural_rejects": {},
+  "mammoth_structural_rejects": {},
+  "mammoth_selection_quota": {
+    "unused": 369,
+    "dpo_pairs": 100,
+    "dpo_pool": 131
+  },
+  "ecd_count": 600,
+  "ecd_train": 500,
+  "ecd_heldout": 100,
+  "mammoth_count": 600,
+  "mammoth_train": 500,
+  "mammoth_heldout": 100,
+  "mammoth_source_counts": {
+    "geo170k(qa)": 373,
+    "clevr_700k_new.json": 227
+  },
+  "mammoth_used_in_counts": {
+    "unused": 369,
+    "dpo_pool": 131,
+    "dpo_pool+dpo_pairs": 100
+  },
+  "mammoth_answer_types": {
+    "mc": 373,
+    "open": 227
+  },
+  "mixed_train": 500,
+  "mixed_heldout": 100,
+  "mixed_train_sources": {
+    "ecd": 250,
+    "mammoth": 250
+  },
+  "mixed_heldout_sources": {
+    "ecd": 50,
+    "mammoth": 50
+  },
+  "ecd_manifest_sha256": "f189d58b8b0e6019387b4dd0ae61b5c6930e74a646f99b36ec9c5b8c2a70f1f8",
+  "mammoth_manifest_sha256": "e16eaf132aff50a1e3faa6d60ebd52f67e4078a58f650303b1dc7c1dd4d69676",
+  "mixed_manifest_sha256": "96e5722d71d99a6504c13767a86d087ca4c8345901783205bdb0e4e315aaf152",
+  "visual_gold_quality_verified": false
+}
