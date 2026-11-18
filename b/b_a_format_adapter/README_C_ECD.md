@@ -15,8 +15,10 @@ Example row, with `--image-root /data/chaewon/mmdl_grpo_data/ecd_10k`:
 
 The PNG must then exist at
 `/data/chaewon/mmdl_grpo_data/ecd_10k/images/012345.png`. A's SFT1 list has
-the same `images/<chart>.png` convention. The adapter rejects reused SFT1 IDs
-and ECD chart images, a second question for any selected chart, missing images,
+the same `images/<chart>.png` convention. The adapter records reused SFT1 IDs
+and ECD chart images in each row's flags and the conversion report. It rejects
+a second question for any selected chart, missing images, explicitly unapproved
+metadata-only selections,
 absolute or parent-relative paths, and final answers longer than 40 characters.
 If any row fails, it writes only a rejection report and exits; no partial
 training file is produced.

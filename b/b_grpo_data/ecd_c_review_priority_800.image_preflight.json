@@ -1,0 +1,92 @@
+{
+  "status": "image_preflight_only_not_approved_for_training",
+  "input_count": 800,
+  "valid_image_count": 800,
+  "invalid_image_count": 0,
+  "invalid": [],
+  "image_sizes_top10": [
+    [
+      "900x540",
+      95
+    ],
+    [
+      "885x526",
+      18
+    ],
+    [
+      "1620x540",
+      16
+    ],
+    [
+      "900x630",
+      15
+    ],
+    [
+      "1080x540",
+      14
+    ],
+    [
+      "720x540",
+      13
+    ],
+    [
+      "1080x900",
+      13
+    ],
+    [
+      "900x720",
+      12
+    ],
+    [
+      "1080x1440",
+      12
+    ],
+    [
+      "886x526",
+      12
+    ]
+  ],
+  "sampled_ids": [
+    "ecd_003244_229946",
+    "ecd_008091_291406",
+    "ecd_008261_293676",
+    "ecd_007713_286438",
+    "ecd_004872_250710",
+    "ecd_010192_317577",
+    "ecd_000082_189951",
+    "ecd_002001_214075",
+    "ecd_002179_216339",
+    "ecd_007586_284790",
+    "ecd_003336_231107",
+    "ecd_005425_257968",
+    "ecd_008551_297470",
+    "ecd_009413_308305",
+    "ecd_007340_281672",
+    "ecd_002834_224717",
+    "ecd_007621_285223",
+    "ecd_008162_292378",
+    "ecd_009747_312649",
+    "ecd_008759_300096",
+    "ecd_000582_196328",
+    "ecd_008228_293237",
+    "ecd_008150_292227",
+    "ecd_003147_228700",
+    "ecd_008581_297828",
+    "ecd_006665_272775",
+    "ecd_000355_193483",
+    "ecd_004266_242824",
+    "ecd_007417_282618",
+    "ecd_000040_189412",
+    "ecd_001973_213739"
+  ],
+  "contact_sheets": [
+    "/data/chaewon/mmdl_grpo_data/ecd_10k/b_selection_20261118/priority_visual/contact_01.jpg",
+    "/data/chaewon/mmdl_grpo_data/ecd_10k/b_selection_20261118/priority_visual/contact_02.jpg",
+    "/data/chaewon/mmdl_grpo_data/ecd_10k/b_selection_20261118/priority_visual/contact_03.jpg",
+    "/data/chaewon/mmdl_grpo_data/ecd_10k/b_selection_20261118/priority_visual/contact_04.jpg",
+    "/data/chaewon/mmdl_grpo_data/ecd_10k/b_selection_20261118/priority_visual/contact_05.jpg",
+    "/data/chaewon/mmdl_grpo_data/ecd_10k/b_selection_20261118/priority_visual/contact_06.jpg",
+    "/data/chaewon/mmdl_grpo_data/ecd_10k/b_selection_20261118/priority_visual/contact_07.jpg",
+    "/data/chaewon/mmdl_grpo_data/ecd_10k/b_selection_20261118/priority_visual/contact_08.jpg"
+  ]
+}

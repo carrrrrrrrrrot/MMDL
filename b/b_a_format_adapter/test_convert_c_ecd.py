@@ -114,10 +114,15 @@ def main() -> None:
 
         fixture_sft = root / "sft_fixture.jsonl"
         write_jsonl(fixture_sft, [{"id": "sft_used", "dataset": "ecd", "image": f"images/{image.name}"}])
-        _, blocked, _ = build(selection, fixture_sft, image_root, a_path)
-        assert [entry["reason"] for entry in blocked] == ["sft1_ecd_chart_overlap"]
+        reused, blocked, _ = build(selection, fixture_sft, image_root, a_path)
+        assert not blocked and reused[0]["flags"]["used_in_sft1_chart"]
+        assert not reused[0]["flags"]["used_in_sft1_id"]
+        same_id = root / "same_sft_id.jsonl"
+        write_jsonl(same_id, [dict(item, id="sft_used")])
+        reused, blocked, _ = build(same_id, fixture_sft, image_root, a_path)
+        assert not blocked and reused[0]["flags"]["used_in_sft1_id"]
         cases = [
-            ([dict(item, id="sft_used")], "sft1_id_overlap"),
+            ([dict(item, selection_status="metadata_only_requires_image_gold_and_leakage_review")], "selection_not_approved"),
             ([item, dict(item, id="second")], "duplicate_chart"),
             ([dict(item, image_relative_path="../escape.png")], "image_path_traversal"),
             ([dict(item, image_relative_path="missing.png")], "missing_image"),
@@ -128,10 +133,10 @@ def main() -> None:
         for index, (rows, expected) in enumerate(cases):
             candidate = root / f"invalid_{index}.jsonl"
             write_jsonl(candidate, rows)
-            _, errors, _ = build(candidate, fixture_sft if expected == "sft1_id_overlap" else empty_sft, image_root, a_path)
+            _, errors, _ = build(candidate, empty_sft, image_root, a_path)
             assert expected in [error["reason"] for error in errors], (expected, errors)
 
-    print("PASS: A ECD prompt parity, C approval, B adapter/loader, and five rejection cases")
+    print("PASS: A ECD prompt parity, C approval, SFT1 usage flags, and five rejection cases")
 
 
 if __name__ == "__main__":

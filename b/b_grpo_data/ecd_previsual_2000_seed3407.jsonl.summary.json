@@ -1,0 +1,31 @@
+{
+  "status": "metadata_only_not_approved_for_training",
+  "input": "D:\\OneDrive\\문서\\ChatGPT\\MMDL\\a_latest_audit_clone\\team_share\\ecd_candidates_for_c.jsonl",
+  "input_sha256": "7065fc36cf148741c85ecf06be7a61948081c9dc422ef11b1103262847451e5c",
+  "output": "D:\\OneDrive\\문서\\ChatGPT\\MMDL\\b_publish_clone\\b\\b_grpo_data\\ecd_previsual_2000_seed3407.jsonl",
+  "output_sha256": "85bf601f21e87626b423fccd26bbac97c0b767bf580df65880defb7b4bcc6234",
+  "selector_sha256": "f61f323bf3098e4181ad895fb2b2eca25f5910dd47db1f3fedd7998123532a02",
+  "seed": 3407,
+  "limit": 2000,
+  "input_rows": 62604,
+  "eligible_rows": 17774,
+  "selected_rows": 2000,
+  "rejects": {
+    "gold_not_strictly_scorable": 39848,
+    "source_excluded_reason": 4982
+  },
+  "unique_eligible_charts": 4474,
+  "duplicate_questions_skipped": 1,
+  "selected_numeric": 2000,
+  "selected_single_word": 0,
+  "selected_used_in_sft1": 1022,
+  "selected_in_dpo_pool": 118,
+  "selected_reasoning_cue": 2000,
+  "required_next_checks": [
+    "image_exists_and_readable",
+    "gold_matches_image",
+    "v1_2_reward_parity",
+    "MMMU_and_MMMU_Pro_leakage",
+    "C_approval"
+  ]
+}

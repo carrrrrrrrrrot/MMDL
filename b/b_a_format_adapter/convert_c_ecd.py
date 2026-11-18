@@ -1,7 +1,7 @@
 """Convert C-approved ECD JSONL to A-style v1.2 records for B's adapter.
 
 The original C JSONL remains the --approved-ids input to convert_approved.py.
-This bridge validates one question per chart and excludes A's SFT1 charts.
+This bridge validates one question per chart and records A's SFT1 usage.
 """
 
 from __future__ import annotations
@@ -81,7 +81,7 @@ def _image(image_root: Path, relative: str) -> tuple[Path, str]:
     return resolved, resolved.stem.casefold()
 
 
-def sft1_exclusions(path: Path) -> tuple[set[str], set[str]]:
+def sft1_usage(path: Path) -> tuple[set[str], set[str]]:
     ids: set[str] = set()
     charts: set[str] = set()
     with path.open(encoding="utf-8-sig") as stream:
@@ -107,7 +107,7 @@ def build(
     sft_list = sft_list.resolve(strict=True)
     image_root = image_root.resolve(strict=True)
     system, pre_prompt, open_prompt, dependency = a_prompts(a_converter)
-    sft_ids, sft_charts = sft1_exclusions(sft_list)
+    sft_ids, sft_charts = sft1_usage(sft_list)
     seen_ids: set[str] = set()
     seen_charts: set[str] = set()
     records: list[dict[str, Any]] = []
@@ -121,6 +121,8 @@ def build(
                 item = json.loads(line)
                 if not isinstance(item, dict):
                     raise ValueError("row_not_object")
+                if item.get("selection_status") == "metadata_only_requires_image_gold_and_leakage_review":
+                    raise ValueError("selection_not_approved")
                 raw_id = item.get("id", item.get("original_id"))
                 if not isinstance(raw_id, (str, int)) or not str(raw_id).strip():
                     raise ValueError("missing_id")
@@ -137,10 +139,6 @@ def build(
                 if item.get("split", "train") not in ("train", "heldout"):
                     raise ValueError("split_must_be_train_or_heldout")
                 resolved, chart = _image(image_root, relative)
-                if item_id in sft_ids:
-                    raise ValueError("sft1_id_overlap")
-                if chart in sft_charts:
-                    raise ValueError("sft1_ecd_chart_overlap")
                 if item_id in seen_ids:
                     raise ValueError("duplicate_id")
                 if chart in seen_charts:
@@ -165,7 +163,12 @@ def build(
                     ],
                     "images": [relative],
                     "status": "ok",
-                    "flags": {"split": "reasoning", "c_approved_grpo_gold_only": True},
+                    "flags": {
+                        "split": "reasoning",
+                        "c_approved_grpo_gold_only": True,
+                        "used_in_sft1_id": item_id in sft_ids,
+                        "used_in_sft1_chart": chart in sft_charts,
+                    },
                 })
             except (ValueError, json.JSONDecodeError) as exc:
                 rejects.append({
@@ -202,6 +205,10 @@ def main() -> None:
         "accepted_count": len(records),
         "rejected_count": len(rejects),
         "rejected_by_reason": dict(Counter(row["reason"] for row in rejects)),
+        "sft1_usage": {
+            "matching_ids": sum(row["flags"]["used_in_sft1_id"] for row in records),
+            "matching_charts": sum(row["flags"]["used_in_sft1_chart"] for row in records),
+        },
         "rejections": rejects,
         "output": str(args.output.resolve()),
     }

@@ -1,0 +1,49 @@
+{
+  "status": "metadata_only_not_approved_for_training",
+  "input": "D:\\OneDrive\\문서\\ChatGPT\\MMDL\\a_latest_audit_clone\\team_share\\ecd_candidates_for_c.jsonl",
+  "input_sha256": "7065fc36cf148741c85ecf06be7a61948081c9dc422ef11b1103262847451e5c",
+  "output": "D:\\OneDrive\\문서\\ChatGPT\\MMDL\\b_publish_clone\\b\\b_grpo_data\\ecd_c_review_priority_800_seed3407.jsonl",
+  "output_sha256": "e05ae72d0e30bf79708cccd51b66b3a2be1ed48d4d69f77e5f0280ff00c7479f",
+  "selector_sha256": "ff2744ccbea7136ba283f5870c1d3582a0874d9391b57b232cd1c5f25d72fa33",
+  "mode": "priority_review",
+  "excluded_ids_file": "D:\\OneDrive\\문서\\ChatGPT\\MMDL\\b_publish_clone\\b\\b_grpo_data\\ecd_visual_rejects_20261118.jsonl",
+  "excluded_ids_sha256": "d8c9293f812316dce8f612660ed05fdc8ec1fdefe082500414fea3539d74a73f",
+  "source_note": "A's source JSONL has no source column; ECD is the declared input dataset, not a per-item source field.",
+  "seed": 3407,
+  "limit": 800,
+  "input_rows": 62604,
+  "eligible_rows": 8888,
+  "selected_rows": 800,
+  "rejects": {
+    "gold_not_strictly_scorable": 39848,
+    "priority_gold_not_bare_number": 7306,
+    "source_excluded_reason": 4982,
+    "priority_approximation_question": 623,
+    "priority_dpo_pool": 479,
+    "priority_sft1_exact_question": 476,
+    "known_visual_gold_mismatch": 2
+  },
+  "unique_eligible_charts": 3048,
+  "duplicate_questions_skipped": 0,
+  "selected_numeric": 800,
+  "selected_single_word": 0,
+  "selected_used_in_sft1": 421,
+  "selected_used_in_sft1_this_question": 0,
+  "selected_in_dpo_pool": 0,
+  "selected_reasoning_cue": 800,
+  "selected_risk_flags": {
+    "gold_percent": 0,
+    "gold_currency": 0,
+    "gold_decimal_three_plus": 0,
+    "gold_thousands_separator": 0,
+    "question_asks_approximation": 0
+  },
+  "selected_source_field_present": 0,
+  "required_next_checks": [
+    "image_exists_and_readable",
+    "gold_matches_image",
+    "v1_2_reward_parity",
+    "MMMU_and_MMMU_Pro_leakage",
+    "C_approval"
+  ]
+}

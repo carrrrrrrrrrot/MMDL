@@ -1,4 +1,4 @@
-"""Single-GPU Qwen3-VL GRPO from either fixed base or verified merged SFT parent."""
+"""Single-GPU Qwen3-VL group-based RL with an explicit training loss."""
 
 from __future__ import annotations
 
@@ -35,6 +35,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--expected-sft-adapter-sha256", help="A's transferred adapter_model.safetensors SHA256")
     parser.add_argument("--output-dir", required=True, type=Path, help="Must not already exist")
     parser.add_argument("--max-steps", required=True, type=int)
+    parser.add_argument("--loss-type", choices=("dapo", "grpo", "sapo"), default="dapo",
+                        help="TRL GRPOTrainer loss; dapo preserves earlier run behavior")
+    parser.add_argument("--num-iterations", default=1, type=int,
+                        help="Optimizer passes per generated batch; use >=2 to compare grpo with sapo")
     parser.add_argument("--learning-rate", default=1e-5, type=float)
     parser.add_argument("--max-completion-length", default=256, type=int)
     parser.add_argument("--num-generations", default=4, type=int, choices=(4, 8),
@@ -212,6 +216,10 @@ def run_training(args: argparse.Namespace, rows: list[dict], policy: RewardPolic
         output_dir=str(args.output_dir / "trainer"),
         seed=args.seed, data_seed=args.seed,
         max_steps=args.max_steps,
+        loss_type=args.loss_type,
+        num_iterations=args.num_iterations,
+        sapo_temperature_pos=1.0,
+        sapo_temperature_neg=1.05,
         per_device_train_batch_size=1,
         gradient_accumulation_steps=args.num_generations,
         num_generations=args.num_generations,
@@ -296,6 +304,8 @@ def main() -> None:
     args = parse_args()
     if args.max_steps < 1 or args.max_completion_length < 16 or args.save_steps < 1:
         raise ValueError("max-steps/save-steps must be positive and completion length >=16")
+    if args.num_iterations < 1:
+        raise ValueError("num-iterations must be positive")
     if not math.isfinite(args.learning_rate) or args.learning_rate <= 0:
         raise ValueError("learning-rate must be finite and positive")
     rows, dataset_info = load_manifest(args.dataset_manifest, args.train_split)
@@ -330,6 +340,10 @@ def main() -> None:
         ],
         "seed": args.seed,
         "max_steps": args.max_steps,
+        "loss_type": args.loss_type,
+        "num_iterations": args.num_iterations,
+        "sapo_temperature_pos": 1.0,
+        "sapo_temperature_neg": 1.05,
         "learning_rate": args.learning_rate,
         "max_completion_length": args.max_completion_length,
         "num_generations": args.num_generations,
