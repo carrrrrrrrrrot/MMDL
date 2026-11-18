@@ -1,63 +1,78 @@
-# MMDL — Qwen3-VL-4B-Instruct × MMMU-val 평가 파이프라인
+# SFT1 학습 데이터 누수 검사 최종 결과
 
-평가 파이프라인의 전체 명세(처음 상태와의 비교, 프롬프트 전문, 생성·채점 설정과 근거, 검증 내역, 한계)는
-**[`docs/eval_pipeline.md`](docs/eval_pipeline.md)**에 있습니다. 이 README는 재현 방법만 다룹니다.
+작성일: 2026-11-18 · 담당: C · 상태: 최종 결과 공유
 
-- 평가 기준: task `mmmu_val_mmdl`, `metadata.version: 1.2`
-- 최종 결과: **61.70 ± 0.17** (MMMU val 900문항, 3 seed, 엄격 채점) → [`results/runs/M4_final/summary.md`](results/runs/M4_final/summary.md)
+**최종 결론: 검사 범위에서 MMMU·MMMU-Pro 평가 데이터 누수가 미탐지되었다.**
 
-## 1. 환경
+실제 SFT1 학습에 사용한 12,278문항을 대상으로 질문 문자열·이미지 해시 대조와 후보 원본 검수를 수행했다. 이어서 MMMU-Pro Vision 이미지 속 질문 OCR과 질문 의미 유사도 검색으로 추가 후보를 생성했다. C는 A에게 추가 학습 원본 이미지를 받아 원본 대조를 완료했으며, 누수가 탐지되지 않았다고 최종 보고했다. 이 최종본은 해당 검수 결과를 반영한다.
 
-```bash
-conda create -n vllm011 python=3.10 -y
-conda activate vllm011
-pip install -r requirements.txt               # vllm 0.11.0, torch 2.8.0 (CUDA 12.8), transformers 4.57.1 등
-pip install --no-deps -e code/lmms-eval       # 이 repo에 포함된 lmms-eval 0.7.3 (수정 없음)
-```
+## 1. 검사 대상
 
-- 확인한 환경: RTX 4090 24GB 1장, NVIDIA 드라이버 550.78
-- 900문항 × seed 1개에 약 2시간, peak VRAM 약 23GB
+| 항목 | 범위 |
+| --- | --- |
+| 실제 학습 문항 목록 | c_list_sft1.jsonl |
+| 학습 문항 수 | 12,278문항: MAmmoTH 7,278 + ECD 5,000 |
+| 학습 이미지 해시 연결 | 12,278 / 12,278문항 |
+| 평가 기준 | MMMU 11,550행 + MMMU-Pro 5,190행 = 16,740행 |
+| 평가 이미지 해시 연결 | 16,740 / 16,740행 |
 
-## 2. 모델·데이터 (revision 고정)
+평가 기준 행 수에는 MMMU-Pro의 구성별 레코드가 포함된다. 같은 문제의 다른 구성을 서로 다른 기준 행으로 계산하므로, 16,740행을 모두 독립적인 고유 문제라고 해석하지 않는다.
 
-```bash
-huggingface-cli download Qwen/Qwen3-VL-4B-Instruct --revision ebb281ec70b05090aa6165b016eac8ec08e71b17 --local-dir <MODEL_DIR>
-huggingface-cli download MMMU/MMMU --repo-type dataset --revision 98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68 --local-dir <DATA_ROOT>
-```
+## 2. 검사 방법과 결과
 
-- `<DATA_ROOT>/<과목>/validation-*.parquet`이 30개 있어야 합니다. 스크립트가 개수를 확인합니다.
-- 모델은 revision을 고정하기 위해 **로컬 snapshot 경로**로 넘깁니다.
+| 단계 | 방법·범위 | 결과 |
+| --- | --- | --- |
+| 질문 문자열 | 질문 정규화 정확 일치, 추출 가능한 선택지 보조 비교 | 후보 생성 후 원본 대조 |
+| 이미지 정확 일치 | 파일 SHA256·픽셀 SHA256 | 정확 일치 후보 0건 |
+| 이미지 근접 일치 | 64비트 dHash 거리 ≤ 4 | 382쌍 후보 생성 |
+| 기존 후보 원본 검수 | 질문 정확 일치 6쌍 및 이미지 근접 일치 382쌍, 합계 388쌍 | 기존 검수 결과 누수 미탐지 |
+| 질문 의미 유사도 | all-MiniLM-L6-v2, 원문 질문이 있는 평가 기준 14,976행에서 학습 질문 top-5 검색 | 검수 후보 생성 |
+| 이미지 속 질문 | MMMU-Pro Vision 1,730행 OCR 실행 | 자동 OCR 품질 미흡 4건은 원본 질문 본문 수동 전사로 보완 |
+| OCR 질문 의미 유사도 | OCR·수동 전사 질문에서 학습 질문 top-5 검색 | 검수 후보 생성 |
+| OCR 연속 문구 일치 | 5토큰 이상 학습 질문 전체가 정규화 OCR 텍스트에 연속 포함되는지 검사 | 후보 0건 |
+| 추가 우선 후보 원본 대조 | 원문 cosine ≥ 0.70 또는 OCR cosine ≥ 0.60: 329쌍, 고유 학습 문항 191개 | C가 A 제공 원본으로 대조 완료, 누수 미탐지 보고 |
 
-## 3. 평가 실행 (한 커맨드)
+기존 388쌍과 추가 329쌍은 서로 다른 검색 단계의 후보 수이다. 두 목록 간 교집합을 제거한 고유 쌍 수를 산출하지 않았으므로, 합계를 고유 검수 쌍 수로 보고하지 않는다.
 
-```bash
-PYTHON=$(which python) bash scripts/run_mmmu_eval.sh \
-    --model_path <MODEL_DIR> \
-    --data_root  <DATA_ROOT> \
-    --seeds "3407 1 2" \
-    --run_name <이름>
-```
+전체 의미 유사도 검색 출력은 83,530쌍이다: 원문 14,976행 × 5 = 74,880쌍, Vision 1,730행 × 5 = 8,650쌍. 이 출력 전체를 수동 대조했다는 의미는 아니다. 추가 우선 검수 대상으로 추린 329쌍은 임계값 기반 작업 목록이다.
 
-- 결과는 `results/runs/<이름>/seed_<seed>/`에 저장됩니다: lmms-eval 결과, 사용한 task 사본, `run_meta.txt`, `pip_freeze.txt`
-- 진행 상황: `bash scripts/watch_progress.sh <이름>`
-- **fine-tune 후 재평가:** `--model_path`만 바꿉니다. task 파일과 스크립트는 수정하지 않습니다.
+## 3. OCR 보완 내역
 
-## 4. 결과표
+| 문항 ID | 자동 OCR 문제 | 보완 |
+| --- | --- | --- |
+| test_Biology_146 | 질문 누락, 도형 표식 일부만 인식 | 원본에서 질문 본문 직접 전사 |
+| test_Chemistry_147 | 질문·화학식 누락, 선택지 일부만 인식 | 원본에서 질문 본문 직접 전사 |
+| test_Computer_Science_276 | 배경 무늬를 문자로 오인식 | 원본에서 질문 본문 직접 전사 |
+| test_Music_70 | 배경 오인식, 질문 일부만 인식 | 원본에서 질문 본문 직접 전사 |
 
-```bash
-python scripts/summarize_results.py results/runs/<이름> --out results/runs/<이름>/summary.md
-```
+보완 후 1,730행 모두 검색 입력 텍스트를 갖는다. 이는 자동 OCR의 정확도가 100%라는 의미가 아니다. 수동 전사는 질문 본문을 보완한 것이며, 도형·화학식 구조·회로·악보·선택지 전체의 자동 전사 결과와 구분한다.
 
-- 출력 내용: 과목별 정확도(seed별, 평균 ± 표준편차), 종합 점수(= 30과목 macro 평균 = 정답 수 / 900), 보조 지표(무응답 수, 공식 관례 점수)
-- run 당시 lmms-eval이 기록한 점수와 일치하는지 assert로 먼저 확인한 뒤, 현재 채점 기준(v1.2)으로 계산합니다.
+## 4. 원본 대조 결과 반영 기준
 
-## 5. 구성
+추가 검수 결과의 판정 주체는 C이다. C가 A에게 받은 학습 원본 이미지로 대조하고 누수 미탐지를 최종 보고했으며, 본 문서는 이 결과를 그대로 반영했다. 본 최종본을 작성하기 위한 별도의 누락 재검사나 원본 재판정은 수행하지 않았다. 개별 후보의 세부 판정 근거를 새로 만들거나 추정해 기록하지 않았다.
 
-| 경로 | 내용 |
-|---|---|
-| `eval_tasks/mmmu_mmdl/` | 평가 기준: task yaml(프롬프트 문구, 생성 설정)과 `mmdl_utils.py`(메시지 구성, 채점 전처리) |
-| `scripts/` | 실행(`run_mmmu_eval.sh`), 결과표, 모니터, HF·vLLM 입력 동일성 검증(`parity/`), 진단(`diagnosis/`), LLM judge 보조 분석(`judge/`) |
-| `code/lmms-eval/` | lmms-eval 0.7.3 원본 |
-| `results/` | 최종 결과(`runs/M4_final`), 보조·진단·pilot run, 처음 상태 baseline, 검증 자료 |
-| `docs/eval_pipeline.md` | 파이프라인 명세 |
-| `reports/mmmu_baseline.md` | 과제 제출 보고서 |
+예시로 질문 문자열이 같은 `What is this?` 후보는 평가 원본이 신경 시냅스 도식이고 학습 원본이 바이올린 사진인 것으로 직접 확인했다. 일반적 질문 표현이나 동일 개념만으로 평가 문항 누수로 판정하지 않았다.
+
+## 5. 결론의 적용 범위
+
+이번 결과는 지정된 SFT1 12,278문항과 확보한 평가 기준에 대한 감사 결과이다. 원문 질문이 없는 기준 행은 원문 질문 의미 검색에서 제외되었고, 별도의 이미지 해시 검사와 Vision OCR 경로가 적용되었다. 모든 학습 이미지 및 모든 평가 구성 이미지에 OCR을 수행한 것은 아니다. top-5 임베딩 검색과 우선 후보 임계값 아래의 미검출 변형까지 전수 부재를 증명한 결과로 확대하지 않는다.
+
+Qwen3-VL 원본 모델의 사전학습 오염, 이후 별도 SFT·DPO·GRPO 데이터의 누수 여부는 이 결과의 대상이 아니다. 이후 학습 데이터 구성이 바뀌면 해당 목록에 대한 검사는 별도로 관리한다.
+
+따라서 발표·보고서에는 다음 문장을 사용한다.
+
+> 실제 SFT1 학습 문항 12,278개와 MMMU·MMMU-Pro 기준 16,740행을 대상으로 문자열·이미지 해시 대조, OCR 및 질문 의미 유사도 검색과 후보 원본 검수를 수행했으며, 검사 범위에서 평가 데이터 누수가 미탐지되었다.
+
+## 6. 팀원 공유 문구
+
+SFT1 누수 검사 최종 결과 공유합니다. 실제 학습 12,278문항에 대해 MMMU·MMMU-Pro 기준 16,740행과 문자열·이미지 해시를 대조했고, OCR·질문 의미 유사도 검사를 추가했습니다. OCR 품질 미흡 4건은 원본 질문 본문 전사로 보완했으며, 추가 후보는 A에게 받은 학습 원본으로 C가 대조했습니다. 최종 결과는 검사 범위에서 누수 미탐지입니다. 보고서와 발표에는 ‘누수 절대 없음’ 대신 ‘검사 범위에서 누수 미탐지’로 기재해 주세요. 본 결과의 대상은 SFT1 데이터이며 다른 학습 데이터 승인을 대신하지 않습니다.
+
+## 7. 포함 파일
+
+- README.md: 최종 검사 보고서와 팀원 공유 문구.
+- final_summary.json: 최종 결론·범위·검수 결과 출처.
+- evidence/coverage_followup.json: 기존 실행 산출 보고서. 자동 OCR 품질 판정이나 최종 검수 판정서가 아니다.
+- evidence/manual_question_transcriptions.json: 4건 질문 본문 수동 전사 기록.
+- SHA256SUMS.txt: 패키지 파일 무결성 확인용.
+
+본 최종본은 결과 보고용이다. 기존 후보 생성·원본 검수 자료는 기존 산출물과 함께 보존한다. 과거 pending 후보 CSV를 새로운 개별 판정표로 재작성하지 않았다.

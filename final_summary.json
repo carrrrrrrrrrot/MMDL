@@ -1,0 +1,15 @@
+{
+  "status": "final",
+  "conclusion_ko": "검사 범위에서 MMMU·MMMU-Pro 평가 데이터 누수 미탐지",
+  "training_manifest": "c_list_sft1.jsonl",
+  "training_rows": 12278,
+  "benchmark_reference_rows": 16740,
+  "prior_review_candidate_pairs": 388,
+  "additional_priority_candidate_pairs": 329,
+  "additional_unique_training_records": 191,
+  "additional_review_outcome": "no_leakage_detected",
+  "additional_review_source": "C reported completion of original comparison using images received from A",
+  "additional_review_independently_rechecked_for_final_document": false,
+  "question_stem_manual_transcriptions": 4,
+  "claim_scope": "specified SFT1 dataset and described audit methods; not proof of universal absence or a base-pretraining audit"
+}
