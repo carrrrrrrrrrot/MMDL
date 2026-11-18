@@ -1,0 +1,25 @@
+{
+  "status": "b_exploratory_only_unverified_gold_no_c_training_approval",
+  "pool_count": 800,
+  "excluded_count": 203,
+  "excluded_reasons": {
+    "question_average_mean_median": 199,
+    "visual_wrong_gold_highlight_boundary": 1,
+    "visual_wrong_gold_region_e_max": 1,
+    "visual_wrong_gold_matrix_sum_465_vs_500": 1,
+    "visual_gold_unresolved_cumulative_area_values": 1
+  },
+  "train": 500,
+  "heldout": 97,
+  "manifest_sha256": "c05d5962a4b028236c726c72246eb9e8378d2ee0d96c9db3d0912f108625f1ed",
+  "priority800_sha256": "e05ae72d0e30bf79708cccd51b66b3a2be1ed48d4d69f77e5f0280ff00c7479f",
+  "ecd_archive_sha256": "8ae3d9fb5b8345a17f4df420d50b662d5102cc54d46539870b0becad92c09cc1",
+  "c_item_status_sha256": "008d9e3a2bba1ed58d9bd9693d0af6b589a390634a0d35b42fd7406e27189016",
+  "c_provenance_sha256": "b9e0d6a15cdfd8623e24f806c63d3b924224fe7fc319200f6117a62c45f206a6",
+  "old_manifest_sha256": "f189d58b8b0e6019387b4dd0ae61b5c6930e74a646f99b36ec9c5b8c2a70f1f8",
+  "added_vs_old": 153,
+  "removed_vs_old": 156,
+  "old_overlap": 444,
+  "visual_audit": "Hash-fixed 30 non-average sample: 1 confirmed wrong gold, 1 ambiguous; both charts excluded. The other 28 are spot-checked, not a full audit.",
+  "gold_quality_claim": "Not gold-verified as a complete set; use only for exploratory signal checks with known label-noise risk."
+}
