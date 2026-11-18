@@ -1,8 +1,8 @@
-"""Compare a candidate MMMU v1.2 run with M4_final by question ID and seed.
+"""Compare two saved MMMU v1.2 runs by question ID and seed.
 
 Run this with the evaluation environment in which the repository's bundled
 ``lmms_eval`` is installed. The repository's own v1.2 ``is_correct`` function
-scores both saved runs, including the older M4_final responses.
+scores both saved runs, including older responses when supplied.
 """
 
 from __future__ import annotations
@@ -198,7 +198,7 @@ def compare_seed(
     candidate_finish_available = sum(row["candidate_finish_reason"] is not None for row in output)
     stats = {
         "items_compared": count,
-        "full_900_coverage": count == expected_items,
+        "full_900_coverage": count == 900,
         "baseline_correct": n("baseline_correct"),
         "candidate_correct": n("candidate_correct"),
         "correct_difference": flips_up - flips_down,
@@ -277,7 +277,7 @@ def main() -> None:
         "candidate_run": str(args.candidate_run.resolve()),
         "per_seed": per_seed,
         "note": (
-            "M4_final is post-hoc rescored with v1.2. Agreement is paired by the SAME "
+            "Both saved runs are scored with v1.2. Agreement is paired by the SAME "
             "seed and question ID. Missing finish_reason "
             "metadata means truncation cannot be determined from this JSONL. "
             "Partial runs are diagnostic only; no full-score inference."

@@ -1,0 +1,59 @@
+{
+  "scoring": "repo scripts/summarize_results.py:is_correct(normalize=True), v1.2",
+  "baseline_run": "/data/chaewon/mmdl_eval_runs/ecd104_grpo_n2_s64_20261118_smoke",
+  "candidate_run": "/data/chaewon/mmdl_eval_runs/ecd104_sapo_n2_s64_20261118_smoke",
+  "per_seed": {
+    "3407": {
+      "items_compared": 20,
+      "full_900_coverage": false,
+      "baseline_correct": 15,
+      "candidate_correct": 14,
+      "correct_difference": -1,
+      "score_difference_pp": -5.0,
+      "binary_correctness_agreement": 17,
+      "binary_correctness_agreement_pct": 85.0,
+      "exact_parsed_answer_agreement": 15,
+      "exact_parsed_answer_agreement_pct": 75.0,
+      "input_exact_agreement": 20,
+      "doc_hash_agreement": 20,
+      "wrong_to_right": 1,
+      "right_to_wrong": 2,
+      "baseline_missing_final_answer": 2,
+      "candidate_missing_final_answer": 4,
+      "both_missing_final_answer": 1,
+      "baseline_only_missing_final_answer": 1,
+      "candidate_only_missing_final_answer": 3,
+      "baseline_empty_raw": 0,
+      "candidate_empty_raw": 0,
+      "baseline_explicit_length_stop": null,
+      "candidate_explicit_length_stop": null,
+      "baseline_finish_reason_available": 0,
+      "candidate_finish_reason_available": 0,
+      "baseline_run_meta": {
+        "repo_commit": "61025850563d0331e365bc974a63c0d3c4ed4c2c",
+        "repo_dirty_files": "0",
+        "gpu": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 97887 MiB, 580.178.04",
+        "model_path": "/data/chaewon/mmdl_merged_models/ecd104_grpo_n2_s64_20261118",
+        "data_root": "/home/chaewon/.cache/huggingface/hub/datasets--MMMU--MMMU/snapshots/98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+        "backend": "vllm",
+        "subjects": "all",
+        "limit": "20",
+        "gen_override": "none",
+        "exit_status": "0"
+      },
+      "candidate_run_meta": {
+        "repo_commit": "61025850563d0331e365bc974a63c0d3c4ed4c2c",
+        "repo_dirty_files": "0",
+        "gpu": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 97887 MiB, 580.178.04",
+        "model_path": "/data/chaewon/mmdl_merged_models/ecd104_sapo_n2_s64_20261118",
+        "data_root": "/home/chaewon/.cache/huggingface/hub/datasets--MMMU--MMMU/snapshots/98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+        "backend": "vllm",
+        "subjects": "all",
+        "limit": "20",
+        "gen_override": "none",
+        "exit_status": "0"
+      }
+    }
+  },
+  "note": "Both saved runs are scored with v1.2. Agreement is paired by the SAME seed and question ID. Missing finish_reason metadata means truncation cannot be determined from this JSONL. Partial runs are diagnostic only; no full-score inference."
+}

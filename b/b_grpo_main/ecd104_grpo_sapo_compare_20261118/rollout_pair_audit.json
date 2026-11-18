@@ -1,0 +1,34 @@
+{
+  "status": "audit_of_logged_training_rollouts_not_benchmark_evaluation",
+  "num_iterations": 2,
+  "grpo": {
+    "logged_rows": 256,
+    "logged_optimizer_groups": 64,
+    "generated_groups": 32,
+    "generated_rows": 128,
+    "repeated_optimizer_step_pairs_identical": 32,
+    "mixed_reward_groups": 4,
+    "mean_reward": 0.5546875,
+    "reward_one_count": 71,
+    "missing_final_answer_count": 11,
+    "clipped_proxy_count": 11
+  },
+  "sapo": {
+    "logged_rows": 256,
+    "logged_optimizer_groups": 64,
+    "generated_groups": 32,
+    "generated_rows": 128,
+    "repeated_optimizer_step_pairs_identical": 32,
+    "mixed_reward_groups": 4,
+    "mean_reward": 0.5546875,
+    "reward_one_count": 71,
+    "missing_final_answer_count": 12,
+    "clipped_proxy_count": 12
+  },
+  "paired_generated_rows": 128,
+  "same_sample_and_candidate": 128,
+  "identical_raw_outputs": 26,
+  "identical_binary_rewards": 120,
+  "grpo_only_reward_one": 4,
+  "sapo_only_reward_one": 4
+}

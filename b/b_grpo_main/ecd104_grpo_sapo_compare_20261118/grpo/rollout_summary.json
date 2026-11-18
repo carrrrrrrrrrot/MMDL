@@ -1,0 +1,15 @@
+{
+  "rollouts": 256,
+  "groups": 64,
+  "num_generations": 4,
+  "groups_with_expected_candidates": true,
+  "groups_with_exactly_four": true,
+  "reward_mismatches": 0,
+  "finish_reason_available": false,
+  "exact_generated_token_count_available": false,
+  "retokenized_tokens_are_proxy": true,
+  "clipped_proxy_count": 22,
+  "reward_version": "b-grpo-v1.2-6102585",
+  "jsonl": "/data/chaewon/mmdl_grpo_runs/ecd104_grpo_sapo_compare_20261118/grpo/rollouts.jsonl",
+  "csv": "/data/chaewon/mmdl_grpo_runs/ecd104_grpo_sapo_compare_20261118/grpo/rollouts.csv"
+}
