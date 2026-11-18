@@ -44,6 +44,8 @@
 
 `mammoth_6524115`는 A의 3,000건 handoff부터 변수를 쓰는 질문과 숫자 선택지 13/15/11/9.5가 한 행에 있었다. `mammoth_2206464`도 handoff부터 `e,b`에 대한 식을 묻는데 숫자 보기 2/3/4/5가 붙어 있었다. `mammoth_7057338`, `mammoth_7368718`은 질문의 도형/기호가 실제 이미지와 맞지 않았다. B의 `convert_mammoth_handoff.py`는 handoff에 이미 들어 있는 질문·보기를 프롬프트로 감싸고 A~D 문자를 매핑할 뿐 의미를 바꾸지 않는다. A의 `convert_v12.py`도 지시문 제거·보기 분리·최종답 추출을 하며 변수나 도형명을 재작성하지 않는다. 따라서 **B의 GRPO 프롬프트 변환에서 생긴 오류는 아니다**. 원본 MAmmoTH `conversations`와 A handoff 생성 로직을 같은 ID로 대조하기 전에는 원본 배포 문제인지 A의 선별/추출 문제인지 확정할 수 없다. 현재 숫자 gold를 안전하게 복구하는 규칙은 없어서 Geo170K를 제외했다.
 
+추가로 A의 SFT1 사용 Geo170K 162건은 C의 `c_list_sft1.jsonl`에 원문 형태의 질문·보기 기록이 있다. 이 162건에서 A handoff의 질문과 보기는 C 목록에서 `Question:`·`Choices:`를 분리한 내용과 **162/162건 문자열 일치**했다. 이 검사로 A의 일반적인 질문 재작성 정황은 보이지 않지만, 문제가 된 위 4개 ID는 SFT1 목록 밖이므로 원본과의 직접 대조를 대신하지 않는다.
+
 ## 검증과 사용 경로
 
 - 로컬 manifest: `mammoth_clevr_manifest.jsonl`, SHA256 `b2edb0e30acbdca0a0d64800405790fb5926f92af3f73c5e47072f3ff570a33d`.
