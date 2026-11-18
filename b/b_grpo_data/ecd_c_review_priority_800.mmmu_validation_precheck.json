@@ -1,0 +1,29 @@
+{
+  "status": "preliminary_overlap_screen_only_not_leakage_clearance",
+  "ecd_candidates_sha256": "e05ae72d0e30bf79708cccd51b66b3a2be1ed48d4d69f77e5f0280ff00c7479f",
+  "ecd_candidates": 800,
+  "mmmu_split": "validation",
+  "mmmu_parquet_files": 30,
+  "mmmu_unique_questions": 900,
+  "mmmu_decoded_images": 982,
+  "mmmu_image_decode_errors": [],
+  "question_exact_pairs": [],
+  "question_punctuation_folded_pairs": [],
+  "dhash_distance_at_most_4_pairs": [
+    {
+      "ecd_id": "ecd_003242_229913",
+      "mmmu_id": "validation_Art_6",
+      "mmmu_image_index": 1,
+      "distance": 3,
+      "ecd_question": "In the subplot 'Physics: Fluctuations in Particle Energy Levels', how many high-energy intervals (greater than or equal to 90) are observed across all Energy States?",
+      "mmmu_question": "What is <image 1> known as?"
+    }
+  ],
+  "not_checked": [
+    "MMMU-Pro",
+    "MMMU dev/test",
+    "OCR text overlap",
+    "semantic question overlap",
+    "manual visual review of near-image pairs"
+  ]
+}
