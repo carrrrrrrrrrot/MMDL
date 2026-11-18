@@ -69,6 +69,9 @@ def main() -> None:
 
     no_answer_ids = {id(row) for row in no_answer}
     clipped_ids = {id(row) for row in clipped}
+    v12_missing_ids = {
+        id(row) for row in rows if row["reward_reason"] == "missing_final_answer"
+    }
     print(
         json.dumps(
             {
@@ -80,9 +83,12 @@ def main() -> None:
                 "step_max": max(by_step, default=None),
                 "rows_per_step": dict(collections.Counter(by_step.values())),
                 "reward_reason": dict(reasons),
+                "v12_missing_final_answer": reasons.get("missing_final_answer", 0),
                 "answer_marker_missing": len(no_answer),
+                "strict_line_start_answer_missing": len(no_answer),
                 "reencoded_at_512_tokens": len(clipped),
                 "missing_and_at_512": len(no_answer_ids & clipped_ids),
+                "v12_missing_and_at_512": len(v12_missing_ids & clipped_ids),
                 "unique_sample_ids": len({row["sample_id"] for row in rows}),
                 "unique_ids_with_missing_answer": len(
                     {row["sample_id"] for row in no_answer}

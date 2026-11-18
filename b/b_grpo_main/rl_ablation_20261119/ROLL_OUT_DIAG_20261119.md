@@ -31,3 +31,9 @@ PYTHONDONTWRITEBYTECODE=1 /data/chaewon/mmdl_envs/grpo_pilot/bin/python \
 
 The script reads completion parquet files and the local Qwen tokenizer, then
 prints JSON. Omitting `--through-step` takes a new snapshot of the ongoing run.
+
+The `answer_marker_missing`/`strict_line_start_answer_missing` count requires a
+line beginning with `Answer:`. The actual v1.2 `missing_final_answer` reward
+count can be lower: v1.2 also accepts endings such as `Final Answer: 1` by
+extracting the last `Answer:` substring. Use `v12_missing_final_answer` or the
+`reward_reason` counts for training-outcome reporting.
