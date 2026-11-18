@@ -30,7 +30,9 @@ The ECD 512/64 seed-1 result misses A's **564/900** gate for a 4090 official
 candidate. Across seeds 3407 and 1, it scores 1,120/1,800 versus the 6000
 base's 1,113/1,800, a gain of 7 items; this also falls short of A's proposed
 two-seed +9 gate (1,122/1,800). Its seed-3407 gain is not a stable improvement
-claim. The synthetic run used different data and a reward policy that was not
+claim. The [two-seed error analysis](base_ecd_512_two_seed_error_20261118/REPORT.md)
+separates recovered missing answers from losses on previously answered items.
+The synthetic run used different data and a reward policy that was not
 identical to v1.2;
 keep it separate from the C-approved ECD runs. The ECD pilot took about 132
 seconds end to end for 20 training steps, and its seed-3407 screen took 46
