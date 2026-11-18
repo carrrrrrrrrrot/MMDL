@@ -30,4 +30,8 @@ Through step 750, 546/548 missing-answer responses reached the 512-token cap; si
 
 The **completed** ECD GRPO run has 75/500 distinct four-rollout question groups with mixed 0/1 rewards; mean rollout reward is 0.2945. Its training loss was finite, LoRA L1 weight change was 2367.97, and the saved adapter reloaded successfully. Adapter SHA256: `0513533927091e00ea979ec3dc63d9cfcc97cefc89beb17cca847405ed673b8f`. Of 730 final-answer-missing completions, 726 reached the 512-token cap; six of 732 cap-length completions contained an `Answer:` marker. The run has **no MMMU score yet**, so no performance improvement is claimed.
 
+## CLEVR GRPO progress snapshot (not evaluation)
+
+At optimizer step 100, 50 unique questions yielded 400 responses: 270 correct rewards, 102 wrong answers and 28 missing final answers. All 28 missing answers reached the 512-token cap. Thirteen of the 50 distinct four-rollout question groups had mixed 0/1 rewards (26/100 repeated optimizer-step records); gradient norm was nonzero in 26/100 records and loss in 12/100. No non-finite loss or gradient was observed. This is a partial training-signal check, not an MMMU result.
+
 At step 250, 15/125 distinct four-rollout question groups had mixed 0/1 rewards; their two optimizer iterations give 30/250 step records with mixed rewards and nonzero gradient norm. Loss was nonzero in 15/250 records. No non-finite reward/loss/gradient/entropy values were observed in this checkpoint snapshot. These are training-signal checks, not evidence of an MMMU score gain.
