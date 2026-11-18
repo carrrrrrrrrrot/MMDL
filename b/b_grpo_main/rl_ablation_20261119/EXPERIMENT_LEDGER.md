@@ -52,6 +52,8 @@ The **completed** ECD DAPO run covered 500 unique training questions and 4,000 r
 
 At optimizer step 100, 50 unique questions yielded 400 responses across 100 readable completion parquet files: 126 correct rewards, 224 wrong answers, and 50 v1.2 `missing_final_answer` reward reasons. All 50 missing-answer responses reached the 512-token generation cap. This is an intermediate training diagnostic, not an MMMU score or a validated final adapter.
 
+At optimizer step 250, 125 unique questions yielded 1,000 responses across 250 readable completion parquet files: 324 correct rewards, 536 wrong answers, and 140 v1.2 `missing_final_answer` reward reasons. All 140 missing-answer responses reached the 512-token cap, and `runs/ecd_sapo/trainer/checkpoint-250` exists. On the same ECD v2 manifest at step 250, DAPO had 330 correct / 542 wrong / 128 missing and GRPO had 316 correct / 534 wrong / 150 missing. These small differences are stochastic **training rollout distributions**, not paired MMMU scores or evidence of a generalization gain.
+
 ## CLEVR GRPO progress snapshot (not evaluation)
 
 At optimizer step 100, 50 unique questions yielded 400 responses: 270 correct rewards, 102 wrong answers and 28 missing final answers. All 28 missing answers reached the 512-token cap. Thirteen of the 50 distinct four-rollout question groups had mixed 0/1 rewards (26/100 repeated optimizer-step records); gradient norm was nonzero in 26/100 records and loss in 12/100. No non-finite loss or gradient was observed. This is a partial training-signal check, not an MMMU result.
