@@ -51,3 +51,9 @@
 - `validation_report.json`: 600개 이미지 전부 파일 크기·SHA256·디코딩, ID·이미지·질문 고유성, 프롬프트 구조, split 수를 검사해 통과했다. 이는 시각적 정답 검수가 아니다.
 - `selection_report.json`: 입력 파일 해시, 선택 편향, 원본 사용 이력, 정답 분포를 보존한다.
 - B의 후속 실험은 이 v3 경로를 명시하고 이전 Geo170K 혼합 v1과 결과를 구분해야 한다.
+
+## 재생성
+
+`build_clevr_v3.py`가 A handoff와 C 감사 원본 4개 및 SFT1 최종 README의 SHA256을 검사하고 동일한 500/100 목록을 만든다. `--handoff`, `--new-audit`, `--sft1-list`, `--sft1-hashes`, `--sft1-report`, `--output`을 모두 지정한다. `--output`은 기존 파일이 없는 경로여야 한다. 선택 규칙은 (1) 위 4개 의심 ID 제외, (2) 새 CLEVR 중 원본 기준 k4·정답0 50건과 k4·비0 50건을 각각 고정 SHA 순위로 보류, (3) 그 외 새 CLEVR 모두 학습, (4) SFT1 사용 CLEVR에서 비0 답을 우선하고 고정 SHA 순위로 121건을 학습에 추가, (5) 학습 순서를 고정 SHA 순위로 정렬이다. 선택 편향은 위에서 설명했다.
+
+6000 서버에서 독립 실행한 Python 재생성 파일의 SHA256이 `b2edb0e30acbdca0a0d64800405790fb5926f92af3f73c5e47072f3ff570a33d`로 원본과 바이트 단위로 일치했다. 실행에 쓴 입력 SHA256은 `selection_report.json`에 있다.
