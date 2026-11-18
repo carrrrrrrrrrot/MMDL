@@ -34,4 +34,6 @@ The **completed** ECD GRPO run has 75/500 distinct four-rollout question groups 
 
 At optimizer step 100, 50 unique questions yielded 400 responses: 270 correct rewards, 102 wrong answers and 28 missing final answers. All 28 missing answers reached the 512-token cap. Thirteen of the 50 distinct four-rollout question groups had mixed 0/1 rewards (26/100 repeated optimizer-step records); gradient norm was nonzero in 26/100 records and loss in 12/100. No non-finite loss or gradient was observed. This is a partial training-signal check, not an MMMU result.
 
+At optimizer step 250, 125 unique questions yielded 1,000 responses: 672 correct rewards, 234 wrong answers and 94 missing final answers. Of the missing answers, 92 reached the 512-token cap; two did not. `runs/mammoth_grpo/trainer/checkpoint-250` exists. This checkpoint is intermediate and has no MMMU score.
+
 At step 250, 15/125 distinct four-rollout question groups had mixed 0/1 rewards; their two optimizer iterations give 30/250 step records with mixed rewards and nonzero gradient norm. Loss was nonzero in 15/250 records. No non-finite reward/loss/gradient/entropy values were observed in this checkpoint snapshot. These are training-signal checks, not evidence of an MMMU score gain.
