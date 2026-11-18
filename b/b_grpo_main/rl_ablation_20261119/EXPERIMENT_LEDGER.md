@@ -13,3 +13,12 @@ This ledger tracks actual runs. Server `plan.json`, `run_manifest.json`, adapter
 | MAmmoTH CLEVR v3 | SAPO | Queued after GRPO signal check | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_clevr_v3/runs/mammoth_sapo` | Same CLEVR v3 | Pending |
 
 ECD v2 and CLEVR v3 are **exploratory** datasets. C checked leakage within its documented scope; neither dataset has full item-level gold validation or C training approval. See the two dataset READMEs and [QC_ABORT_20261119.md](QC_ABORT_20261119.md). The easy-question-biased CLEVR heldout set is a regression check only. Candidate ranking will use fixed 300 MMMU v1.2 questions; top candidates will be checked on full 900 on the 6000, and official three-seed results belong to the 4090 run.
+
+## ECD GRPO progress snapshots (not evaluation scores)
+
+| Optimizer steps | Unique questions | Generated responses | Correct reward | Wrong answer | Missing final `Answer:` | Artifact |
+| ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 106 | 53 | 424 | 136 | 228 | 60 | Trainer completion parquet snapshot |
+| 250 | 125 | 1,000 | 316 | 534 | 150 | `runs/ecd_grpo/trainer/checkpoint-250`; 250 completion parquet files |
+
+All 150 missing-answer responses through step 250 reached the 512-token generation cap. The step-250 checkpoint is intermediate; it is not a validated final adapter, and no MMMU evaluation has been run. See [ROLL_OUT_DIAG_20261119.md](ROLL_OUT_DIAG_20261119.md) and its read-only parser.
