@@ -2,6 +2,12 @@
 
 This ledger tracks actual runs. Server `plan.json`, `run_manifest.json`, adapter SHA256, `events.jsonl`, status and trainer logs are authoritative. **An unfinished run has no valid model score.** All runs use the pinned Qwen3-VL-4B-Instruct base revision `ebb281ec70b05090aa6165b016eac8ec08e71b17`, v1.2 0/1 reward, seed 3407, BF16 language LoRA r16/alpha32, four rollouts, two iterations, 512 completion tokens, learning rate 1e-5 and up to 1,000 optimizer steps unless a later run manifest says otherwise.
 
+## Method scope and implicit trainer settings
+
+This is a comparison of three loss choices in the same TRL 1.14.2 GRPO trainer: `loss_type=grpo`, `loss_type=dapo`, and `loss_type=sapo`. The DAPO arm changes to TRL's token-level loss normalization; it does **not** reproduce the full DAPO training recipe (for example, asymmetric upper clipping, truncated-completion masking, or dynamic sampling). The SAPO arm uses TRL's advantage-sign-dependent soft gate with positive/negative temperatures 1.0/1.05. It tests the core SAPO loss under this small-run setup, not the paper's full training scale or a temperature sweep.
+
+The current `train.py` explicitly passes the loss type and SAPO temperatures. It leaves these installed TRL 1.14.2 defaults implicit: `epsilon=0.2`, `epsilon_high=None` (so the effective upper clipping bound uses the same 0.2), `mask_truncated_completions=False`, and `scale_rewards='group'`. These values are **not explicitly recorded in the current run manifests**; use this paragraph together with the pinned trainer version and code when interpreting results. Truncation handling matters because many ECD and CLEVR responses reached the 512-token cap. Future changes to these settings should be separate, versioned experiments.
+
 | Dataset/version | Method | Status | Training output | Input SHA256 | Evaluation |
 | --- | --- | --- | --- | --- | --- |
 | Initial ECD v1 | GRPO | **Stopped by B at 140/1,000** after image/gold errors; no validated adapter | `/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119/runs/ecd_grpo` | `f189d58b8b0e6019387b4dd0ae61b5c6930e74a646f99b36ec9c5b8c2a70f1f8` | None |
