@@ -36,4 +36,6 @@ At optimizer step 100, 50 unique questions yielded 400 responses: 270 correct re
 
 At optimizer step 250, 125 unique questions yielded 1,000 responses: 672 correct rewards, 234 wrong answers and 94 missing final answers. Of the missing answers, 92 reached the 512-token cap; two did not. `runs/mammoth_grpo/trainer/checkpoint-250` exists. This checkpoint is intermediate and has no MMMU score.
 
+At optimizer step 500, 250 unique questions yielded 2,000 responses: 1,382 correct rewards, 424 wrong answers and 194 `missing_final_answer` reward reasons. Of those 194, 192 reached the 512-token cap. `runs/mammoth_grpo/trainer/checkpoint-500` exists. The separate line-start `Answer:` regex counted 196 missing markers, a two-row difference from the v1.2 reward reason; the reward reason remains authoritative for training. This is an intermediate checkpoint without an MMMU score.
+
 At step 250, 15/125 distinct four-rollout question groups had mixed 0/1 rewards; their two optimizer iterations give 30/250 step records with mixed rewards and nonzero gradient norm. Loss was nonzero in 15/250 records. No non-finite reward/loss/gradient/entropy values were observed in this checkpoint snapshot. These are training-signal checks, not evidence of an MMMU score gain.
