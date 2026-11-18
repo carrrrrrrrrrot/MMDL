@@ -1,0 +1,44 @@
+{
+  "selection_scope": "A fully unused rows; no C MMMU leakage review yet",
+  "training_ready": false,
+  "required_next_step": "C MMMU/MMMU-Pro leakage, image, gold, and GRPO training review",
+  "source_file": "/data/chaewon/mmdl_grpo_data/mammoth_grpo_for_b_verified_20261118/mammoth_grpo_for_b/list.jsonl",
+  "source_sha256": "686114a5a0df098c624e65ef56218ef7916aa7ab1d79bd5308cf2d722ce64e55",
+  "source_rows": 3000,
+  "eligible_rows": 369,
+  "excluded_reasons": {
+    "outside_requested_usage_scope": 2631
+  },
+  "seed": 3407,
+  "target_family_weights": {
+    "mavis": 0.25,
+    "clevr": 0.2,
+    "geo170k": 0.2,
+    "chart_table": 0.15,
+    "vision_flan": 0.1,
+    "geomverse": 0.05,
+    "other": 0.05
+  },
+  "selected_rows": 100,
+  "selected_jsonl_sha256": "e6b19b858bee4fc6cc9bac18720e7f3e3a25a35fe5a003d7ae20f6e9df606e78",
+  "family_counts": {
+    "clevr": 33,
+    "geo170k": 67
+  },
+  "source_counts": {
+    "clevr_700k_new.json": 33,
+    "geo170k(qa)": 67
+  },
+  "answer_type_counts": {
+    "mc": 67,
+    "numeric": 31,
+    "word": 2
+  },
+  "first_100_family_counts": {
+    "clevr": 33,
+    "geo170k": 67
+  },
+  "sft1_used": 0,
+  "dpo_overlap": 0,
+  "text_only_suspect": 0
+}

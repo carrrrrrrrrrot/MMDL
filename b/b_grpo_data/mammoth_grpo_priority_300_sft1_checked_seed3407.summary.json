@@ -1,0 +1,81 @@
+{
+  "selection_scope": "A SFT1-used rows with prior C MMMU leakage screen only",
+  "training_ready": false,
+  "required_next_step": "C item-level quality and GRPO training approval; bridge approval file required",
+  "source_file": "/data/chaewon/mmdl_grpo_data/mammoth_grpo_for_b_verified_20261118/mammoth_grpo_for_b/list.jsonl",
+  "source_sha256": "686114a5a0df098c624e65ef56218ef7916aa7ab1d79bd5308cf2d722ce64e55",
+  "source_rows": 3000,
+  "eligible_rows": 1686,
+  "excluded_reasons": {
+    "known_malformed_question": 2,
+    "outside_requested_usage_scope": 900,
+    "text_only_suspect": 412
+  },
+  "seed": 3407,
+  "target_family_weights": {
+    "mavis": 0.25,
+    "clevr": 0.2,
+    "geo170k": 0.2,
+    "chart_table": 0.15,
+    "vision_flan": 0.1,
+    "geomverse": 0.05,
+    "other": 0.05
+  },
+  "selected_rows": 300,
+  "selected_jsonl_sha256": "a4c1e2174c5af4f71c227828492b8399e13833109d7d1ada8110bf4e233bb2e9",
+  "family_counts": {
+    "chart_table": 45,
+    "clevr": 60,
+    "geo170k": 60,
+    "geomverse": 15,
+    "mavis": 75,
+    "other": 15,
+    "vision_flan": 30
+  },
+  "source_counts": {
+    "CLEVR-Math(MathV360K)_processed_new.json": 7,
+    "InternVL2-Llama3-76B_all_data_new-Geometry3K(MathV360K)_processed.json_lmm_math.jsonl": 3,
+    "InternVL2-Llama3-76B_all_data_new-PMC-VQA(MathV360K)_processed.json_lmm_math.jsonl": 1,
+    "InternVL2-Llama3-76B_all_data_new-Super-CLEVR(MathV360K)_processed.json_lmm_math.jsonl": 5,
+    "InternVL2-Llama3-76B_all_data_new-TabMWP(MathV360K)_processed.json_lmm_math.jsonl": 1,
+    "MapQA(MathV360K)_processed_new.json": 3,
+    "allava-vflan-200k.json": 1,
+    "aokvqa(cauldron,llava_format)_processed_new.json": 1,
+    "clevr_700k_new.json": 48,
+    "geo170k(qa)": 59,
+    "geo170k_new.json": 1,
+    "geomverse(cauldron)": 7,
+    "geomverse(cauldron)_processed.json": 3,
+    "geomverse(cauldron)_processed_new.json": 5,
+    "idefics375k.json": 1,
+    "idefics375k_new.json": 5,
+    "mathvision_3k_new.json": 2,
+    "mavis_math_metagen_processed.json": 1,
+    "mavis_math_metagen_processed_new.json": 8,
+    "mavis_math_rule_geo": 36,
+    "mavis_math_rule_geo_processed.json": 20,
+    "mavis_math_rule_geo_processed_new.json": 10,
+    "raven(cauldron)_processed_new.json": 1,
+    "ureader_chart_new.json": 41,
+    "vflan_cleaned_new.json": 16,
+    "viquae_new.json": 1,
+    "vision_flan(filtered)_processed_new.json": 13
+  },
+  "answer_type_counts": {
+    "mc": 116,
+    "numeric": 154,
+    "word": 30
+  },
+  "first_100_family_counts": {
+    "chart_table": 15,
+    "clevr": 20,
+    "geo170k": 20,
+    "geomverse": 5,
+    "mavis": 25,
+    "other": 5,
+    "vision_flan": 10
+  },
+  "sft1_used": 300,
+  "dpo_overlap": 0,
+  "text_only_suspect": 0
+}

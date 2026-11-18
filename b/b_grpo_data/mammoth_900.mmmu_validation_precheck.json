@@ -1,0 +1,21 @@
+{
+  "status": "preliminary_overlap_screen_only_not_leakage_clearance",
+  "candidate_list_sha256": "e2ac13c827a125714fabf27c8f1dcef9bce35135438bff57991ad596ce8853c8",
+  "candidate_count": 900,
+  "candidate_images_size_and_sha256_verified": 900,
+  "mmmu_split": "validation",
+  "mmmu_parquet_files": 30,
+  "mmmu_unique_questions": 900,
+  "mmmu_decoded_images": 982,
+  "mmmu_image_decode_errors": [],
+  "question_exact_pairs": [],
+  "question_punctuation_folded_pairs": [],
+  "dhash_distance_at_most_4_pairs": [],
+  "not_checked": [
+    "MMMU-Pro",
+    "MMMU dev/test",
+    "OCR text overlap",
+    "semantic question overlap",
+    "manual visual review of near-image pairs"
+  ]
+}
