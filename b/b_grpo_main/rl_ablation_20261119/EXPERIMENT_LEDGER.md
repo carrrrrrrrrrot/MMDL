@@ -21,7 +21,10 @@ ECD v2 and CLEVR v3 are **exploratory** datasets. C checked leakage within its d
 | 106 | 53 | 424 | 136 | 228 | 60 | Trainer completion parquet snapshot |
 | 250 | 125 | 1,000 | 316 | 534 | 150 | `runs/ecd_grpo/trainer/checkpoint-250`; 250 completion parquet files |
 | 500 | 250 | 2,000 | 622 | 1,014 | 364 | `runs/ecd_grpo/trainer/checkpoint-500`; 500 completion parquet files |
+| 750 | 375 | 3,000 | 918 | 1,534 | 548 | `runs/ecd_grpo/trainer/checkpoint-750`; 750 completion parquet files |
 
-All 150 missing-answer responses through step 250 reached the 512-token generation cap. Through step 500, 362/364 missing-answer responses reached that cap; two did not, and four of the 366 512-token responses contained an `Answer:` marker. This is a dominant truncation pattern with exceptions. Both checkpoints are intermediate, not validated final adapters, and no MMMU evaluation has been run. See [ROLL_OUT_DIAG_20261119.md](ROLL_OUT_DIAG_20261119.md) and its read-only parser.
+All 150 missing-answer responses through step 250 reached the 512-token generation cap. Through step 500, 362/364 missing-answer responses reached that cap; two did not, and four of the 366 512-token responses contained an `Answer:` marker. This is a dominant truncation pattern with exceptions. These checkpoints are intermediate, not validated final adapters, and no MMMU evaluation has been run. See [ROLL_OUT_DIAG_20261119.md](ROLL_OUT_DIAG_20261119.md) and its read-only parser.
+
+Through step 750, 546/548 missing-answer responses reached the 512-token cap; six of 552 cap-length responses contained an `Answer:` marker. The step-750 checkpoint is also intermediate and has no MMMU score.
 
 At step 250, 15/125 distinct four-rollout question groups had mixed 0/1 rewards; their two optimizer iterations give 30/250 step records with mixed rewards and nonzero gradient norm. Loss was nonzero in 15/250 records. No non-finite reward/loss/gradient/entropy values were observed in this checkpoint snapshot. These are training-signal checks, not evidence of an MMMU score gain.
