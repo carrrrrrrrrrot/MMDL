@@ -22,3 +22,5 @@ ECD v2 and CLEVR v3 are **exploratory** datasets. C checked leakage within its d
 | 250 | 125 | 1,000 | 316 | 534 | 150 | `runs/ecd_grpo/trainer/checkpoint-250`; 250 completion parquet files |
 
 All 150 missing-answer responses through step 250 reached the 512-token generation cap. The step-250 checkpoint is intermediate; it is not a validated final adapter, and no MMMU evaluation has been run. See [ROLL_OUT_DIAG_20261119.md](ROLL_OUT_DIAG_20261119.md) and its read-only parser.
+
+At step 250, 15/125 distinct four-rollout question groups had mixed 0/1 rewards; their two optimizer iterations give 30/250 step records with mixed rewards and nonzero gradient norm. Loss was nonzero in 15/250 records. No non-finite reward/loss/gradient/entropy values were observed in this checkpoint snapshot. These are training-signal checks, not evidence of an MMMU score gain.
