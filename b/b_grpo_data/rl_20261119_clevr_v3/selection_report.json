@@ -1,0 +1,72 @@
+{
+  "status": "B_provisional_C_leakage_only_no_C_quality_approval",
+  "note": "CLEVR-only 500 train + 100 heldout; all 600 image/answer pairs are not individually quality reviewed",
+  "selection_bias": "All 100 heldout rows have base_k_correct=4, balanced as 50 answer=0 and 50 nonzero; SFT1 train rows prioritize nonzero answers. Heldout is regression-only, not representative of training difficulty.",
+  "seed": 3407,
+  "input_hashes": {
+    "handoff": "686114a5a0df098c624e65ef56218ef7916aa7ab1d79bd5308cf2d722ce64e55",
+    "newAudit": "008d9e3a2bba1ed58d9bd9693d0af6b589a390634a0d35b42fd7406e27189016",
+    "sft1List": "43159c7b68aaa84fb67718582f488c34992bdd10d7ef758f3b2a230353c5e0de",
+    "sft1Hashes": "9e0817c7aeccadb077161b95334236c4dfbb56e1432f9da8b85c43d24ca23acb",
+    "sft1Report": "23b7e04093f1730ae89de5770bc951c6281d24b803e738382de1932564fca0b7"
+  },
+  "excluded_visual_qc": {
+    "mammoth_10014503": "prior CLEVR sample: red object count/gold uncertain",
+    "mammoth_5643201": "prior CLEVR sample: material count/gold uncertain",
+    "mammoth_9634542": "2026-11-19 CLEVR sample: behind relation/gold uncertain",
+    "mammoth_6024101": "2026-11-19 CLEVR sample: left/in-front relation/gold uncertain"
+  },
+  "candidate_count": 664,
+  "eligible_count": 660,
+  "selected_train": 500,
+  "selected_heldout": 100,
+  "selected_by_a_usage": {
+    "dpo_pool": 340,
+    "sft1": 121,
+    "dpo_pool+dpo_pairs": 106,
+    "unused": 33
+  },
+  "train_by_a_usage": {
+    "dpo_pool": 240,
+    "sft1": 121,
+    "dpo_pool+dpo_pairs": 106,
+    "unused": 33
+  },
+  "heldout_by_a_usage": {
+    "dpo_pool": 100
+  },
+  "answer_histogram": {
+    "0": 178,
+    "1": 166,
+    "2": 104,
+    "3": 67,
+    "4": 32,
+    "5": 16,
+    "6": 5,
+    "7": 2,
+    "8": 1,
+    "metal": 14,
+    "red": 3,
+    "large": 2,
+    "small": 2,
+    "purple": 1,
+    "rubber": 2,
+    "blue": 3,
+    "cylinder": 1,
+    "brown": 1
+  },
+  "train_base_k_histogram": {
+    "0": 48,
+    "1": 23,
+    "2": 24,
+    "3": 59,
+    "4": 192,
+    "null": 154
+  },
+  "heldout_base_k_histogram": {
+    "4": 100
+  },
+  "unique_images": 600,
+  "unique_questions": 600,
+  "manifest_sha256": "b2edb0e30acbdca0a0d64800405790fb5926f92af3f73c5e47072f3ff570a33d"
+}

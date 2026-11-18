@@ -1,0 +1,14 @@
+{
+  "status": "pass",
+  "manifest_sha256": "b2edb0e30acbdca0a0d64800405790fb5926f92af3f73c5e47072f3ff570a33d",
+  "rows": 600,
+  "split_counts": {
+    "train": 500,
+    "heldout": 100
+  },
+  "image_sha256_size_decode_checked": 600,
+  "train_zero_answers": 128,
+  "train_base_k4": 192,
+  "train_base_k1_to_3": 106,
+  "c_quality_approval": false
+}
