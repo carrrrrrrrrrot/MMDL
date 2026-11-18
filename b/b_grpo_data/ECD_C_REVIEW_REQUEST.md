@@ -6,6 +6,6 @@
 >
 > B 서버에서 후보 이미지 800/800장은 열리는 것을 확인했습니다. **정답 800개를 전부 검수한 상태는 아닙니다.** 표본 대조에서 원본 정답 오류 두 건(`ecd_002406_219293`, `ecd_000838_199595`)을 발견해 후보에서 제외했습니다. MMMU validation 대상 질문 일치 0건, 이미지 해시 후보 1건은 원본 대조로 오탐이었지만, [이 1차 점검](https://github.com/carrrrrrrrrrot/MMDL/blob/codex/b_grpo_impl_20261117/b/b_grpo_data/ECD_MMMU_PRECHECK.md)은 MMMU-Pro·dev/test·OCR·의미 유사도를 포함하지 않습니다.
 >
-> 첫 100건부터 검수 통과 문항을 `id`, `question`, `final_answer`, `image_relative_path`, `selection_status: "approved"`가 있는 JSONL로 돌려주시고, 제외한 ID와 이유도 함께 알려 주세요. 그다음 나머지 700건을 순차 검수하면 됩니다. [선별 기준과 겹침 현황](https://github.com/carrrrrrrrrrot/MMDL/blob/codex/b_grpo_impl_20261117/b/b_grpo_data/ECD_SELECTION_HANDOFF.md)에 적었습니다. 이미지 접근이 필요하면 B 서버의 ECD 이미지 경로(`/data/chaewon/mmdl_grpo_data/ecd_10k/images`)를 기준으로 전달 방법을 맞추겠습니다. C 승인 전까지 새 800건은 학습에 쓰지 않겠습니다.
+> **검수 범위는 전체 800건입니다.** 먼저 확인된 문항부터 묶음 단위로 보내 주세요. 첫 100건이 도착하면 B는 20스텝 학습·보상 신호 점검을 시작하고, C는 남은 문항 검수를 계속해 주세요. ECD 104건 파일럿에서는 보상이 갈린 생성 그룹이 32개 중 4개뿐이어서, 100건 결과만으로 성능을 판단하지 않겠습니다. 승인 문항이 가능하면 300건 이상 쌓였을 때 별도 본실험을 하고, 이후 승인분도 추가 실험에 사용하겠습니다. 각 승인 건은 `id`, `question`, `final_answer`, `image_relative_path`, `selection_status: "approved"`가 있는 JSONL로, 제외 건은 ID와 이유로 돌려주세요. [선별 기준과 겹침 현황](https://github.com/carrrrrrrrrrot/MMDL/blob/codex/b_grpo_impl_20261117/b/b_grpo_data/ECD_SELECTION_HANDOFF.md)에 적었습니다. 이미지 접근이 필요하면 B 서버의 ECD 이미지 경로(`/data/chaewon/mmdl_grpo_data/ecd_10k/images`)를 기준으로 전달 방법을 맞추겠습니다. C 승인 전까지 새 800건은 학습에 쓰지 않겠습니다.
 
 검수 범위와 결과 형식을 명시하기 위한 문안이며, GitHub 링크의 자료는 C의 승인을 뜻하지 않습니다.
