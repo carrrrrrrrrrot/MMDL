@@ -1,0 +1,57 @@
+{
+  "status": "complete",
+  "requested_at_utc": "2026-11-19T01:31:18.902513+00:00",
+  "run_name": "rlab19qcv2_ecd_sapo_fixed300",
+  "task": "mmmu_val_mmdl_diag",
+  "seed": "3407",
+  "items": 300,
+  "ids_file": "/data/chaewon/mmdl_eval_runs/rl_ablation_20261119_qcv2_plan/fixed300_ids_seed3407.txt",
+  "ids_sha256": "1492c926d4c947a5d9acad96acd1e43b877ec8d00344f8a240b65ad4d673e04d",
+  "model_path": "/data/chaewon/mmdl_merged_models/rlab19qcv2_ecd_sapo",
+  "model_manifest_sha256": "5e17eab9788fb789275fd3e955afd339feaaceeebeeab5d78faf2f6936dc67f2",
+  "training_manifest_sha256": "054476654fb7fa2483ad83ccb1153638966462fc2cb38cf53c6dddadccb86219",
+  "evaluation_repo_commit": "61025850563d0331e365bc974a63c0d3c4ed4c2c",
+  "evaluation_script_sha256": "9a463d36b522bd9f4fe5d3d9647901283a4a00764cc0e987a2025d9466ec7992",
+  "baseline_run": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_base_fixed300",
+  "command": [
+    "bash",
+    "/home/chaewon/projects/qwen_eval_project/MMDL_eval_v1_2/scripts/run_mmmu_eval.sh",
+    "--model_path",
+    "/data/chaewon/mmdl_merged_models/rlab19qcv2_ecd_sapo",
+    "--data_root",
+    "/home/chaewon/.cache/huggingface/hub/datasets--MMMU--MMMU/snapshots/98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+    "--task",
+    "mmmu_val_mmdl_diag",
+    "--seeds",
+    "3407",
+    "--output_path",
+    "/data/chaewon/mmdl_eval_runs",
+    "--run_name",
+    "rlab19qcv2_ecd_sapo_fixed300"
+  ],
+  "timeout_seconds": 5400,
+  "note": "Fixed-ID 300-item diagnostic screen only; no official MMMU score",
+  "completed_at_utc": "2026-11-19T01:48:27.760862+00:00",
+  "result_files": {
+    "samples": {
+      "path": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_ecd_sapo_fixed300/seed_3407/mmdl_merged_models__rlab19qcv2_ecd_sapo/20261119_093123_samples_mmmu_val_mmdl_diag.jsonl",
+      "sha256": "1a53cf4a1e3cc9fc85c01a91873e7b19b2fa8733503a610753b3c90d6c90c305"
+    },
+    "results": {
+      "path": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_ecd_sapo_fixed300/seed_3407/mmdl_merged_models__rlab19qcv2_ecd_sapo/20261119_093123_results.json",
+      "sha256": "b32d797312fa76644374ca7910c0f923431b5f047fc5906b2e4c68fc53c10569"
+    },
+    "run_meta": {
+      "path": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_ecd_sapo_fixed300/seed_3407/run_meta.txt",
+      "sha256": "a08e1426ed334da3815078d184a78cb5931b656e1cf8ee231c6d562ffd40042d"
+    },
+    "comparison_summary": {
+      "path": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_ecd_sapo_fixed300/comparison/comparison_summary.json",
+      "sha256": "2972fbed954c2ce1e1a575a449b67fb63e3026360248941bece31b0efebf8c7c"
+    },
+    "paired_items": {
+      "path": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_ecd_sapo_fixed300/comparison/paired_items.csv",
+      "sha256": "d9a28b23716f8a8e0110278be7c3d435c51807b6a869c345b58aa955e5d97c43"
+    }
+  }
+}

@@ -11,6 +11,11 @@ The 6000 v1.2 three-seed baseline is complete (558/555/559 correct; mean
 61.93%). Its paired 4090 comparison and operational reproduction verdict are
 in [the baseline report](b6000_baseline_20261117/REPORT.md).
 
+The [2026-11-19 RL ablation fixed-300 screens](rl_ablation_20261119_qcv2/REPORT.md)
+compare six ECD or MAmmoTH CLEVR candidates on the same 300 questions and
+seed. They are diagnostic triage runs. Their top-two full-900 evaluation is
+paused for user review after all six fixed-300 results are available.
+
 ## Completed 6000 screens
 
 Each result below is an MMMU val **900-item evaluation**, compared with the
