@@ -2,7 +2,7 @@
 
 2026-11-19, RTX PRO 6000에서 평가 코드 `61025850563d0331e365bc974a63c0d3c4ed4c2c`와 v1.2 채점을 사용한다. 모든 후보를 시드 3407의 동일한 MMMU val 300문항(`ids_sha256=1492c926d4c947a5d9acad96acd1e43b877ec8d00344f8a240b65ad4d673e04d`)으로 평가한다. 원본 모델을 이 300문항에서 다시 실행한 기준선은 **185/300(61.67%)**이다.
 
-**실험 범위:** 여섯 후보의 학습 부모는 모두 `parent_kind=base`, Qwen3-VL-4B-Instruct revision `ebb281ec70b05090aa6165b016eac8ec08e71b17`이다. A의 공통 SFT 어댑터는 사용하지 않았다. 따라서 이 결과는 **base→RL 탐색·보험 후보**의 선별 결과이며 공통 SFT 부모에서 출발한 DPO와의 최종 비교가 아니다. DAPO와 SAPO는 동일한 TRL 1.14.2 GRPOTrainer에서 `loss_type`만 바꾼 실험이다. DAPO는 토큰 단위 손실 정규화, SAPO는 부호별 soft gate의 핵심 구현을 시험했으며 각 논문의 전체 학습 조합을 재현한 결과는 아니다.
+**실험 범위:** 여섯 후보의 학습 부모는 모두 `parent_kind=base`, Qwen3-VL-4B-Instruct revision `ebb281ec70b05090aa6165b016eac8ec08e71b17`이다. [A의 최신 팀 로그](https://github.com/carrrrrrrrrrot/MMDL/blob/a/shared/team_share/TEAM_LOG.md)는 11/18에 공통 부모를 원본 base로 확정하고 A의 base→DPO와 B의 base→GRPO를 본 경로로 기록한다. 따라서 이번 후보는 A의 DPO와 **부모 조건이 같다**. 이 6000의 300문항·단일 시드 선별 결과는 최종 4090 공통 평가를 대신하지 않는다. DAPO와 SAPO는 동일한 TRL 1.14.2 GRPOTrainer에서 `loss_type`만 바꾼 실험이다. DAPO는 토큰 단위 손실 정규화, SAPO는 부호별 soft gate의 핵심 구현을 시험했으며 각 논문의 전체 학습 조합을 재현한 결과는 아니다.
 
 | 순위 | 학습 데이터 | 방법 | 정답/300 | 기준선 대비 | 오답→정답 | 정답→오답 | 최종 답안 누락 |
 |---:|---|---|---:|---:|---:|---:|---:|
