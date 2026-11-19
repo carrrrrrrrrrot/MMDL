@@ -48,6 +48,7 @@ def arguments() -> argparse.Namespace:
     parser.add_argument("--baseline-300", type=Path, required=True)
     parser.add_argument("--ids-file", type=Path, required=True)
     parser.add_argument("--compare-script", type=Path, required=True)
+    parser.add_argument("--merge-timeout", type=int, default=3600)
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--plan-only", action="store_true", help="Print paths without requiring trained weights")
     mode.add_argument("--preflight", action="store_true", help="Verify completed training and all frozen inputs, no GPU launch")

@@ -1,0 +1,12 @@
+{
+  "status": "complete",
+  "completed_utc": "2026-11-19T12:45:01+00:00",
+  "scores_300": {
+    "grpo": 188,
+    "dapo": 188,
+    "sapo": 186
+  },
+  "base_correct": 185,
+  "seed": 3407,
+  "official_900_started": false
+}

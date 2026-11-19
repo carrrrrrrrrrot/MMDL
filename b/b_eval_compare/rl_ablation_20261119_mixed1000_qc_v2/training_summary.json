@@ -1,0 +1,52 @@
+{
+  "status": "complete",
+  "completed": [
+    {
+      "dataset": "mixed",
+      "loss": "grpo",
+      "run_dir": "/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_mixed1000_qc_v2_allloss/runs/mixed_grpo",
+      "manifest_sha256": "718cc148da8b9a80f7635f17c3dcaa135d3b4f48e2ddc69a29723007b79f96d5",
+      "adapter_sha256": "db7aae95ea7ab0e02f1cc19c3137ddfff57cfc2c2197cabd901f5fa0bcd6af31",
+      "initial_lora_sha256": "27d2e5cab7bf6becc2fa6ff8928f2832d3ef3b1a478971402819d1129d10aa51",
+      "global_step": 2000,
+      "mixed_reward_groups": 195,
+      "reward_groups": 1000,
+      "mean_reward": 0.53,
+      "lora_delta_l1": 3849.6436829566956,
+      "unique_training_sample_ids": 1000,
+      "rollout_rows": 8000
+    },
+    {
+      "dataset": "mixed",
+      "loss": "dapo",
+      "run_dir": "/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_mixed1000_qc_v2_allloss/runs/mixed_dapo",
+      "manifest_sha256": "15c12bb8fa592f881169da50aa531c5120475a208e31f61d15a9582fc779b728",
+      "adapter_sha256": "f1b9812487e013970bb6856432e7b91f35d3610ab036c20a32ef247ded0b5292",
+      "initial_lora_sha256": "27d2e5cab7bf6becc2fa6ff8928f2832d3ef3b1a478971402819d1129d10aa51",
+      "global_step": 2000,
+      "mixed_reward_groups": 209,
+      "reward_groups": 1000,
+      "mean_reward": 0.515,
+      "lora_delta_l1": 4426.388367176056,
+      "unique_training_sample_ids": 1000,
+      "rollout_rows": 8000
+    },
+    {
+      "dataset": "mixed",
+      "loss": "sapo",
+      "run_dir": "/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_mixed1000_qc_v2_allloss/runs/mixed_sapo",
+      "manifest_sha256": "eda3a1d8f98196ce4d5dc9bc7d2d3bed81e57b09411eab9b536dec50dac55be3",
+      "adapter_sha256": "599d9b3dd50196c4bfa9ea6036d7af9d388cbf2e28abc3e3b0006429d22d83f7",
+      "initial_lora_sha256": "27d2e5cab7bf6becc2fa6ff8928f2832d3ef3b1a478971402819d1129d10aa51",
+      "global_step": 2000,
+      "mixed_reward_groups": 178,
+      "reward_groups": 1000,
+      "mean_reward": 0.52875,
+      "lora_delta_l1": 4104.043076992035,
+      "unique_training_sample_ids": 1000,
+      "rollout_rows": 8000
+    }
+  ],
+  "blocked_datasets": [],
+  "remaining": []
+}

@@ -1,0 +1,75 @@
+{
+  "kind": "copied_result_artifacts_sha256",
+  "files": [
+    {
+      "path": "dapo/comparison_summary.json",
+      "bytes": 2774,
+      "sha256": "1b58a3fb66f8733051e72944e1b1fdb17138faa7dccf47534e976c7b31d71512"
+    },
+    {
+      "path": "dapo/handoff.json",
+      "bytes": 2960,
+      "sha256": "4140d376962fc1b1f99012785f144f10359f451fb3755802b94be132b22f6965"
+    },
+    {
+      "path": "dapo/paired_items.csv",
+      "bytes": 39819,
+      "sha256": "03ffeac5fec8cfc67f92bcc55695d87276892520fa412e98a943c57350def883"
+    },
+    {
+      "path": "dapo/result.json",
+      "bytes": 979,
+      "sha256": "88b5eb21b413030f10eec11a32fea144e0fe4726118dd33a62ebf3ab3036e610"
+    },
+    {
+      "path": "evaluation_summary.json",
+      "bytes": 220,
+      "sha256": "868ebea355324d93c2ff14be51de5ab64a3352ae85610e8f60e6ac37fe5a0f5f"
+    },
+    {
+      "path": "grpo/comparison_summary.json",
+      "bytes": 2774,
+      "sha256": "7940659c68a12291c652ddca7566543f96442dcd311b37527089d9ed5d60858c"
+    },
+    {
+      "path": "grpo/handoff.json",
+      "bytes": 2960,
+      "sha256": "34d0f64ce7c470a4675f0e5c91e664e98ed67a071926711033d353a6a44c2776"
+    },
+    {
+      "path": "grpo/paired_items.csv",
+      "bytes": 39772,
+      "sha256": "6136eedbc8dc27f9f40af30a0bbf4313afde78b2b271fbf4889fe1c26d3f4a54"
+    },
+    {
+      "path": "grpo/result.json",
+      "bytes": 979,
+      "sha256": "b9ba5a005cf56d567ba17bf443c05547b5e8975ecd0b62d83c42d669cd779852"
+    },
+    {
+      "path": "sapo/comparison_summary.json",
+      "bytes": 2779,
+      "sha256": "d9d6213199128807c96fb38f9b34161903073f425b72dff5e87f6fa569f74b12"
+    },
+    {
+      "path": "sapo/handoff.json",
+      "bytes": 2960,
+      "sha256": "2df241f797422d64fb44586bb64f1f8e423a8df765e4a47165ab62f6165a6604"
+    },
+    {
+      "path": "sapo/paired_items.csv",
+      "bytes": 39832,
+      "sha256": "97b730d6f4995e36fc9d670ff48133eea2fb95de4d3ad2543394d1b4539ccc02"
+    },
+    {
+      "path": "sapo/result.json",
+      "bytes": 979,
+      "sha256": "b1713bfe76874a7610c7f8be6b447e82ce2d79987eaa3fab9e5c15346e8b71d7"
+    },
+    {
+      "path": "training_summary.json",
+      "bytes": 2141,
+      "sha256": "0e73364b70123720c13343234ac280ac4c3599f3b23f1f98c8eb063c789efbc4"
+    }
+  ]
+}

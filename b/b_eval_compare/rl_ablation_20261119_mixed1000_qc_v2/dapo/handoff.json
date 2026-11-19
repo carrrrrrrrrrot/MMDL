@@ -1,0 +1,57 @@
+{
+  "status": "complete",
+  "requested_at_utc": "2026-11-19T12:12:04.041650+00:00",
+  "run_name": "rlab19mix1000qcv2r1_dapo_mixed_dapo_fixed300",
+  "task": "mmmu_val_mmdl_diag",
+  "seed": "3407",
+  "items": 300,
+  "ids_file": "/data/chaewon/mmdl_eval_runs/rl_ablation_20261119_qcv2_plan/fixed300_ids_seed3407.txt",
+  "ids_sha256": "1492c926d4c947a5d9acad96acd1e43b877ec8d00344f8a240b65ad4d673e04d",
+  "model_path": "/data/chaewon/mmdl_merged_models/rlab19mix1000qcv2r1_dapo_mixed_dapo",
+  "model_manifest_sha256": "db65d9706566c56fb16f615f0c09df65e9a5187b2832756a5ebe8334ba61c887",
+  "training_manifest_sha256": "15c12bb8fa592f881169da50aa531c5120475a208e31f61d15a9582fc779b728",
+  "evaluation_repo_commit": "61025850563d0331e365bc974a63c0d3c4ed4c2c",
+  "evaluation_script_sha256": "9a463d36b522bd9f4fe5d3d9647901283a4a00764cc0e987a2025d9466ec7992",
+  "baseline_run": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_base_fixed300",
+  "command": [
+    "bash",
+    "/home/chaewon/projects/qwen_eval_project/MMDL_eval_v1_2/scripts/run_mmmu_eval.sh",
+    "--model_path",
+    "/data/chaewon/mmdl_merged_models/rlab19mix1000qcv2r1_dapo_mixed_dapo",
+    "--data_root",
+    "/home/chaewon/.cache/huggingface/hub/datasets--MMMU--MMMU/snapshots/98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+    "--task",
+    "mmmu_val_mmdl_diag",
+    "--seeds",
+    "3407",
+    "--output_path",
+    "/data/chaewon/mmdl_eval_runs",
+    "--run_name",
+    "rlab19mix1000qcv2r1_dapo_mixed_dapo_fixed300"
+  ],
+  "timeout_seconds": 5400,
+  "note": "Fixed-ID 300-item diagnostic screen only; no official MMMU score",
+  "completed_at_utc": "2026-11-19T12:24:27.660558+00:00",
+  "result_files": {
+    "samples": {
+      "path": "/data/chaewon/mmdl_eval_runs/rlab19mix1000qcv2r1_dapo_mixed_dapo_fixed300/seed_3407/mmdl_merged_models__rlab19mix1000qcv2r1_dapo_mixed_dapo/20261119_201209_samples_mmmu_val_mmdl_diag.jsonl",
+      "sha256": "908c6c3c58060dc955c048587cc395994d401e16e67600bee7c02273e9fe9427"
+    },
+    "results": {
+      "path": "/data/chaewon/mmdl_eval_runs/rlab19mix1000qcv2r1_dapo_mixed_dapo_fixed300/seed_3407/mmdl_merged_models__rlab19mix1000qcv2r1_dapo_mixed_dapo/20261119_201209_results.json",
+      "sha256": "60318a04c11d6db8d60ba61011f51faf9ae67f9af4b6a07d3c537324b867d6d5"
+    },
+    "run_meta": {
+      "path": "/data/chaewon/mmdl_eval_runs/rlab19mix1000qcv2r1_dapo_mixed_dapo_fixed300/seed_3407/run_meta.txt",
+      "sha256": "78efd5b5ac5e80ce49a95e967457598a21e3833609cde69caa4afc4aeedf30ce"
+    },
+    "comparison_summary": {
+      "path": "/data/chaewon/mmdl_eval_runs/rlab19mix1000qcv2r1_dapo_mixed_dapo_fixed300/comparison/comparison_summary.json",
+      "sha256": "1b58a3fb66f8733051e72944e1b1fdb17138faa7dccf47534e976c7b31d71512"
+    },
+    "paired_items": {
+      "path": "/data/chaewon/mmdl_eval_runs/rlab19mix1000qcv2r1_dapo_mixed_dapo_fixed300/comparison/paired_items.csv",
+      "sha256": "03ffeac5fec8cfc67f92bcc55695d87276892520fa412e98a943c57350def883"
+    }
+  }
+}

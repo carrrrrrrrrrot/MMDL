@@ -1,0 +1,23 @@
+{
+  "kind": "fixed300_seed3407_screening_only_not_official",
+  "gpu": "NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition",
+  "base_correct": 185,
+  "ids_sha256": "1492c926d4c947a5d9acad96acd1e43b877ec8d00344f8a240b65ad4d673e04d",
+  "sort": "correct descending, then fewer missing final answers; tied scores do not establish method superiority",
+  "candidates": [
+    {"name": "ecd_grpo", "cohort": "earlier_single_source", "correct": 195, "missing_final_answer": 29, "training_examples": 500, "optimizer_steps": 1000},
+    {"name": "ecd_dapo", "cohort": "earlier_single_source", "correct": 193, "missing_final_answer": 29, "training_examples": 500, "optimizer_steps": 1000},
+    {"name": "mammoth_sapo", "cohort": "earlier_single_source", "correct": 189, "missing_final_answer": 37, "training_examples": 500, "optimizer_steps": 1000},
+    {"name": "mixed_dapo", "cohort": "mixed1000_qc_v2", "correct": 188, "missing_final_answer": 17, "training_examples": 1000, "optimizer_steps": 2000},
+    {"name": "mixed_grpo", "cohort": "mixed1000_qc_v2", "correct": 188, "missing_final_answer": 31, "training_examples": 1000, "optimizer_steps": 2000},
+    {"name": "mixed_sapo", "cohort": "mixed1000_qc_v2", "correct": 186, "missing_final_answer": 22, "training_examples": 1000, "optimizer_steps": 2000},
+    {"name": "mammoth_grpo", "cohort": "earlier_single_source", "correct": 186, "missing_final_answer": 28, "training_examples": 500, "optimizer_steps": 1000},
+    {"name": "mammoth_dapo", "cohort": "earlier_single_source", "correct": 186, "missing_final_answer": 31, "training_examples": 500, "optimizer_steps": 1000},
+    {"name": "ecd_sapo", "cohort": "earlier_single_source", "correct": 184, "missing_final_answer": 31, "training_examples": 500, "optimizer_steps": 1000}
+  ],
+  "overall_top_two": ["ecd_grpo", "ecd_dapo"],
+  "mixed_cohort_top_two": ["mixed_dapo", "mixed_grpo"],
+  "review_gate": "awaiting_user_review",
+  "official_900_started": false,
+  "warning": "The cohorts differ in training examples and optimizer steps; 300-item single-seed scores cannot establish a causal mixing effect or final ranking."
+}

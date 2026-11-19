@@ -1,0 +1,16 @@
+{
+  "status": "complete",
+  "dataset_sha256": "3c46073d60f3b75b5515678b8960290daa8bc55b1c5daf3dabb49ace1e45c636",
+  "training_manifest_sha256": "15c12bb8fa592f881169da50aa531c5120475a208e31f61d15a9582fc779b728",
+  "adapter_sha256": "f1b9812487e013970bb6856432e7b91f35d3610ab036c20a32ef247ded0b5292",
+  "ids_sha256": "1492c926d4c947a5d9acad96acd1e43b877ec8d00344f8a240b65ad4d673e04d",
+  "base_correct": 185,
+  "candidate_correct": 188,
+  "correct_difference": 3,
+  "input_exact_agreement": 300,
+  "doc_hash_agreement": 300,
+  "fixed300_run": "/data/chaewon/mmdl_eval_runs/rlab19mix1000qcv2r1_dapo_mixed_dapo_fixed300",
+  "comparison_summary": "/data/chaewon/mmdl_eval_runs/rlab19mix1000qcv2r1_dapo_mixed_dapo_fixed300/comparison/comparison_summary.json",
+  "paired_items": "/data/chaewon/mmdl_eval_runs/rlab19mix1000qcv2r1_dapo_mixed_dapo_fixed300/comparison/paired_items.csv",
+  "note": "Diagnostic 6000 seed-3407 screen only; 900 gate and 4090 official evaluation unchanged."
+}
