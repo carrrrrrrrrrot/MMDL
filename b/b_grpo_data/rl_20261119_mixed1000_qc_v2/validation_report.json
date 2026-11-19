@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "manifest_sha256": "3c46073d60f3b75b5515678b8960290daa8bc55b1c5daf3dabb49ace1e45c636",
+  "prior_sha256": "e71df0141dabc9d696cf67e5b47d35b05801633d145d855ca83b7efdbb95637e",
+  "rows": 1100,
+  "unchanged_prior_rows": 1097,
+  "replacements": [
+    "mammoth_5001946",
+    "mammoth_9365435",
+    "mammoth_9456721"
+  ],
+  "image_sha256_decode_checked": 1100,
+  "gold_v12_self_reward_one": 1100,
+  "c_training_approval": false,
+  "visual_gold_quality_verified": false
+}

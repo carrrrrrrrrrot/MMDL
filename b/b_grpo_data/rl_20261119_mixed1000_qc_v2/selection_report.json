@@ -1,0 +1,31 @@
+{
+  "schema": "b_rl_mixed1000_qc_v2",
+  "prior_sha256": "e71df0141dabc9d696cf67e5b47d35b05801633d145d855ca83b7efdbb95637e",
+  "handoff_sha256": "686114a5a0df098c624e65ef56218ef7916aa7ab1d79bd5308cf2d722ce64e55",
+  "c_sft1_sha256": "c950c5072b6ca77ed9a23acbf040ef02b0445ca95adf2e467a1e127d773be0e9",
+  "excluded_suspect_ids": [
+    "mammoth_5933982",
+    "mammoth_8467823",
+    "mammoth_7615917"
+  ],
+  "added_visual_spotcheck_ids": [
+    "mammoth_9365435",
+    "mammoth_9456721",
+    "mammoth_5001946"
+  ],
+  "added_image_sha256": {
+    "mammoth_9365435": "4c8a344b45f12a10ee65ddb9fcf3ff80c91b46f65c059992d6cf4268918e987b",
+    "mammoth_9456721": "b80824471aa3489c8c6ddd75d7c953774b87061d9ba6290fad6b6b19c96de8a5",
+    "mammoth_5001946": "c7bedfb355ad38993d50eb61473f3cbf96d1aaea6f0a829bc4d6bf9c7462725c"
+  },
+  "train": 1000,
+  "heldout": 100,
+  "ecd_train": 500,
+  "clevr_train": 500,
+  "ecd_heldout": 50,
+  "clevr_heldout": 50,
+  "clevr_sft1_overlap": 124,
+  "clevr_dpo_overlap": 343,
+  "manifest_sha256": "3c46073d60f3b75b5515678b8960290daa8bc55b1c5daf3dabb49ace1e45c636",
+  "note": "Three suspicious visual golds excluded; three visually checked A SFT1 CLEVR rows added. Full C gold approval absent."
+}
