@@ -1,0 +1,79 @@
+{
+  "kind": "fixed300_screening_rank_only_not_official",
+  "created_at_utc": "2026-11-19T02:54:28.880581+00:00",
+  "ids_sha256": "1492c926d4c947a5d9acad96acd1e43b877ec8d00344f8a240b65ad4d673e04d",
+  "baseline_fixed300": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_base_fixed300",
+  "candidates": [
+    {
+      "name": "ecd_grpo",
+      "model_manifest": "/data/chaewon/mmdl_merged_models/rlab19qcv2_ecd_grpo/model_manifest.json",
+      "train_manifest": "/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_ecd_qc_v2/runs/ecd_grpo/run_manifest.json",
+      "run": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_ecd_grpo_fixed300",
+      "correct": 195,
+      "base_correct": 185,
+      "missing_final_answer": 29,
+      "wrong_to_right": 23,
+      "right_to_wrong": 13
+    },
+    {
+      "name": "ecd_dapo",
+      "model_manifest": "/data/chaewon/mmdl_merged_models/rlab19qcv2_ecd_dapo/model_manifest.json",
+      "train_manifest": "/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_ecd_qc_v2/runs/ecd_dapo/run_manifest.json",
+      "run": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_ecd_dapo_fixed300",
+      "correct": 193,
+      "base_correct": 185,
+      "missing_final_answer": 29,
+      "wrong_to_right": 19,
+      "right_to_wrong": 11
+    },
+    {
+      "name": "mammoth_sapo",
+      "model_manifest": "/data/chaewon/mmdl_merged_models/rlab19qcv2_mammoth_sapo/model_manifest.json",
+      "train_manifest": "/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_clevr_v3/runs/mammoth_sapo/run_manifest.json",
+      "run": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_mammoth_sapo_fixed300",
+      "correct": 189,
+      "base_correct": 185,
+      "missing_final_answer": 37,
+      "wrong_to_right": 22,
+      "right_to_wrong": 18
+    },
+    {
+      "name": "mammoth_grpo",
+      "model_manifest": "/data/chaewon/mmdl_merged_models/rlab19qcv2_mammoth_grpo/model_manifest.json",
+      "train_manifest": "/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_clevr_v3/runs/mammoth_grpo/run_manifest.json",
+      "run": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_mammoth_grpo_fixed300",
+      "correct": 186,
+      "base_correct": 185,
+      "missing_final_answer": 28,
+      "wrong_to_right": 18,
+      "right_to_wrong": 17
+    },
+    {
+      "name": "mammoth_dapo",
+      "model_manifest": "/data/chaewon/mmdl_merged_models/rlab19qcv2_mammoth_dapo/model_manifest.json",
+      "train_manifest": "/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_clevr_v3/runs/mammoth_dapo/run_manifest.json",
+      "run": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_mammoth_dapo_fixed300",
+      "correct": 186,
+      "base_correct": 185,
+      "missing_final_answer": 31,
+      "wrong_to_right": 18,
+      "right_to_wrong": 17
+    },
+    {
+      "name": "ecd_sapo",
+      "model_manifest": "/data/chaewon/mmdl_merged_models/rlab19qcv2_ecd_sapo/model_manifest.json",
+      "train_manifest": "/data/chaewon/mmdl_grpo_runs/rl_ablation_20261119_ecd_qc_v2/runs/ecd_sapo/run_manifest.json",
+      "run": "/data/chaewon/mmdl_eval_runs/rlab19qcv2_ecd_sapo_fixed300",
+      "correct": 184,
+      "base_correct": 185,
+      "missing_final_answer": 31,
+      "wrong_to_right": 17,
+      "right_to_wrong": 18
+    }
+  ],
+  "selected_for_900": [
+    "ecd_grpo",
+    "ecd_dapo"
+  ],
+  "warning": "300-item single-seed ranking is noisy; confirm on full 900 and further seeds"
+}
