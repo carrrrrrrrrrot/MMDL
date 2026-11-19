@@ -40,4 +40,4 @@
 
 ## 다음 판단
 
-전체 후보의 300문항 선별 상위 2개는 여전히 **ECD GRPO(195)**와 **ECD DAPO(193)**다. 전체 순위는 [기계 판독용 목록](overall_ranking.json)에도 기록했다. 이번 혼합 실험 내부의 GRPO·DAPO는 공동 1위이며, 혼합 후보를 추가 900문항에 올릴지는 전체 후보와 학습 조건을 함께 검토한 뒤 결정해야 한다. 현재 [기존 900문항 게이트](../rl_ablation_20261119_qcv2/review_gate.json)는 `awaiting_user_review`이고 [평가 큐 요약](evaluation_summary.json)의 `official_900_started`는 `false`다. 사용자 검토 전에는 900문항을 실행하지 않는다. 팀 최종 성능은 합의한 4090 공식 3시드 평가에서 확정한다.
+전체 후보의 300문항 선별 상위 2개는 여전히 **ECD GRPO(195)**와 **ECD DAPO(193)**다. 전체 순위는 [기계 판독용 목록](overall_ranking.json)에도 기록했다. 이번 혼합 실험 내부의 GRPO·DAPO는 공동 1위이며, 혼합 후보를 추가 900문항에 올릴지는 전체 후보와 학습 조건을 함께 검토한 뒤 결정해야 한다. 해당 보고서 작성 당시 [평가 큐 요약](evaluation_summary.json)의 `official_900_started`는 `false`였다. 이후 사용자가 [기존 900문항 게이트](../rl_ablation_20261119_qcv2/review_gate.json)를 해제했고 ECD GRPO 900문항 평가를 시작했으나, [ECD 데이터 확대를 위한 중단](../rl_ablation_20261119_qcv2/USER_STOP_20261120.json)으로 완료 점수는 없다. 팀 최종 성능은 합의한 4090 공식 3시드 평가에서 확정한다.

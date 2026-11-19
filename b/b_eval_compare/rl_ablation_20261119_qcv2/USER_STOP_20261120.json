@@ -1,0 +1,12 @@
+{
+  "status": "stopped_by_user_before_completion",
+  "at_utc": "2026-11-19T15:43:33.234713+00:00",
+  "reason": "Pause full 900-item scoring to test larger ECD training set",
+  "interrupted_run": "rlab19qcv2_ecd_grpo_screen900_s3407",
+  "completed_900_scores": 0,
+  "queue_pid": 1454473,
+  "candidate_pid": 1454484,
+  "handoff_exists": false,
+  "partial_logs_retained": true,
+  "dapo_900_started": false
+}

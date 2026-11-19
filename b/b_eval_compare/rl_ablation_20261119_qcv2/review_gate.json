@@ -1,5 +1,5 @@
 {
-  "status": "awaiting_user_review",
+  "status": "released_after_user_review",
   "armed_at_utc": "2026-11-19T00:26:02.954076+00:00",
   "purpose": "User review of all six fixed300 results before either top-two full900 evaluation",
   "plan_sha256": "ce38e7f435540478805e8a1dc579be91bf1b3a3fc83a7619a789aaaeed873ea7",
@@ -19,5 +19,11 @@
     "/data/chaewon/mmdl_eval_runs/rlab19qcv2_mammoth_dapo_screen900_s3407",
     "/data/chaewon/mmdl_eval_runs/rlab19qcv2_mammoth_sapo_screen900_s3407"
   ],
-  "ranking_sha256": "7ff125e2ceb1de2f600a9aa3a08af6a096c97b5f4450a9b3d9b32b4385455f9d"
+  "ranking_sha256": "7ff125e2ceb1de2f600a9aa3a08af6a096c97b5f4450a9b3d9b32b4385455f9d",
+  "released_at_utc": "2026-11-19T15:20:52.439442+00:00",
+  "approved_ranking_sha256": "7ff125e2ceb1de2f600a9aa3a08af6a096c97b5f4450a9b3d9b32b4385455f9d",
+  "selected_for_900": [
+    "ecd_grpo",
+    "ecd_dapo"
+  ]
 }

@@ -13,8 +13,10 @@ in [the baseline report](b6000_baseline_20261117/REPORT.md).
 
 The [2026-11-19 RL ablation fixed-300 screens](rl_ablation_20261119_qcv2/REPORT.md)
 compare six ECD or MAmmoTH CLEVR candidates on the same 300 questions and
-seed. They are diagnostic triage runs. Their top-two full-900 evaluation is
-paused for user review after all six fixed-300 results are available.
+seed. They are diagnostic triage runs. The user released the top-two full-900
+review gate on 2026-11-20, then stopped the first ECD GRPO evaluation before
+completion to test a larger ECD training set. No full-900 score resulted;
+the ECD DAPO full-900 evaluation never started.
 
 ## Completed 6000 screens
 
