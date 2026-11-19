@@ -92,8 +92,20 @@ def check_training(args: argparse.Namespace) -> list[dict]:
         items.append(item)
     if items[0]["info"].get("initial_lora_sha256") != items[1]["info"].get("initial_lora_sha256"):
         raise ValueError("GRPO and DAPO did not share the same initial LoRA")
-    if len(summary.get("completed", [])) != 2:
+    completed = summary.get("completed", [])
+    if len(completed) != 2:
         raise ValueError("Training summary does not list both completed runs")
+    by_loss = {entry.get("loss"): entry for entry in completed}
+    if set(by_loss) != {"grpo", "dapo"}:
+        raise ValueError("Training summary loss names changed")
+    for item in items:
+        loss = item["name"].rsplit("_", 1)[1]
+        entry = by_loss[loss]
+        if (item["info"].get("reward_groups") != 798 or
+                entry.get("reward_groups") != 798 or
+                entry.get("unique_training_sample_ids") != 798 or
+                entry.get("rollout_rows") != 6384):
+            raise ValueError(f"{loss} did not cover all 798 unique ECD questions")
     return items
 
 
