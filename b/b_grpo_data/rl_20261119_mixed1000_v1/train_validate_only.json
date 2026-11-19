@@ -1,0 +1,129 @@
+{
+  "status": "validated",
+  "base_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+  "parent_kind": "base",
+  "parent_model_path": "/home/chaewon/.cache/huggingface/hub/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17",
+  "parent_adapter_sha256": null,
+  "parent_model_manifest_path": null,
+  "parent_model_manifest_sha256": null,
+  "code_sha256": {
+    "train.py": "1ba870be51e1bf1cf5bc6bb47dc092fc76a3b52214e0b028bb351c8edce1595f",
+    "data.py": "ef5e1012aa2ca54c531550bc7c5105457308e4db6a9f46a65ec35218705fc0ad",
+    "reward.py": "ebd130b8d758c79dab0ae503c44e788ba97d39772c8e494db38ceaa4c9895f55",
+    "v12_scorer.py": "c8aaa9dff3764205e196762acbc6b470ee804cd5dd7579a2eec82a8588fc7c5b",
+    "run_reward_cases.py": "bf543ffc5a58b36105cff3f3df439d6e3058491fa27c19fd0cf4cb9e428e7f77",
+    "export_rollouts.py": "0692692542e3f99757054823557ce9f734bb93ecb21982ddddccbcddd5a2ca70"
+  },
+  "dataset": {
+    "manifest_path": "/data/chaewon/mmdl_grpo_data/rl_ablation_20261119_mixed1000_v1/mixed_manifest.jsonl",
+    "manifest_sha256": "e71df0141dabc9d696cf67e5b47d35b05801633d145d855ca83b7efdbb95637e",
+    "total_examples": 1100,
+    "selected_split": "train",
+    "selected_examples": 1000,
+    "available_splits": [
+      "heldout",
+      "train"
+    ],
+    "sources": [
+      {
+        "source": "ECD-reasoning",
+        "revision": "ECD-10k-Images-284489f",
+        "split": "train"
+      },
+      {
+        "source": "clevr_700k_new.json",
+        "revision": "mammoth-vl-shard1-a61adb899d3c",
+        "split": "train"
+      }
+    ],
+    "image_mode": "images",
+    "max_images_per_example": 1,
+    "unique_images": 1000,
+    "answer_types": {
+      "open": 1000
+    }
+  },
+  "reward_policy_path": "/data/chaewon/mmdl_b_main_code/reward_policy.v12.json",
+  "reward_policy_sha256": "dbaacb4a111d201fc30e3969434f93961c0a0573deb141e634785e8732b74f25",
+  "reward_policy_version": "b-grpo-v1.2-6102585",
+  "reward_case_v12_comparison": [
+    {
+      "case_id": "R07",
+      "answer_type": "mc",
+      "actual_reward": 0.0,
+      "v12_reward": 0,
+      "differs_from_v12": false,
+      "used_by_training_data": false
+    },
+    {
+      "case_id": "R09",
+      "answer_type": "mc",
+      "actual_reward": 0.0,
+      "v12_reward": 0,
+      "differs_from_v12": false,
+      "used_by_training_data": false
+    },
+    {
+      "case_id": "R11",
+      "answer_type": "number",
+      "actual_reward": 0.0,
+      "v12_reward": 0,
+      "differs_from_v12": false,
+      "used_by_training_data": false
+    },
+    {
+      "case_id": "R13",
+      "answer_type": "number",
+      "actual_reward": 1.0,
+      "v12_reward": 1,
+      "differs_from_v12": false,
+      "used_by_training_data": false
+    },
+    {
+      "case_id": "R14",
+      "answer_type": "quantity",
+      "actual_reward": 0.0,
+      "v12_reward": 0,
+      "differs_from_v12": false,
+      "used_by_training_data": false
+    },
+    {
+      "case_id": "R07-C",
+      "answer_type": "mc",
+      "actual_reward": 1.0,
+      "v12_reward": 1,
+      "differs_from_v12": false,
+      "used_by_training_data": false
+    }
+  ],
+  "seed": 3407,
+  "seed_set_before_model_and_lora_initialization": true,
+  "max_steps": 1000,
+  "loss_type": "dapo",
+  "num_iterations": 1,
+  "sapo_temperature_pos": 1.0,
+  "sapo_temperature_neg": 1.05,
+  "learning_rate": 1e-05,
+  "max_completion_length": 256,
+  "num_generations": 4,
+  "gradient_accumulation_steps": 4,
+  "save_steps": 25,
+  "lora": {
+    "r": 16,
+    "alpha": 32,
+    "dropout": 0.0,
+    "targets": "144 language q/k/v/o attention projections"
+  },
+  "image_preprocessing": {
+    "method": "qwen_vl_utils.fetch_image",
+    "image_patch_size": 16,
+    "min_pixels": 4096,
+    "max_pixels": 16777216,
+    "processor_size": {
+      "shortest_edge": 4096,
+      "longest_edge": 16777216
+    }
+  },
+  "adapter_dir": null,
+  "adapter_sha256": null
+}

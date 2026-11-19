@@ -1,0 +1,40 @@
+{
+  "schema": "b_rl_mixed_500_500_selection_v1",
+  "status": "exploratory_not_gold_verified_or_C_training_approved",
+  "seed": 3407,
+  "hash_tag": "mmdl-b-mixed1000-v1",
+  "heldout_hash_tag": "mmdl-b-mixed-v2",
+  "source_sha256": {
+    "ecd": "c05d5962a4b028236c726c72246eb9e8378d2ee0d96c9db3d0912f108625f1ed",
+    "clevr": "b2edb0e30acbdca0a0d64800405790fb5926f92af3f73c5e47072f3ff570a33d"
+  },
+  "source_counts": {
+    "ecd": {
+      "train": 500,
+      "heldout": 97
+    },
+    "clevr": {
+      "train": 500,
+      "heldout": 100
+    }
+  },
+  "selected": {
+    "train": 1000,
+    "heldout": 100,
+    "ecd_train": 500,
+    "clevr_train": 500,
+    "ecd_heldout": 50,
+    "clevr_heldout": 50
+  },
+  "selected_train_clevr_a_overlap": {
+    "sft1": 121,
+    "dpo_pool_or_pair": 346
+  },
+  "selected_heldout_clevr_base_k4": 50,
+  "unique_sample_ids": 1100,
+  "unique_original_ids": 1100,
+  "unique_image_hashes": 1100,
+  "unique_image_paths": 1100,
+  "output_sha256": "e71df0141dabc9d696cf67e5b47d35b05801633d145d855ca83b7efdbb95637e",
+  "note": "Rows copied from pinned inputs unchanged; source image/gold quality is not re-reviewed by this builder."
+}

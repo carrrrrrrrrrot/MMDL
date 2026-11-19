@@ -1,0 +1,25 @@
+{
+  "status": "pass",
+  "manifest_sha256": "e71df0141dabc9d696cf67e5b47d35b05801633d145d855ca83b7efdbb95637e",
+  "source_sha256": {
+    "ecd": "c05d5962a4b028236c726c72246eb9e8378d2ee0d96c9db3d0912f108625f1ed",
+    "clevr": "b2edb0e30acbdca0a0d64800405790fb5926f92af3f73c5e47072f3ff570a33d"
+  },
+  "rows": 1100,
+  "split_counts": {
+    "train": 1000,
+    "heldout": 100
+  },
+  "source_split_counts": {
+    "ECD-reasoning/heldout": 50,
+    "ECD-reasoning/train": 500,
+    "clevr_700k_new.json/heldout": 50,
+    "clevr_700k_new.json/train": 500
+  },
+  "unique_ids_questions_images": 1100,
+  "source_rows_identical": 1100,
+  "image_sha256_decode_checked": 1100,
+  "gold_v12_self_reward_one": 1100,
+  "c_training_approval": false,
+  "visual_gold_quality_verified": false
+}
