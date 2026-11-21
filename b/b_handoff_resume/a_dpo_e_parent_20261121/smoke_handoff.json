@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "requested_at_utc": "2026-11-21T13:33:11.509111+00:00",
+  "run_name": "a_dpo_e_parent_smoke_20261121",
+  "mode": "smoke",
+  "seeds": [
+    "3407"
+  ],
+  "limit": 20,
+  "evaluation_repo_commit": "61025850563d0331e365bc974a63c0d3c4ed4c2c",
+  "evaluation_script_sha256": "9a463d36b522bd9f4fe5d3d9647901283a4a00764cc0e987a2025d9466ec7992",
+  "model_manifest_sha256": "e2e3f3c7ecd8a4c9f06f8157fc8dba3d42a9f814f8bde16dadb84a899fc4ae5e",
+  "model_path": "/data/chaewon/mmdl_merged_models/dpo_e_trunc_from_a_20261121",
+  "model_lineage_sha256": "77b16bce101f14d895e821a4ed99e54243321ad3ee05c9b65a71a609440926a4",
+  "training_manifest_sha256": null,
+  "data_root": "/home/chaewon/.cache/huggingface/hub/datasets--MMMU--MMMU/snapshots/98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+  "eval_python": "/data/chaewon/mmdl_envs/vllm011_repro/bin/python3.10",
+  "baseline_run": null,
+  "command": [
+    "bash",
+    "/home/chaewon/projects/qwen_eval_project/MMDL_eval_v1_2/scripts/run_mmmu_eval.sh",
+    "--model_path",
+    "/data/chaewon/mmdl_merged_models/dpo_e_trunc_from_a_20261121",
+    "--data_root",
+    "/home/chaewon/.cache/huggingface/hub/datasets--MMMU--MMMU/snapshots/98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+    "--seeds",
+    "3407",
+    "--output_path",
+    "/data/chaewon/mmdl_eval_runs",
+    "--run_name",
+    "a_dpo_e_parent_smoke_20261121",
+    "--limit",
+    "20"
+  ],
+  "completed_at_utc": "2026-11-21T13:37:59.207402+00:00",
+  "result_files": {
+    "3407": {
+      "samples": {
+        "path": "/data/chaewon/mmdl_eval_runs/a_dpo_e_parent_smoke_20261121/seed_3407/mmdl_merged_models__dpo_e_trunc_from_a_20261121/20261121_213318_samples_mmmu_val_mmdl.jsonl",
+        "sha256": "6ac0da48952a524f5717e2c86d5a6085c32f4ec9e1826d388209b92850b6dddf"
+      },
+      "results": {
+        "path": "/data/chaewon/mmdl_eval_runs/a_dpo_e_parent_smoke_20261121/seed_3407/mmdl_merged_models__dpo_e_trunc_from_a_20261121/20261121_213318_results.json",
+        "sha256": "a17ce917638c90db349c174b07e62d012f2da3b2ff53cdff832ba224e2481ac2"
+      },
+      "run_meta": {
+        "path": "/data/chaewon/mmdl_eval_runs/a_dpo_e_parent_smoke_20261121/seed_3407/run_meta.txt",
+        "sha256": "852448f55ab82b4e04cb31b82acbfd2d3a5ca2893cb53f3f3bab3d0b4ec20fa6"
+      }
+    }
+  },
+  "comparison_summary": null,
+  "note": "6000 screen/full values are screening results; final official result requires 4090 v1.2 3 seeds."
+}
