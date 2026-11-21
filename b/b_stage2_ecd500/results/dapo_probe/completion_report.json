@@ -1,0 +1,19 @@
+{
+  "status": "complete",
+  "method": "dapo_core",
+  "mode": "probe",
+  "run_manifest_sha256": "ffc23727fc23794fa3321db2c9065137bf30e6e3a6ee776abddf34cbe6620a31",
+  "resolved_config_sha256": "0d90af6cf540d0aecfeb5e12783f6a866c1e580020f22ea95cf49c876344960d",
+  "train_sha256": "2403dd73164a64b4239c295032b25b2626d6c569ae7f2b0d9b704c82e1b23c8d",
+  "adapter_dir": "/data/chaewon/mmdl_stage2_runs/ecd500_dapo_core_batch100_probe_20261120/checkpoints/global_step_1/actor/lora_adapter",
+  "adapter_sha256": "629845fb2c010091fa4d3c7e1bc439468aaee0a4c3bb6f542296cd6f49129947",
+  "optimizer_steps": 1,
+  "positive_grad_steps": 1,
+  "final_validation_accuracy": 0.2,
+  "validation_rows": 5,
+  "visit_audit_sha256": "03aa85adc3fb849d3dd2f3d3a83792a3027a6a013339e2a68ce408a9ccd940d1",
+  "generated_rollouts": 3750,
+  "used_rollouts": 500,
+  "wall_seconds": 780.0,
+  "gpu_peak_used_mib": 49818
+}

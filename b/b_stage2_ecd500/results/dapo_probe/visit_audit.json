@@ -1,0 +1,35 @@
+{
+  "status": "visit_audit_passed",
+  "method": "dapo_core",
+  "mode": "probe",
+  "expected_train_ids": 500,
+  "outer_rollout_cycles": 1,
+  "attempted_question_visits": 750,
+  "used_question_visits": 100,
+  "attempted_unique_ids": 500,
+  "used_unique_ids": 76,
+  "not_attempted_ids": 0,
+  "not_used_ids": 424,
+  "attempt_visit_histogram": {
+    "1": 250,
+    "2": 250
+  },
+  "used_visit_histogram": {
+    "1": 52,
+    "2": 24
+  },
+  "generated_rollouts": 3750,
+  "used_rollouts": 500,
+  "steps": [
+    {
+      "step": 1,
+      "attempted_questions": 750,
+      "used_questions": 100,
+      "draws": 15,
+      "generated_rollouts": 3750,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.13333333333333333
+    }
+  ],
+  "epoch_interpretation": "nominal outer cycles; online filtering changes per-ID visits"
+}

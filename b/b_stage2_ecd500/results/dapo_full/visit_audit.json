@@ -1,0 +1,181 @@
+{
+  "status": "visit_audit_passed",
+  "method": "dapo_core",
+  "mode": "full",
+  "expected_train_ids": 500,
+  "outer_rollout_cycles": 15,
+  "attempted_question_visits": 10550,
+  "used_question_visits": 1500,
+  "attempted_unique_ids": 500,
+  "used_unique_ids": 115,
+  "not_attempted_ids": 0,
+  "not_used_ids": 385,
+  "attempt_visit_histogram": {
+    "21": 450,
+    "22": 50
+  },
+  "used_visit_histogram": {
+    "1": 7,
+    "2": 7,
+    "3": 4,
+    "4": 2,
+    "5": 4,
+    "6": 3,
+    "7": 5,
+    "8": 6,
+    "9": 3,
+    "10": 1,
+    "11": 5,
+    "12": 6,
+    "13": 5,
+    "14": 3,
+    "15": 1,
+    "16": 2,
+    "17": 3,
+    "18": 2,
+    "19": 10,
+    "20": 15,
+    "21": 19,
+    "22": 2
+  },
+  "generated_rollouts": 52750,
+  "used_rollouts": 7500,
+  "steps": [
+    {
+      "step": 1,
+      "attempted_questions": 750,
+      "used_questions": 100,
+      "draws": 15,
+      "generated_rollouts": 3750,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.13333333333333333
+    },
+    {
+      "step": 2,
+      "attempted_questions": 700,
+      "used_questions": 100,
+      "draws": 14,
+      "generated_rollouts": 3500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.14285714285714285
+    },
+    {
+      "step": 3,
+      "attempted_questions": 700,
+      "used_questions": 100,
+      "draws": 14,
+      "generated_rollouts": 3500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.14285714285714285
+    },
+    {
+      "step": 4,
+      "attempted_questions": 700,
+      "used_questions": 100,
+      "draws": 14,
+      "generated_rollouts": 3500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.14285714285714285
+    },
+    {
+      "step": 5,
+      "attempted_questions": 650,
+      "used_questions": 100,
+      "draws": 13,
+      "generated_rollouts": 3250,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.15384615384615385
+    },
+    {
+      "step": 6,
+      "attempted_questions": 700,
+      "used_questions": 100,
+      "draws": 14,
+      "generated_rollouts": 3500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.14285714285714285
+    },
+    {
+      "step": 7,
+      "attempted_questions": 700,
+      "used_questions": 100,
+      "draws": 14,
+      "generated_rollouts": 3500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.14285714285714285
+    },
+    {
+      "step": 8,
+      "attempted_questions": 700,
+      "used_questions": 100,
+      "draws": 14,
+      "generated_rollouts": 3500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.14285714285714285
+    },
+    {
+      "step": 9,
+      "attempted_questions": 750,
+      "used_questions": 100,
+      "draws": 15,
+      "generated_rollouts": 3750,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.13333333333333333
+    },
+    {
+      "step": 10,
+      "attempted_questions": 750,
+      "used_questions": 100,
+      "draws": 15,
+      "generated_rollouts": 3750,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.13333333333333333
+    },
+    {
+      "step": 11,
+      "attempted_questions": 700,
+      "used_questions": 100,
+      "draws": 14,
+      "generated_rollouts": 3500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.14285714285714285
+    },
+    {
+      "step": 12,
+      "attempted_questions": 700,
+      "used_questions": 100,
+      "draws": 14,
+      "generated_rollouts": 3500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.14285714285714285
+    },
+    {
+      "step": 13,
+      "attempted_questions": 650,
+      "used_questions": 100,
+      "draws": 13,
+      "generated_rollouts": 3250,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.15384615384615385
+    },
+    {
+      "step": 14,
+      "attempted_questions": 700,
+      "used_questions": 100,
+      "draws": 14,
+      "generated_rollouts": 3500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.14285714285714285
+    },
+    {
+      "step": 15,
+      "attempted_questions": 700,
+      "used_questions": 100,
+      "draws": 14,
+      "generated_rollouts": 3500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 0.14285714285714285
+    }
+  ],
+  "epoch_interpretation": "nominal outer cycles; online filtering changes per-ID visits"
+}

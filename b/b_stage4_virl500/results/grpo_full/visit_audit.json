@@ -1,0 +1,189 @@
+{
+  "status": "visit_audit_passed",
+  "method": "grpo",
+  "mode": "full",
+  "expected_train_ids": 500,
+  "outer_rollout_cycles": 15,
+  "attempted_question_visits": 1500,
+  "used_question_visits": 1500,
+  "attempted_unique_ids": 500,
+  "used_unique_ids": 500,
+  "not_attempted_ids": 0,
+  "not_used_ids": 0,
+  "attempt_visit_histogram": {
+    "3": 500
+  },
+  "used_visit_histogram": {
+    "3": 500
+  },
+  "generated_rollouts": 7500,
+  "used_rollouts": 7500,
+  "steps": [
+    {
+      "step": 1,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 2,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 3,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 4,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 5,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 6,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 7,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 8,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 9,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 10,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 11,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 12,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 13,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 14,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    },
+    {
+      "step": 15,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "used_unique_ids": 100,
+      "used_duplicate_visits": 0,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    }
+  ],
+  "epoch_interpretation": "all 500 IDs exactly 3 fresh-generation visits"
+}

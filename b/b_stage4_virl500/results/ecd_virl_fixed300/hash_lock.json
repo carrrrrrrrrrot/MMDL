@@ -1,0 +1,18 @@
+{
+  "ecd_grpo": {
+    "summary_sha256": "41267b10efb36fb36d0fc580150c00ba614140746a9e7bc326b55c64eb40594d",
+    "paired_sha256": "45ffa7281aae74302edf1d6b1dc9c54198f92fa4b318d4f3c855a03b86166708"
+  },
+  "ecd_dapo": {
+    "summary_sha256": "8ee976f6fb6d16661dc1a5785abcaba129f69db6acff6061f8b2debe44659d4c",
+    "paired_sha256": "0fd20c84c6d97a128550b12b0c8378b2d9c12b087bbc0b98229822c406d2c631"
+  },
+  "virl_grpo": {
+    "summary_sha256": "893a5b9694e0f82f171bea7f8445686f7bdaf08e70d15924ab3ef5cfe0a306c7",
+    "paired_sha256": "a02a2e8e9f9bb2e256b8830c46b65cb840465bc0533cb5d5b56af219a0d78fbb"
+  },
+  "virl_dapo": {
+    "summary_sha256": "45d8e1cb088a16a64c8d0b564390b6230b7914b2c46829c72aa32b74ffa58db3",
+    "paired_sha256": "b8ff3a73b13b24f08dd09b0253ef388aab28efd8eea2387d802db703df4c5b12"
+  }
+}

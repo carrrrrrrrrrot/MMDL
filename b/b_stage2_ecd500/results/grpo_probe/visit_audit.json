@@ -1,0 +1,33 @@
+{
+  "status": "visit_audit_passed",
+  "method": "grpo",
+  "mode": "probe",
+  "expected_train_ids": 500,
+  "outer_rollout_cycles": 1,
+  "attempted_question_visits": 100,
+  "used_question_visits": 100,
+  "attempted_unique_ids": 100,
+  "used_unique_ids": 100,
+  "not_attempted_ids": 400,
+  "not_used_ids": 400,
+  "attempt_visit_histogram": {
+    "1": 100
+  },
+  "used_visit_histogram": {
+    "1": 100
+  },
+  "generated_rollouts": 500,
+  "used_rollouts": 500,
+  "steps": [
+    {
+      "step": 1,
+      "attempted_questions": 100,
+      "used_questions": 100,
+      "draws": 2,
+      "generated_rollouts": 500,
+      "used_rollouts": 500,
+      "group_acceptance_rate": 1.0
+    }
+  ],
+  "epoch_interpretation": "one-step batch100 probe"
+}

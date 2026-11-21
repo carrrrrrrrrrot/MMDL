@@ -1,0 +1,37 @@
+{
+  "status": "complete",
+  "completed": [
+    {
+      "dataset": "ecd",
+      "loss": "grpo",
+      "run_dir": "/data/chaewon/mmdl_grpo_runs/rl_ablation_20261120_ecd798_fullpass/runs/ecd_grpo",
+      "manifest_sha256": "0ba6b37f403cb5a392555225ddb7ce11208cc02a81ac80bf23394f027ef2f69e",
+      "adapter_sha256": "07a07435187a76ad92a58abf2a6c6936140206ba3e011465f339be0a7eded1db",
+      "initial_lora_sha256": "27d2e5cab7bf6becc2fa6ff8928f2832d3ef3b1a478971402819d1129d10aa51",
+      "global_step": 1596,
+      "mixed_reward_groups": 102,
+      "reward_groups": 798,
+      "mean_reward": 0.299812030075188,
+      "lora_delta_l1": 3320.697168827057,
+      "unique_training_sample_ids": 798,
+      "rollout_rows": 6384
+    },
+    {
+      "dataset": "ecd",
+      "loss": "dapo",
+      "run_dir": "/data/chaewon/mmdl_grpo_runs/rl_ablation_20261120_ecd798_fullpass/runs/ecd_dapo",
+      "manifest_sha256": "02959f028022157f43e659163b46a4e12e8fd05d4e8fdb821767e472fe96d3df",
+      "adapter_sha256": "5f453413f10adbb30e5829f5fab16cd8ef85745496542858766d4624b6516d4d",
+      "initial_lora_sha256": "27d2e5cab7bf6becc2fa6ff8928f2832d3ef3b1a478971402819d1129d10aa51",
+      "global_step": 1596,
+      "mixed_reward_groups": 92,
+      "reward_groups": 798,
+      "mean_reward": 0.3057644110275689,
+      "lora_delta_l1": 3114.9015696048737,
+      "unique_training_sample_ids": 798,
+      "rollout_rows": 6384
+    }
+  ],
+  "blocked_datasets": [],
+  "remaining": []
+}

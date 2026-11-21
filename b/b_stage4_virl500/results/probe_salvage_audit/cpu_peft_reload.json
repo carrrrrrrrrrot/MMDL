@@ -1,0 +1,25 @@
+{
+  "status": "passed_cpu_peft_reload",
+  "base": "/home/chaewon/.cache/huggingface/hub/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17",
+  "adapter": "/data/chaewon/mmdl_stage4_runs/virl500_grpo_probe_20261121/checkpoints/global_step_1/actor/lora_adapter",
+  "adapter_config_sha256": "248f8af603f63b2408671bdef8643621bab3ca203494a493405607ddeac657b8",
+  "adapter_weights_sha256": "3558a1fa02f0fa21bea06ecfaec3208ac69ccb4986a3f04c31bed4df25afe9d7",
+  "peft_type": "LORA",
+  "r": 16,
+  "lora_alpha": 32,
+  "target_modules": [
+    "k_proj",
+    "o_proj",
+    "q_proj",
+    "v_proj"
+  ],
+  "exclude_modules": ".*visual.*",
+  "saved_tensor_count": 288,
+  "loaded_tensor_count": 288,
+  "exact_tensor_equal_count": 288,
+  "all_finite": true,
+  "lora_b_nonzero_elements": 5013487,
+  "lora_b_total_elements": 5013504,
+  "elapsed_seconds": 0.41,
+  "cpu_only": true
+}

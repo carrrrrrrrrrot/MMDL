@@ -1,0 +1,24 @@
+{
+  "status": "complete",
+  "method": "grpo",
+  "mode": "full",
+  "run_manifest_sha256": "0d595536b5d796401ca508327593439cea76c575153c62092530127bbf45f5f5",
+  "resolved_config_sha256": "3b8c33dfe13014f0c25de58618c93f17d267534e69f73f87e5598ec18ebf2f7a",
+  "train_sha256": "f033f9e7c5b17ee351a53e993dc1f1d7bea25a924b109d674a24a97dd940eebe",
+  "adapter_dir": "/data/chaewon/mmdl_stage4_runs/virl500_grpo_full_20261121/checkpoints/global_step_15/actor/lora_adapter",
+  "adapter_sha256": "d7ebe542796f93b855792d2edcb99aa2d6bced8362d5ccc7e515b58e32916e02",
+  "optimizer_steps": 15,
+  "positive_grad_steps": 15,
+  "final_validation_accuracy": 0.381,
+  "validation_rows": 97,
+  "visit_audit_sha256": "4aad326de2869b1d455fe07f32217cea685baaaff8f6636b907faf0c1fef5dae",
+  "generated_rollouts": 7500,
+  "used_rollouts": 7500,
+  "wall_seconds": 3055.0,
+  "gpu_peak_used_mib": 45550,
+  "metric_source": {
+    "kind": "console",
+    "path": "/data/chaewon/mmdl_stage4_runs/virl500_grpo_full_20261121/console.log",
+    "sha256": "b467466b067e022880e804471578ac5ada28ab6f4d5178d406cf47080ae966c6"
+  }
+}
