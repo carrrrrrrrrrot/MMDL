@@ -1,0 +1,90 @@
+# Pinned EasyR1 a73346d: DPO(e) fallback with 2,048 response tokens.
+# run_ecd500.sh overrides method and probe/full mode.
+data:
+  train_files: /data/chaewon/mmdl_stage1_paper_style_20261120/scripts/ecd500_easyr1.jsonl
+  val_files: /data/chaewon/mmdl_stage1_paper_style_20261120/scripts/ecd97_holdout_easyr1.jsonl
+  prompt_key: prompt
+  answer_key: answer
+  image_key: images
+  format_prompt: null
+  max_prompt_length: 8192
+  max_response_length: 2048
+  rollout_batch_size: 100
+  mini_rollout_batch_size: 50
+  val_batch_size: 8
+  shuffle: true
+  seed: 3407
+  min_pixels: 4096
+  max_pixels: 16777216
+  filter_overlong_prompts: false
+
+algorithm:
+  adv_estimator: grpo
+  disable_kl: true
+  use_kl_loss: false
+  online_filtering: false
+  filter_key: accuracy
+  filter_low: 0.0
+  filter_high: 1.0
+
+worker:
+  actor:
+    global_batch_size: 100
+    ppo_epochs: 1
+    fsdp:
+      use_orig_params: false
+    micro_batch_size_per_device_for_update: 1
+    micro_batch_size_per_device_for_experience: 1
+    padding_free: true
+    dynamic_batching: true
+    ulysses_size: 1
+    loss_avg_mode: seq
+    model:
+      model_path: /home/chaewon/.cache/huggingface/hub/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17
+      enable_gradient_checkpointing: true
+      # PEFT freezes all base weights; no LoRA module matches .*visual.*.
+      # Keeping this false avoids EasyR1 forcing FSDP use_orig_params=True,
+      # which reshapes frozen vision patch weights across microbatches on 1 GPU.
+      freeze_vision_tower: false
+      lora:
+        rank: 16
+        alpha: 32
+        target_modules: q_proj,k_proj,v_proj,o_proj
+        exclude_modules: .*visual.*
+    optim:
+      lr: 1.0e-6
+      lr_scheduler_type: constant
+      lr_warmup_ratio: 0.0
+  rollout:
+    n: 5
+    val_override_config:
+      n: 1
+    max_num_batched_tokens: 16384
+    temperature: 0.7
+    top_p: 0.8
+    tensor_parallel_size: 1
+    gpu_memory_utilization: 0.4
+    enforce_eager: true
+  reward:
+    reward_function: /data/chaewon/mmdl_stage1_paper_style_20261120/scripts/reward_v12.py:compute_score
+    reward_function_kwargs:
+      reward_mode: v12_binary
+      max_response_length: 2048
+      overlong_buffer_length: 256
+      overlong_penalty_factor: 1.0
+
+trainer:
+  total_epochs: 3
+  max_steps: null
+  project_name: mmdl_stage2
+  experiment_name: ecd500_grpo_cap2048
+  logger: [console]
+  nnodes: 1
+  n_gpus_per_node: 1
+  max_try_make_batch: 24
+  val_before_train: false
+  val_freq: -1
+  save_freq: 3
+  save_limit: 2
+  save_model_only: false
+  find_last_checkpoint: false

@@ -1,0 +1,14 @@
+date: 2026-11-22T08:15:10+09:00
+repo_commit: 61025850563d0331e365bc974a63c0d3c4ed4c2c
+repo_dirty_files: 0
+gpu: NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 97887 MiB, 580.178.04
+model_path: /data/chaewon/mmdl_merged_models/dpo_e_trunc_from_a_20261121
+data_root: /home/chaewon/.cache/huggingface/hub/datasets--MMMU--MMMU/snapshots/98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68
+backend: vllm
+subjects: all
+limit: none
+gen_override: none
+diag_env: 
+command: /data/chaewon/mmdl_envs/vllm011_repro/bin/python3.10 -m accelerate.commands.launch --num_processes=1 --main_process_port=12346 -m lmms_eval --model vllm --model_args model=/data/chaewon/mmdl_merged_models/dpo_e_trunc_from_a_20261121,is_qwen3_vl=True,gpu_memory_utilization=0.85,max_model_len=40960,limit_mm_per_prompt={"image":7},mm_processor_kwargs={"min_pixels":4096,"max_pixels":16777216} --gen_kwargs seed=3407 --tasks mmmu_val_mmdl --include_path /data/chaewon/mmdl_eval_runs/a_dpo_e_parent_900_s3407_20261122/seed_3407/task --batch_size 1024 --seed 3407 --output_path /data/chaewon/mmdl_eval_runs/a_dpo_e_parent_900_s3407_20261122/seed_3407 --log_samples
+peak_vram_mib: 85026
+exit_status: 0

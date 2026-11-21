@@ -31,7 +31,11 @@ FIELDS = {
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("console_log", type=Path)
+    parser.add_argument("--expected-steps", type=int, default=15,
+                        help="Expected update count; use 1 for a completed probe")
     args = parser.parse_args()
+    if args.expected_steps < 1:
+        parser.error("--expected-steps must be positive")
     raw = args.console_log.read_text(encoding="utf-8", errors="replace")
     steps: dict[int, dict[str, float]] = {}
     current: int | None = None
@@ -67,8 +71,8 @@ def main() -> None:
         entry = re.fullmatch(r"\s+([^:]+):\s+(.+)", line)
         if entry and (section, entry.group(1)) in FIELDS:
             steps[current][f"{section}.{entry.group(1)}"] = float(entry.group(2))
-    if sorted(steps) != list(range(1, 16)):
-        raise ValueError(f"Expected Steps 1..15, found {sorted(steps)}")
+    if sorted(steps) != list(range(1, args.expected_steps + 1)):
+        raise ValueError(f"Expected Steps 1..{args.expected_steps}, found {sorted(steps)}")
     required = {f"{section}.{key}" for section, key in FIELDS}
     for number, metrics in steps.items():
         missing = required - metrics.keys()
