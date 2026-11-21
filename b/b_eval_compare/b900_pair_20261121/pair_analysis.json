@@ -1,0 +1,40 @@
+{
+  "all900": {
+    "items": 900,
+    "baseline_correct": 558,
+    "old_grpo_correct": 550,
+    "new_dapo_correct": 559,
+    "both_candidates_correct": 493,
+    "old_grpo_only_correct": 57,
+    "new_dapo_only_correct": 66,
+    "both_candidates_wrong": 284,
+    "old_grpo_missing_final_answer": 95,
+    "new_dapo_missing_final_answer": 97
+  },
+  "fixed300_ids_within_full900": {
+    "items": 300,
+    "baseline_correct": 185,
+    "old_grpo_correct": 186,
+    "new_dapo_correct": 186,
+    "both_candidates_correct": 170,
+    "old_grpo_only_correct": 16,
+    "new_dapo_only_correct": 16,
+    "both_candidates_wrong": 98,
+    "old_grpo_missing_final_answer": 38,
+    "new_dapo_missing_final_answer": 38
+  },
+  "remaining600": {
+    "items": 600,
+    "baseline_correct": 373,
+    "old_grpo_correct": 364,
+    "new_dapo_correct": 373,
+    "both_candidates_correct": 323,
+    "old_grpo_only_correct": 41,
+    "new_dapo_only_correct": 50,
+    "both_candidates_wrong": 186,
+    "old_grpo_missing_final_answer": 57,
+    "new_dapo_missing_final_answer": 59
+  },
+  "old_grpo_fixed300_correctness_changed_vs_prior_run": 29,
+  "new_dapo_fixed300_correctness_changed_vs_prior_run": 40
+}

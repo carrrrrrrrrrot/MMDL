@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "requested_at_utc": "2026-11-21T08:03:31.708275+00:00",
+  "run_name": "b900_ecd500_grpo_trl_20261121_s3407",
+  "mode": "screen",
+  "seeds": [
+    "3407"
+  ],
+  "limit": null,
+  "evaluation_repo_commit": "61025850563d0331e365bc974a63c0d3c4ed4c2c",
+  "evaluation_script_sha256": "9a463d36b522bd9f4fe5d3d9647901283a4a00764cc0e987a2025d9466ec7992",
+  "model_manifest_sha256": "ad69b76bd3885b9e7b07ff988ee4befc8f1aa92cee8847648004558dfeb8a844",
+  "model_path": "/data/chaewon/mmdl_merged_models/rlab19qcv2_ecd_grpo",
+  "model_lineage_sha256": "d171ac9f1c577687b274b3f96dff79bac3704953b666be64fa11958ce4a7eb2c",
+  "training_manifest_sha256": "fa711016367a32813ea24071837c94162801c100a51f7469dca2f4195dda49da",
+  "data_root": "/home/chaewon/.cache/huggingface/hub/datasets--MMMU--MMMU/snapshots/98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+  "eval_python": "/data/chaewon/mmdl_envs/vllm011_repro/bin/python3.10",
+  "baseline_run": "/data/chaewon/mmdl_eval_runs/b6000_baseline_v12_20261117",
+  "command": [
+    "bash",
+    "/home/chaewon/projects/qwen_eval_project/MMDL_eval_v1_2/scripts/run_mmmu_eval.sh",
+    "--model_path",
+    "/data/chaewon/mmdl_merged_models/rlab19qcv2_ecd_grpo",
+    "--data_root",
+    "/home/chaewon/.cache/huggingface/hub/datasets--MMMU--MMMU/snapshots/98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+    "--seeds",
+    "3407",
+    "--output_path",
+    "/data/chaewon/mmdl_eval_runs",
+    "--run_name",
+    "b900_ecd500_grpo_trl_20261121_s3407"
+  ]
+}
