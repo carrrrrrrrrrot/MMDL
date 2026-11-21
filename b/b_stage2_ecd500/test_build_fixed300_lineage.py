@@ -105,7 +105,42 @@ class LineageTest(unittest.TestCase):
             put_json(training_manifest_path, output)
             self.assertIsNotNone(validate_training_lineage(merged, training_manifest_path))
 
+            parent_dir = root / "dpo_parent"
+            parent_dir.mkdir()
+            parent_manifest_path = parent_dir / "model_manifest.json"
+            dpo_sha = "1" * 64
+            put_json(parent_manifest_path, {
+                "status": "complete", "parent_kind": "merged_base_dpo",
+                "base_revision": BASE_REVISION, "model_path": str(parent_dir),
+                "adapters": [{"role": "dpo", "weights_sha256": dpo_sha}],
+            })
+            source = json.loads(source_path.read_text(encoding="utf-8"))
+            source.update({
+                "base_model": str(parent_dir), "parent_kind": "merged_dpo",
+                "parent_model_path": str(parent_dir),
+                "parent_model_manifest_path": str(parent_manifest_path),
+                "parent_model_manifest_sha256": sha256(parent_manifest_path),
+                "parent_adapter_sha256": dpo_sha,
+            })
+            put_json(source_path, source)
             completion = json.loads(completion_path.read_text(encoding="utf-8"))
+            completion["run_manifest_sha256"] = sha256(source_path)
+            put_json(completion_path, completion)
+            merged = {
+                "status": "complete", "parent_kind": "merged_dpo_grpo",
+                "base_revision": BASE_REVISION,
+                "adapters": [
+                    {"role": "dpo", "weights_sha256": dpo_sha},
+                    {"role": "grpo", "weights_sha256": sha256(adapter / "adapter_model.safetensors")},
+                ],
+            }
+            put_json(model_manifest_path, merged)
+            output = build(args)
+            self.assertEqual(output["parent_kind"], "merged_dpo")
+            self.assertEqual(output["parent_adapter_sha256"], dpo_sha)
+            put_json(training_manifest_path, output)
+            self.assertIsNotNone(validate_training_lineage(merged, training_manifest_path))
+
             completion["adapter_sha256"] = "0" * 64
             put_json(completion_path, completion)
             with self.assertRaisesRegex(ValueError, "adapter SHA256 differ"):

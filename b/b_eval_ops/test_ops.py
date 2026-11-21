@@ -9,24 +9,18 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from candidate_eval import check_own_gpu_baseline, mode_settings, validate_training_lineage
+from candidate_eval import check_own_gpu_baseline, validate_training_lineage
 from merge_lora import validate_roles
 from orchestrate_insurance import proposed_baseline_gate
-from ops_common import BASE_REVISION, ordered_lineage, safe_name, sha256_json
+from ops_common import BASE_REVISION, ordered_lineage, safe_name, sha256_file, sha256_json
 
 
 class ContractTests(unittest.TestCase):
-    def test_one_seed_screen_keeps_default_and_selects_seed_1(self) -> None:
-        self.assertEqual(mode_settings("screen", None)["seeds"], ("3407",))
-        self.assertEqual(mode_settings("screen", "1")["seeds"], ("1",))
-        self.assertEqual(mode_settings("full", None)["seeds"], ("3407", "1", "2"))
-        with self.assertRaises(ValueError):
-            mode_settings("full", "1")
-
     def test_role_order(self) -> None:
-        for roles in (["sft"], ["grpo"], ["sft", "grpo"], ["sft", "dpo"]):
+        for roles in (["sft"], ["dpo"], ["grpo"], ["sft", "grpo"],
+                      ["sft", "dpo"], ["dpo", "grpo"]):
             validate_roles(roles)
-        for roles in (["grpo", "sft"], ["sft", "sft"], []):
+        for roles in (["grpo", "sft"], ["grpo", "dpo"], ["sft", "sft"], []):
             with self.assertRaises(ValueError):
                 validate_roles(roles)
 
@@ -78,6 +72,34 @@ class ContractTests(unittest.TestCase):
             )
             with self.assertRaises(ValueError):
                 validate_training_lineage({"adapters": [{"role": "sft", "weights_sha256": "b" * 64}]}, path)
+
+    def test_dpo_then_grpo_requires_the_exact_parent_manifest(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            parent = Path(temp) / "dpo_parent"
+            parent.mkdir()
+            parent_manifest = parent / "model_manifest.json"
+            record = {
+                "status": "complete", "parent_kind": "merged_base_dpo",
+                "model_path": str(parent),
+                "adapters": [{"role": "dpo", "weights_sha256": "a" * 64}],
+            }
+            parent_manifest.write_text(json.dumps(record), encoding="utf-8")
+            path = Path(temp) / "training_manifest.json"
+            train = {
+                "base_revision": BASE_REVISION, "parent_kind": "merged_dpo",
+                "parent_model_path": str(parent),
+                "parent_model_manifest_sha256": sha256_file(parent_manifest),
+                "parent_adapter_sha256": "a" * 64, "adapter_sha256": "b" * 64,
+            }
+            path.write_text(json.dumps(train), encoding="utf-8")
+            model = {"adapters": [
+                {"role": "dpo", "weights_sha256": "a" * 64},
+                {"role": "grpo", "weights_sha256": "b" * 64},
+            ]}
+            self.assertEqual(validate_training_lineage(model, path), train)
+            parent_manifest.write_text(json.dumps({**record, "status": "changed"}), encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "changed"):
+                validate_training_lineage(model, path)
 
     def test_baseline_must_be_complete_and_same_gpu(self) -> None:
         with tempfile.TemporaryDirectory() as temp:

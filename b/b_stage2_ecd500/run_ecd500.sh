@@ -17,13 +17,23 @@ engine="$stage1_root/easyr1"
 stage2_root=${MMDL_STAGE2_ROOT:-/data/chaewon/mmdl_stage2_ecd500_20261120}
 train_python=${MMDL_TRAIN_PYTHON:-/data/chaewon/mmdl_envs/easyr1_stage1_20261120/bin/python}
 base_model=${MMDL_BASE_MODEL:-/home/chaewon/.cache/huggingface/hub/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17}
+parent_args=()
+if [[ -n ${MMDL_DPO_PARENT_MANIFEST:-} || -n ${MMDL_DPO_ADAPTER_SHA256:-} ]]; then
+  if [[ -z ${MMDL_DPO_PARENT_MANIFEST:-} || -z ${MMDL_DPO_ADAPTER_SHA256:-} ]]; then
+    echo "Set both MMDL_DPO_PARENT_MANIFEST and MMDL_DPO_ADAPTER_SHA256" >&2
+    exit 2
+  fi
+  parent_args=(--parent-manifest "$MMDL_DPO_PARENT_MANIFEST"
+               --expected-dpo-adapter-sha256 "$MMDL_DPO_ADAPTER_SHA256")
+fi
 export PYTHONPATH="$engine${PYTHONPATH:+:$PYTHONPATH}"
 export RAY_TMPDIR="${MMDL_RAY_TMPDIR:-/data/chaewon/ray_s1}"
 mkdir -p "$RAY_TMPDIR"
 
 "$train_python" "$stage2_root/preflight_ecd500.py" "$method" "$mode" "$run_dir" \
   --source-config "$stage2_root/config_ecd500.yaml" \
-  --engine "$engine" --stage1 "$stage1_root" --base "$base_model"
+  --engine "$engine" --stage1 "$stage1_root" --base "$base_model" \
+  "${parent_args[@]}"
 
 export MMDL_V12_IMAGE_PARITY=1
 export MMDL_VISIT_LOG_PATH="$run_dir/visits.jsonl"

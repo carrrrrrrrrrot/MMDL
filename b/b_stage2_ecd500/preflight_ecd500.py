@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import subprocess
 from pathlib import Path
 
@@ -15,6 +16,7 @@ from verl.trainer.config import PPOConfig
 
 BASE_REVISION = "ebb281ec70b05090aa6165b016eac8ec08e71b17"
 ENGINE_HEAD = "a73346d028ba0335aa42da104972c86e6cd0fe69"
+SHA256 = re.compile(r"[0-9a-f]{64}")
 
 
 def sha256(path: Path) -> str:
@@ -61,8 +63,45 @@ def validate_train(train: Path, validation: Path) -> dict:
             "validation_sha256": sha256(validation)}
 
 
-def make_config(source: Path, method: str, mode: str, run_dir: Path, stage1: Path):
+def validate_parent(parent: Path, manifest_path: Path | None,
+                    expected_dpo_sha: str | None) -> dict:
+    parent = parent.resolve(strict=True)
+    if manifest_path is None:
+        if expected_dpo_sha is not None:
+            raise ValueError("DPO adapter SHA requires a parent model manifest")
+        if parent.name != BASE_REVISION or not (parent / "config.json").is_file():
+            raise ValueError(f"Base revision differs: {parent}")
+        return {"parent_kind": "base", "parent_model_path": str(parent),
+                "parent_model_manifest_path": None, "parent_model_manifest_sha256": None,
+                "parent_adapter_sha256": None}
+    if not isinstance(expected_dpo_sha, str) or not SHA256.fullmatch(expected_dpo_sha):
+        raise ValueError("Merged DPO parent requires the full adapter SHA256")
+    manifest_path = manifest_path.resolve(strict=True)
+    if manifest_path.parent != parent or (parent / "_INCOMPLETE").exists():
+        raise ValueError("DPO parent manifest must reside in a complete merged model")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if (manifest.get("status") != "complete" or
+            manifest.get("parent_kind") != "merged_base_dpo" or
+            manifest.get("base_revision") != BASE_REVISION or
+            Path(manifest.get("model_path", "")).resolve() != parent):
+        raise ValueError("DPO parent manifest does not match the pinned merged model")
+    adapters = manifest.get("adapters")
+    if not isinstance(adapters, list) or len(adapters) != 1 or (
+            adapters[0].get("role"), adapters[0].get("weights_sha256")) != (
+            "dpo", expected_dpo_sha):
+        raise ValueError("DPO parent adapter lineage differs from the handoff SHA256")
+    if not (parent / "config.json").is_file() or not list(parent.glob("*.safetensors")):
+        raise ValueError("DPO parent model files are missing")
+    return {"parent_kind": "merged_dpo", "parent_model_path": str(parent),
+            "parent_model_manifest_path": str(manifest_path),
+            "parent_model_manifest_sha256": sha256(manifest_path),
+            "parent_adapter_sha256": expected_dpo_sha}
+
+
+def make_config(source: Path, method: str, mode: str, run_dir: Path,
+                stage1: Path, parent: Path):
     config = OmegaConf.load(source)
+    config.worker.actor.model.model_path = str(parent)
     if method == "grpo":
         config.algorithm.online_filtering = False
         config.worker.actor.loss_avg_mode = "seq"
@@ -88,7 +127,7 @@ def make_config(source: Path, method: str, mode: str, run_dir: Path, stage1: Pat
     return config
 
 
-def verify_config(config, mode: str, method: str) -> dict:
+def verify_config(config, mode: str, method: str, parent: Path) -> dict:
     merged = OmegaConf.merge(OmegaConf.structured(PPOConfig()), config)
     parsed: PPOConfig = OmegaConf.to_object(merged)
     parsed.deep_post_init()
@@ -96,6 +135,8 @@ def verify_config(config, mode: str, method: str) -> dict:
     a = parsed.worker.actor
     r = parsed.worker.rollout
     t = parsed.trainer
+    if Path(a.model.model_path).resolve(strict=True) != parent:
+        raise ValueError("Actor model path differs from the checked parent")
     if not (d.rollout_batch_size == 100 and d.mini_rollout_batch_size == 50 and
             a.global_batch_size == 100 and a.ppo_epochs == 1 and r.n == 5 and
             d.max_response_length == 1024 and d.max_prompt_length == 8192 and
@@ -143,19 +184,25 @@ def main() -> None:
     parser.add_argument("--engine", required=True, type=Path)
     parser.add_argument("--stage1", required=True, type=Path)
     parser.add_argument("--base", required=True, type=Path)
+    parser.add_argument("--parent-manifest", type=Path,
+                        help="Completed base→DPO merged model manifest")
+    parser.add_argument("--expected-dpo-adapter-sha256",
+                        help="A's original DPO(e) adapter_model.safetensors SHA256")
     args = parser.parse_args()
     if args.run_dir.exists() and any(args.run_dir.iterdir()):
         raise FileExistsError(f"Run directory is not empty: {args.run_dir}")
-    if args.base.name != BASE_REVISION:
-        raise ValueError(f"Base revision differs: {args.base}")
+    parent = validate_parent(args.base, args.parent_manifest,
+                             args.expected_dpo_adapter_sha256)
     head = subprocess.check_output(["git", "-C", str(args.engine), "rev-parse", "HEAD"], text=True).strip()
     if head != ENGINE_HEAD:
         raise ValueError(f"EasyR1 commit differs: {head}")
     stage1_manifest = args.stage1 / "manifest.json"
     if sha256(stage1_manifest) != "fac0d78cf11f79b7ce63de371c043555a68b8194ee449b1cd1e6ea6bd22f39bd":
         raise ValueError("Frozen Stage1 patch/data manifest differs")
-    config = make_config(args.source_config, args.method, args.mode, args.run_dir, args.stage1)
-    arithmetic = verify_config(config, args.mode, args.method)
+    config = make_config(args.source_config, args.method, args.mode, args.run_dir,
+                         args.stage1, args.base.resolve(strict=True))
+    arithmetic = verify_config(config, args.mode, args.method,
+                               args.base.resolve(strict=True))
     train = Path(config.data.train_files)
     validation = Path(config.data.val_files)
     data = validate_train(train, validation)
@@ -166,7 +213,8 @@ def main() -> None:
         "status": "preflight_passed",
         "method": args.method, "mode": args.mode,
         "algorithm_label": "DAPO core (soft-overlong disabled)" if args.method == "dapo_core" else "GRPO",
-        "base_revision": BASE_REVISION, "base_model": str(args.base),
+        "base_revision": BASE_REVISION, "base_model": parent["parent_model_path"],
+        **parent,
         "engine_git_head": head, "stage1_manifest_sha256": sha256(stage1_manifest),
         "source_config_sha256": sha256(args.source_config),
         "resolved_config_sha256": sha256(resolved),

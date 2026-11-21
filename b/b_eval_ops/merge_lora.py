@@ -4,6 +4,8 @@ Examples:
   base -> GRPO:  --adapter <grpo>/adapter --adapter-role grpo --adapter-sha256 <sha>
   SFT  -> GRPO:  --adapter <sft> --adapter-role sft --adapter-sha256 <sha>
                  --adapter <grpo>/adapter --adapter-role grpo --adapter-sha256 <sha>
+  DPO  -> GRPO:  --adapter <dpo> --adapter-role dpo --adapter-sha256 <sha>
+                 --adapter <grpo>/adapter --adapter-role grpo --adapter-sha256 <sha>
 
 The order matters. This script is a B-side draft; A's shared merge contract must
 be agreed before cross-server official comparisons.
@@ -45,9 +47,10 @@ def parse_args() -> argparse.Namespace:
 
 
 def validate_roles(roles: list[str]) -> None:
-    allowed = {("sft",), ("dpo",), ("grpo",), ("sft", "dpo"), ("sft", "grpo")}
+    allowed = {("sft",), ("dpo",), ("grpo",), ("sft", "dpo"),
+               ("sft", "grpo"), ("dpo", "grpo")}
     if tuple(roles) not in allowed:
-        raise ValueError(f"Unsupported adapter order {roles}; expected SFT then DPO/GRPO, or base branch")
+        raise ValueError(f"Unsupported adapter order {roles}; expected base branch or SFT/DPO then GRPO")
 
 
 def preflight(args: argparse.Namespace) -> tuple[Path, list[dict], dict]:
@@ -145,6 +148,7 @@ def main() -> None:
         ("grpo",): "merged_base_grpo",
         ("sft", "dpo"): "merged_sft_dpo",
         ("sft", "grpo"): "merged_sft_grpo",
+        ("dpo", "grpo"): "merged_dpo_grpo",
     }[tuple(roles)]
     manifest = {
         "schema_version": 1,

@@ -42,22 +42,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-root", required=True, type=Path)
     parser.add_argument("--run-name", required=True)
     parser.add_argument("--mode", choices=tuple(MODE), required=True)
-    parser.add_argument("--screen-seed", choices=("3407", "1", "2"),
-                        help="Seed for a one-seed screen (default: 3407)")
     parser.add_argument("--baseline-run", type=Path, help="Own-GPU base or parent run for paired comparison")
     parser.add_argument("--compare-script", type=Path, help="compare_runs.py; required with --baseline-run")
     parser.add_argument("--verify-model-hashes", action="store_true", help="Rehash all saved model files before launch")
     parser.add_argument("--allow-busy-gpu", action="store_true", help="Explicitly override >4 GiB GPU-use guard")
     parser.add_argument("--dry-run", action="store_true", help="Validate and print command without launching evaluator")
     return parser.parse_args()
-
-
-def mode_settings(mode: str, screen_seed: str | None) -> dict[str, Any]:
-    if screen_seed is not None and mode != "screen":
-        raise ValueError("--screen-seed requires --mode screen")
-    if mode == "screen":
-        return {**MODE[mode], "seeds": (screen_seed or "3407",)}
-    return MODE[mode]
 
 
 def git_check(repo: Path) -> str:
@@ -102,25 +92,40 @@ def validate_training_lineage(model_manifest: dict[str, Any], train_path: Path |
     train = read_json(train_path.resolve(strict=True))
     if train.get("base_revision") != BASE_REVISION:
         raise ValueError("Training manifest has wrong base revision")
-    if train.get("parent_kind") not in {"base", "merged_sft"}:
-        raise ValueError("GRPO parent_kind must be base or merged_sft")
+    parent_kind = train.get("parent_kind")
+    role_map = {"base": ["grpo"], "merged_sft": ["sft", "grpo"],
+                "merged_dpo": ["dpo", "grpo"]}
+    if parent_kind not in role_map:
+        raise ValueError("GRPO parent_kind must be base, merged_sft, or merged_dpo")
     adapters = model_manifest.get("adapters")
     if not isinstance(adapters, list):
         raise ValueError("Merged model manifest lacks ordered adapters")
-    expected_roles = ["grpo"] if train["parent_kind"] == "base" else ["sft", "grpo"]
+    expected_roles = role_map[parent_kind]
     if [a.get("role") for a in adapters] != expected_roles:
         raise ValueError(f"Merged adapter order differs from GRPO parent: expected {expected_roles}")
     if adapters[-1].get("weights_sha256") != train.get("adapter_sha256"):
         raise ValueError("Merged GRPO adapter SHA256 differs from training manifest")
-    if train["parent_kind"] == "merged_sft":
+    if parent_kind in {"merged_sft", "merged_dpo"}:
         if adapters[0].get("weights_sha256") != train.get("parent_adapter_sha256"):
-            raise ValueError("Merged SFT parent SHA256 differs from training manifest")
+            raise ValueError("Merged parent adapter SHA256 differs from training manifest")
         parent_path = Path(train.get("parent_model_path", ""))
         parent_manifest = parent_path / "model_manifest.json"
         expected_parent_hash = train.get("parent_model_manifest_sha256")
-        if parent_manifest.is_file() and expected_parent_hash:
-            if sha256_file(parent_manifest) != expected_parent_hash:
-                raise ValueError("SFT parent model manifest changed after GRPO training")
+        if parent_kind == "merged_dpo" and (not parent_manifest.is_file() or not expected_parent_hash):
+            raise ValueError("DPO parent model manifest is missing")
+        if parent_manifest.is_file() and expected_parent_hash and sha256_file(parent_manifest) != expected_parent_hash:
+            raise ValueError("Parent model manifest changed after GRPO training")
+        if parent_kind == "merged_dpo":
+            parent_record = read_json(parent_manifest)
+            parent_adapters = parent_record.get("adapters")
+            if (parent_record.get("status") != "complete" or
+                    parent_record.get("parent_kind") != "merged_base_dpo" or
+                    Path(parent_record.get("model_path", "")).resolve() != parent_path.resolve() or
+                    not isinstance(parent_adapters, list) or
+                    [(a.get("role"), a.get("weights_sha256"))
+                     for a in parent_adapters] !=
+                    [("dpo", train["parent_adapter_sha256"])]):
+                raise ValueError("DPO parent model lineage differs from training manifest")
     return train
 
 
@@ -190,7 +195,7 @@ def main() -> None:
         raise ValueError("--baseline-run and --compare-script must be passed together")
     if args.mode in {"screen", "full"} and baseline is None:
         raise ValueError("Screen/full evaluation requires an own-GPU baseline for paired Δ")
-    settings = mode_settings(args.mode, args.screen_seed)
+    settings = MODE[args.mode]
     if baseline is not None:
         check_own_gpu_baseline(baseline, settings["seeds"])
     command = [

@@ -135,12 +135,40 @@ def build(args: argparse.Namespace) -> dict:
     if completion.get("method", method) != method:
         raise ValueError("Run and completion methods differ")
     parent = source.get("base_model")
-    if not isinstance(parent, str) or not parent.rstrip("/").endswith(BASE_REVISION):
-        raise ValueError("EasyR1 run did not start from the pinned base snapshot")
+    if not isinstance(parent, str):
+        raise ValueError("EasyR1 run lacks a parent model path")
     if source.get("base_revision", BASE_REVISION) != BASE_REVISION:
         raise ValueError("EasyR1 base revision differs")
-    if source.get("parent_kind", "base") != "base":
-        raise ValueError("Stage2 fixed300 lineage requires a base parent")
+    parent_kind = source.get("parent_kind", "base")
+    parent_record = None
+    parent_adapter_sha = None
+    if parent_kind == "base":
+        if not parent.rstrip("/").endswith(BASE_REVISION):
+            raise ValueError("EasyR1 run did not start from the pinned base snapshot")
+    elif parent_kind == "merged_dpo":
+        parent_path = Path(parent).resolve(strict=True)
+        manifest_path = Path(source.get("parent_model_manifest_path", "")).resolve(strict=True)
+        parent_adapter_sha = source.get("parent_adapter_sha256")
+        if (manifest_path.parent != parent_path or
+                source.get("parent_model_path") != str(parent_path) or
+                not isinstance(parent_adapter_sha, str) or not SHA256.fullmatch(parent_adapter_sha)):
+            raise ValueError("DPO parent path or adapter SHA256 is incomplete")
+        parent_record = expected_file(
+            source.get("parent_model_manifest_path"),
+            source.get("parent_model_manifest_sha256"), manifest_path,
+            "DPO parent model manifest")
+        parent_manifest = read_json(manifest_path)
+        parent_adapters = parent_manifest.get("adapters")
+        if (parent_manifest.get("status") != "complete" or
+                parent_manifest.get("parent_kind") != "merged_base_dpo" or
+                parent_manifest.get("base_revision") != BASE_REVISION or
+                Path(parent_manifest.get("model_path", "")).resolve() != parent_path or
+                not isinstance(parent_adapters, list) or len(parent_adapters) != 1 or
+                (parent_adapters[0].get("role"), parent_adapters[0].get("weights_sha256")) !=
+                ("dpo", parent_adapter_sha)):
+            raise ValueError("DPO parent model lineage differs from the training run")
+    else:
+        raise ValueError(f"Unexpected EasyR1 parent kind: {parent_kind!r}")
     if source.get("engine_git_head") != EASYR1_COMMIT:
         raise ValueError("EasyR1 source commit differs")
     if not isinstance(source.get("stage1_manifest_sha256"), str) or not SHA256.fullmatch(
@@ -208,8 +236,10 @@ def build(args: argparse.Namespace) -> dict:
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "base_model_id": BASE_MODEL_ID,
         "base_revision": BASE_REVISION,
-        "parent_kind": "base",
+        "parent_kind": parent_kind,
         "parent_model_path": parent,
+        "parent_adapter_sha256": parent_adapter_sha,
+        "parent_model_manifest_sha256": parent_record["sha256"] if parent_record else None,
         "algorithm": method,
         "adapter_dir": str(adapter_dir),
         "adapter_sha256": adapter["sha256"],
@@ -234,6 +264,8 @@ def build(args: argparse.Namespace) -> dict:
             "completion": completion,
         },
     }
+    if parent_record:
+        payload["provenance"]["parent_model_manifest"] = parent_record
     if args.model_manifest is not None:
         if probe_check:
             raise ValueError("Probe cannot be paired with a merged evaluation model")
@@ -242,10 +274,14 @@ def build(args: argparse.Namespace) -> dict:
         if merged.get("status") != "complete" or merged.get("base_revision") != BASE_REVISION:
             raise ValueError("Merged model is not a completed pinned-base model")
         adapters = merged.get("adapters")
-        if not isinstance(adapters, list) or len(adapters) != 1:
-            raise ValueError("Expected one base-parent RL adapter in merged model")
-        if adapters[0].get("role") != "grpo" or adapters[0].get("weights_sha256") != adapter["sha256"]:
+        expected_adapters = ([
+            ("dpo", parent_adapter_sha), ("grpo", adapter["sha256"])
+        ] if parent_kind == "merged_dpo" else [("grpo", adapter["sha256"])])
+        if (not isinstance(adapters, list) or
+                [(item.get("role"), item.get("weights_sha256")) for item in adapters] != expected_adapters):
             raise ValueError("Merged model LoRA lineage differs from EasyR1 output")
+        if parent_kind == "merged_dpo" and merged.get("parent_kind") != "merged_dpo_grpo":
+            raise ValueError("Merged model is not a DPO→GRPO model")
         payload["provenance"]["merged_model_manifest"] = file_record(merged_path)
     return payload
 
