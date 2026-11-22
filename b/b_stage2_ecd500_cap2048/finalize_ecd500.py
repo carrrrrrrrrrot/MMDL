@@ -113,7 +113,7 @@ def resolve_metrics(run_dir: Path, manifest: dict, expected_steps: int,
     except ValueError as exc:
         # An invalid numeric gradient is a real validation failure. Only a
         # missing/partial forwarded stdout stream can use the raw Ray log.
-        if manifest["method"] != "dapo_core" or not str(exc).startswith((
+        if not str(exc).startswith((
             "Expected actor metric steps", "Final heldout validation missing")):
             raise
         raw_path, metrics = find_runner_stdout(run_dir, manifest, expected_steps, ray_tmpdir)

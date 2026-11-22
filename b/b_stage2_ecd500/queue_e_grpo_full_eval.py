@@ -169,9 +169,19 @@ def verify_full() -> tuple[Path, str]:
             or visits.get("generated_rollouts") != 7500
             or visits.get("used_rollouts") != 7500):
         raise ValueError("Full GRPO completion, parent, or three-pass visit gate failed")
+    source = report.get("metric_source", {})
+    kind = source.get("kind")
+    expected_name = {"console": "console.log",
+                     "ray_runner_stdout": "runner_stdout.log"}.get(kind)
+    if expected_name is None:
+        raise ValueError("Full completion report lacks a supported metric source")
+    source_path = Path(source.get("path", "")).resolve(strict=True)
+    if (source_path != (FULL / expected_name).resolve(strict=True)
+            or sha256(source_path) != source.get("sha256")):
+        raise ValueError("Full metric source path or SHA256 differs from completion report")
     parsed = subprocess.check_output(
         [str(TRAIN_PY), str(STAGE2 / "parse_full_metrics.py"),
-         str(FULL / "console.log"), "--expected-steps", "15"],
+         str(source_path), "--expected-steps", "15", "--source-kind", kind],
         text=True,
     )
     metrics = json.loads(parsed)
@@ -217,6 +227,7 @@ def verify_full() -> tuple[Path, str]:
     run(lineage_args + ["--dry-run"])
     emit("full_verified", adapter_sha256=adapter_sha,
          optimizer_steps=15, used_rollouts=7500,
+         metric_source_kind=kind, metric_source_sha256=source["sha256"],
          reward_mean=round(reward_mean, 4), reward_min=min(reward_values), reward_max=max(reward_values),
          answer_mean=round(answer_mean, 4), answer_min=min(answer_values), answer_max=max(answer_values),
          cap_mean=round(cap_mean, 4), cap_min=min(cap_values), cap_max=max(cap_values))
