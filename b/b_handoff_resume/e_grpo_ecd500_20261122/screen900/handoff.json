@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "requested_at_utc": "2026-11-22T01:03:39.735772+00:00",
+  "run_name": "dpo_e_grpo_ecd500_900_s3407_20261122",
+  "mode": "screen",
+  "seeds": [
+    "3407"
+  ],
+  "limit": null,
+  "evaluation_repo_commit": "61025850563d0331e365bc974a63c0d3c4ed4c2c",
+  "evaluation_script_sha256": "9a463d36b522bd9f4fe5d3d9647901283a4a00764cc0e987a2025d9466ec7992",
+  "model_manifest_sha256": "e4672621782629ed9c0a58429b43db124ef182a484a0dd6d6918c206f8c05ba8",
+  "model_path": "/data/chaewon/mmdl_merged_models/dpo_e_grpo_ecd500_20261122",
+  "model_lineage_sha256": "6964fe40211c55012a904306eb55f2115d43fc9cf8cde0f45ac0a79437031acc",
+  "training_manifest_sha256": "68c7933ccc0b54c650a420d4a8865bcb32bfb2598b9f006c40166e623c40f778",
+  "data_root": "/home/chaewon/.cache/huggingface/hub/datasets--MMMU--MMMU/snapshots/98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+  "eval_python": "/data/chaewon/mmdl_envs/vllm011_repro/bin/python3.10",
+  "baseline_run": "/data/chaewon/mmdl_eval_runs/a_dpo_e_parent_900_s3407_20261122",
+  "command": [
+    "bash",
+    "/home/chaewon/projects/qwen_eval_project/MMDL_eval_v1_2/scripts/run_mmmu_eval.sh",
+    "--model_path",
+    "/data/chaewon/mmdl_merged_models/dpo_e_grpo_ecd500_20261122",
+    "--data_root",
+    "/home/chaewon/.cache/huggingface/hub/datasets--MMMU--MMMU/snapshots/98e6ac0cb9b7b2cd2c991b85a50762edc4aedc68",
+    "--seeds",
+    "3407",
+    "--output_path",
+    "/data/chaewon/mmdl_eval_runs",
+    "--run_name",
+    "dpo_e_grpo_ecd500_900_s3407_20261122"
+  ],
+  "completed_at_utc": "2026-11-22T01:33:25.400199+00:00",
+  "result_files": {
+    "3407": {
+      "samples": {
+        "path": "/data/chaewon/mmdl_eval_runs/dpo_e_grpo_ecd500_900_s3407_20261122/seed_3407/mmdl_merged_models__dpo_e_grpo_ecd500_20261122/20261122_090344_samples_mmmu_val_mmdl.jsonl",
+        "sha256": "6c9439a0659ff4dec47382475ee5039169f9160acce6b8cbb0582f28beacdf26"
+      },
+      "results": {
+        "path": "/data/chaewon/mmdl_eval_runs/dpo_e_grpo_ecd500_900_s3407_20261122/seed_3407/mmdl_merged_models__dpo_e_grpo_ecd500_20261122/20261122_090344_results.json",
+        "sha256": "1a0b7c346cdc0f59a0b84e7701206c25f9c2f51c6df0f0bb6e9a003d8b3f002f"
+      },
+      "run_meta": {
+        "path": "/data/chaewon/mmdl_eval_runs/dpo_e_grpo_ecd500_900_s3407_20261122/seed_3407/run_meta.txt",
+        "sha256": "a0600647f0f6dcc85e4f7b57873fc243682636d2dca03cef629378ea11464e67"
+      }
+    }
+  },
+  "comparison_summary": "/data/chaewon/mmdl_eval_runs/dpo_e_grpo_ecd500_900_s3407_20261122/comparison/comparison_summary.json",
+  "note": "6000 screen/full values are screening results; final official result requires 4090 v1.2 3 seeds."
+}

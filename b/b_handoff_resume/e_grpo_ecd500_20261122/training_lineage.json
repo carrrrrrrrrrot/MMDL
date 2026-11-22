@@ -1,0 +1,157 @@
+{
+  "schema": "mmdl_b_easyr1_fixed300_lineage_v1",
+  "status": "complete",
+  "created_at_utc": "2026-11-22T00:57:18.784946+00:00",
+  "base_model_id": "Qwen/Qwen3-VL-4B-Instruct",
+  "base_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+  "parent_kind": "merged_dpo",
+  "parent_model_path": "/data/chaewon/mmdl_merged_models/dpo_e_trunc_from_a_20261121",
+  "parent_adapter_sha256": "7650bfbbf72bb4ced94a605a00775d59b94c4eef7ae4a6b9265e19f5b250c5aa",
+  "parent_model_manifest_sha256": "e2e3f3c7ecd8a4c9f06f8157fc8dba3d42a9f814f8bde16dadb84a899fc4ae5e",
+  "algorithm": "grpo",
+  "adapter_dir": "/data/chaewon/mmdl_stage2_runs/e_grpo_full_20261122/checkpoints/global_step_15/actor/lora_adapter",
+  "adapter_sha256": "7a28ca5b29f201c33c79800d9f96d0673414590c2b60ac6c940cc00a52f9e69a",
+  "adapter_config_sha256": "a66a0709081fc6b52f5431620c499d0a0ddc35cec2521ae6fa44b8c13322180c",
+  "adapter_tensor_count": 288,
+  "adapter_parameter_count": 11796480,
+  "optimizer_steps": 15,
+  "provenance": {
+    "easy_r1_git_head": "a73346d028ba0335aa42da104972c86e6cd0fe69",
+    "stage1_package_manifest_sha256": "fac0d78cf11f79b7ce63de371c043555a68b8194ee449b1cd1e6ea6bd22f39bd",
+    "run_manifest": {
+      "path": "/data/chaewon/mmdl_stage2_runs/e_grpo_full_20261122/run_manifest.json",
+      "sha256": "bc92d5b7d9633558018728524cc4330920dd3d456315d76abec59cb34427c37a",
+      "bytes": 2659
+    },
+    "completion_report": {
+      "path": "/data/chaewon/mmdl_stage2_runs/e_grpo_full_20261122/completion_report.json",
+      "sha256": "93bb091e8928f1756e5762546ad38d33b37da51f383596a24d0e686e3633b79c",
+      "bytes": 1075
+    },
+    "visit_audit": {
+      "path": "/data/chaewon/mmdl_stage2_runs/e_grpo_full_20261122/visit_audit.json",
+      "sha256": "7e44f7f931d230ddfb3b5cd1cc5a66a71b51a75cee13584899dfd4c1f399e5a7",
+      "bytes": 3660
+    },
+    "train_data": {
+      "path": "/data/chaewon/mmdl_stage1_paper_style_20261120/scripts/ecd500_easyr1.jsonl",
+      "sha256": "2403dd73164a64b4239c295032b25b2626d6c569ae7f2b0d9b704c82e1b23c8d",
+      "bytes": 260865
+    },
+    "validation_data": {
+      "path": "/data/chaewon/mmdl_stage1_paper_style_20261120/scripts/ecd97_holdout_easyr1.jsonl",
+      "sha256": "9f3280074209578a72d2b32c78f4a0abad8fc555047eb5f2350684b3c47fd134",
+      "bytes": 50037
+    },
+    "training_config": {
+      "path": "/data/chaewon/mmdl_stage2_runs/e_grpo_full_20261122/resolved_config.yaml",
+      "sha256": "3d6b37f666b399ce98880d46376e2f571f95a9e0667328e03e277787fe8793ec",
+      "bytes": 2295
+    },
+    "source_config": {
+      "path": "/data/chaewon/mmdl_stage2_egrpo_20261122/config_ecd500.yaml",
+      "sha256": "737249c0016253b2b92c7f3d3f2e36691f62db4cf850a4e258ce1aafeec2e4a3",
+      "bytes": 2553
+    },
+    "reward_code": {
+      "path": "/data/chaewon/mmdl_stage1_paper_style_20261120/scripts/reward_v12.py",
+      "sha256": "c86032ca631feb5ed0c91e6b8111283e96e7899cf67f8c147950eb6b70119dba",
+      "bytes": 2447
+    },
+    "adapter_weights": {
+      "path": "/data/chaewon/mmdl_stage2_runs/e_grpo_full_20261122/checkpoints/global_step_15/actor/lora_adapter/adapter_model.safetensors",
+      "sha256": "7a28ca5b29f201c33c79800d9f96d0673414590c2b60ac6c940cc00a52f9e69a",
+      "bytes": 47228912
+    },
+    "adapter_config": {
+      "path": "/data/chaewon/mmdl_stage2_runs/e_grpo_full_20261122/checkpoints/global_step_15/actor/lora_adapter/adapter_config.json",
+      "sha256": "a66a0709081fc6b52f5431620c499d0a0ddc35cec2521ae6fa44b8c13322180c",
+      "bytes": 1345
+    },
+    "run_settings": {
+      "status": "completed",
+      "method": "grpo",
+      "mode": "full",
+      "algorithm_label": "GRPO",
+      "base_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+      "base_model": "/data/chaewon/mmdl_merged_models/dpo_e_trunc_from_a_20261121",
+      "parent_kind": "merged_dpo",
+      "parent_model_path": "/data/chaewon/mmdl_merged_models/dpo_e_trunc_from_a_20261121",
+      "parent_model_manifest_path": "/data/chaewon/mmdl_merged_models/dpo_e_trunc_from_a_20261121/model_manifest.json",
+      "parent_model_manifest_sha256": "e2e3f3c7ecd8a4c9f06f8157fc8dba3d42a9f814f8bde16dadb84a899fc4ae5e",
+      "parent_adapter_sha256": "7650bfbbf72bb4ced94a605a00775d59b94c4eef7ae4a6b9265e19f5b250c5aa",
+      "engine_git_head": "a73346d028ba0335aa42da104972c86e6cd0fe69",
+      "stage1_manifest_sha256": "fac0d78cf11f79b7ce63de371c043555a68b8194ee449b1cd1e6ea6bd22f39bd",
+      "source_config_sha256": "737249c0016253b2b92c7f3d3f2e36691f62db4cf850a4e258ce1aafeec2e4a3",
+      "resolved_config_sha256": "3d6b37f666b399ce98880d46376e2f571f95a9e0667328e03e277787fe8793ec",
+      "train_file": "/data/chaewon/mmdl_stage1_paper_style_20261120/scripts/ecd500_easyr1.jsonl",
+      "validation_file": "/data/chaewon/mmdl_stage1_paper_style_20261120/scripts/ecd97_holdout_easyr1.jsonl",
+      "reward_v12_sha256": "c86032ca631feb5ed0c91e6b8111283e96e7899cf67f8c147950eb6b70119dba",
+      "v12_scorer_sha256": "c8aaa9dff3764205e196762acbc6b470ee804cd5dd7579a2eec82a8588fc7c5b",
+      "data": {
+        "train_rows": 500,
+        "train_unique_ids": 500,
+        "train_images": 500,
+        "validation_rows": 97,
+        "train_sha256": "2403dd73164a64b4239c295032b25b2626d6c569ae7f2b0d9b704c82e1b23c8d",
+        "validation_sha256": "9f3280074209578a72d2b32c78f4a0abad8fc555047eb5f2350684b3c47fd134"
+      },
+      "arithmetic": {
+        "dataloader_batches_per_epoch": 10,
+        "rollout_cycles_per_epoch": 5,
+        "nominal_rollout_cycles_full": 15,
+        "expected_optimizer_steps_full": 15,
+        "groups_per_draw": 50,
+        "rollouts_per_draw": 250,
+        "groups_per_update": 100,
+        "rollouts_per_update": 500,
+        "max_dapo_draws_per_update": 24,
+        "max_dapo_attempted_rollouts_per_update": 6000
+      },
+      "quality_note": "ECD500 is exploratory B QC v2; C MMMU leakage audit passed, full gold approval not claimed.",
+      "epoch_note": "GRPO should visit each of 500 IDs three times if 15 cycles complete; DAPO may redraw and revisit IDs under online filtering.",
+      "start_utc": "2026-11-21T23:53:44+00:00",
+      "end_utc": "2026-11-22T00:56:22+00:00",
+      "wall_seconds": 3758.0,
+      "process_exit_code": 0,
+      "gpu_samples": 749,
+      "gpu_peak_used_mib": 47416,
+      "gpu_peak_measurement": "nvidia-smi memory.used sampled approximately every 5 seconds",
+      "gpu_max_utilization_pct": 100
+    },
+    "completion": {
+      "status": "complete",
+      "method": "grpo",
+      "mode": "full",
+      "run_manifest_sha256": "bc92d5b7d9633558018728524cc4330920dd3d456315d76abec59cb34427c37a",
+      "resolved_config_sha256": "3d6b37f666b399ce98880d46376e2f571f95a9e0667328e03e277787fe8793ec",
+      "train_sha256": "2403dd73164a64b4239c295032b25b2626d6c569ae7f2b0d9b704c82e1b23c8d",
+      "adapter_dir": "/data/chaewon/mmdl_stage2_runs/e_grpo_full_20261122/checkpoints/global_step_15/actor/lora_adapter",
+      "adapter_sha256": "7a28ca5b29f201c33c79800d9f96d0673414590c2b60ac6c940cc00a52f9e69a",
+      "optimizer_steps": 15,
+      "positive_grad_steps": 15,
+      "final_validation_accuracy": 0.309,
+      "validation_rows": 97,
+      "visit_audit_sha256": "7e44f7f931d230ddfb3b5cd1cc5a66a71b51a75cee13584899dfd4c1f399e5a7",
+      "generated_rollouts": 7500,
+      "used_rollouts": 7500,
+      "wall_seconds": 3758.0,
+      "gpu_peak_used_mib": 47416,
+      "metric_source": {
+        "kind": "console",
+        "path": "/data/chaewon/mmdl_stage2_runs/e_grpo_full_20261122/console.log",
+        "sha256": "f37bec461af46db944337195658ee50dc5240d5f02569df871ae7ae9313b3d9a"
+      }
+    },
+    "parent_model_manifest": {
+      "path": "/data/chaewon/mmdl_merged_models/dpo_e_trunc_from_a_20261121/model_manifest.json",
+      "sha256": "e2e3f3c7ecd8a4c9f06f8157fc8dba3d42a9f814f8bde16dadb84a899fc4ae5e",
+      "bytes": 4237
+    },
+    "merged_model_manifest": {
+      "path": "/data/chaewon/mmdl_merged_models/dpo_e_grpo_ecd500_20261122/model_manifest.json",
+      "sha256": "e4672621782629ed9c0a58429b43db124ef182a484a0dd6d6918c206f8c05ba8",
+      "bytes": 5111
+    }
+  }
+}

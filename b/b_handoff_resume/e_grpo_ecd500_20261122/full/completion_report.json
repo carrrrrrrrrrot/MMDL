@@ -1,0 +1,24 @@
+{
+  "status": "complete",
+  "method": "grpo",
+  "mode": "full",
+  "run_manifest_sha256": "bc92d5b7d9633558018728524cc4330920dd3d456315d76abec59cb34427c37a",
+  "resolved_config_sha256": "3d6b37f666b399ce98880d46376e2f571f95a9e0667328e03e277787fe8793ec",
+  "train_sha256": "2403dd73164a64b4239c295032b25b2626d6c569ae7f2b0d9b704c82e1b23c8d",
+  "adapter_dir": "/data/chaewon/mmdl_stage2_runs/e_grpo_full_20261122/checkpoints/global_step_15/actor/lora_adapter",
+  "adapter_sha256": "7a28ca5b29f201c33c79800d9f96d0673414590c2b60ac6c940cc00a52f9e69a",
+  "optimizer_steps": 15,
+  "positive_grad_steps": 15,
+  "final_validation_accuracy": 0.309,
+  "validation_rows": 97,
+  "visit_audit_sha256": "7e44f7f931d230ddfb3b5cd1cc5a66a71b51a75cee13584899dfd4c1f399e5a7",
+  "generated_rollouts": 7500,
+  "used_rollouts": 7500,
+  "wall_seconds": 3758.0,
+  "gpu_peak_used_mib": 47416,
+  "metric_source": {
+    "kind": "console",
+    "path": "/data/chaewon/mmdl_stage2_runs/e_grpo_full_20261122/console.log",
+    "sha256": "f37bec461af46db944337195658ee50dc5240d5f02569df871ae7ae9313b3d9a"
+  }
+}

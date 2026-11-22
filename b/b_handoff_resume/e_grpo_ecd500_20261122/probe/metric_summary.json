@@ -1,0 +1,17 @@
+{
+  "steps": [
+    {
+      "step": 1,
+      "actor.grad_norm": 0.011,
+      "actor.lr": 1e-06,
+      "actor.pg_loss": 0.0,
+      "actor.ppo_kl": 0.0,
+      "perf.time_per_step": 257.252,
+      "response_length.mean": 301.49,
+      "reward.accuracy": 0.348,
+      "reward.answer_present": 0.932,
+      "reward.at_cap_proxy": 0.068,
+      "reward.overlong": 0.0
+    }
+  ]
+}
