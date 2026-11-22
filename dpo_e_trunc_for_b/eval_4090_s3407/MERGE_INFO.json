@@ -1,0 +1,37 @@
+{
+  "created_at": "2026-11-19T09:30:02+09:00",
+  "base_path": "/mnt/SSD-2TB/models/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17",
+  "base_revision": "ebb281ec70b05090aa6165b016eac8ec08e71b17",
+  "adapter_path": "/mnt/SSD-2TB/dekim/checkpoints/dpo_e_trunc/adapter",
+  "adapter_sha256": {
+    "adapter_model.safetensors": "7650bfbbf72bb4ced94a605a00775d59b94c4eef7ae4a6b9265e19f5b250c5aa",
+    "adapter_config.json": "33bd6c6a028ed1b0e46a2289869e9d5513dc2353d40c8e95a06c136eb109caf6"
+  },
+  "adapter_config": {
+    "r": 16,
+    "lora_alpha": 32,
+    "lora_dropout": 0.05,
+    "target_modules": ".*language_model.*\\.(q_proj|k_proj|v_proj|o_proj)",
+    "base_model_name_or_path": "/mnt/SSD-2TB/models/models--Qwen--Qwen3-VL-4B-Instruct/snapshots/ebb281ec70b05090aa6165b016eac8ec08e71b17",
+    "revision": null
+  },
+  "dtype": "bfloat16",
+  "n_params": 4437815808,
+  "copied_from_base": [
+    "chat_template.json",
+    "config.json",
+    "generation_config.json",
+    "merges.txt",
+    "preprocessor_config.json",
+    "tokenizer.json",
+    "tokenizer_config.json",
+    "video_preprocessor_config.json",
+    "vocab.json"
+  ],
+  "versions": {
+    "torch": "2.8.0+cu128",
+    "transformers": "4.57.1",
+    "peft": "0.21.0"
+  },
+  "command": "/home/dekim/workspace/MMDL/local/train/merge_lora.py --adapter /mnt/SSD-2TB/dekim/checkpoints/dpo_e_trunc/adapter --out /mnt/SSD-2TB/dekim/merged/dpo_e_trunc"
+}
