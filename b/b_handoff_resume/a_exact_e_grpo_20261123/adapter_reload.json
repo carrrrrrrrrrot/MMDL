@@ -1,0 +1,7 @@
+{
+  "peft_reload": "exact",
+  "tensor_count": 288,
+  "parameter_count": 11796480,
+  "adapter_sha256": "235fb028d7de3408c7ddb69834debae47edc0bf4dfbb72b13aba4f0db6ccdb2b",
+  "adapter_path": "/data/chaewon/mmdl_stage2_runs/e_grpo_a_exact_full_20261123/checkpoints/global_step_15/actor/lora_adapter/adapter_model.safetensors"
+}
