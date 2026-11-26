@@ -1,0 +1,207 @@
+{
+ "a": "/mnt/SSD-2TB/dekim/eval_runs/test_base/seed_3407",
+ "b": "/mnt/SSD-2TB/dekim/eval_runs/test_e/seed_3407",
+ "scoring": "2026-02 공개 정답으로 로컬 채점 (v1.2 is_correct)",
+ "correct": [
+  6211,
+  6624
+ ],
+ "no_answer": [
+  1382,
+  506
+ ],
+ "delta_b_minus_a": 413,
+ "b_only": 1056,
+ "a_only": 643,
+ "sign_test_z": 10.02,
+ "sign_test_p_two_sided": 9.67e-24,
+ "a_no_answer": 1382,
+ "b_correct_on_a_no_answer": 474,
+ "a_correct_on_a_no_answer": 0,
+ "a_answered": 9118,
+ "net_on_a_answered": -61,
+ "w2r_on_a_answered": 582,
+ "r2w_on_a_answered": 643,
+ "per_subject": {
+  "Accounting": {
+   "n": 380,
+   "a": 295,
+   "b": 306,
+   "delta": 11
+  },
+  "Agriculture": {
+   "n": 287,
+   "a": 145,
+   "b": 140,
+   "delta": -5
+  },
+  "Architecture_and_Engineering": {
+   "n": 551,
+   "a": 214,
+   "b": 260,
+   "delta": 46
+  },
+  "Art": {
+   "n": 231,
+   "a": 146,
+   "b": 162,
+   "delta": 16
+  },
+  "Art_Theory": {
+   "n": 429,
+   "a": 287,
+   "b": 300,
+   "delta": 13
+  },
+  "Basic_Medical_Science": {
+   "n": 326,
+   "a": 213,
+   "b": 211,
+   "delta": -2
+  },
+  "Biology": {
+   "n": 345,
+   "a": 203,
+   "b": 204,
+   "delta": 1
+  },
+  "Chemistry": {
+   "n": 603,
+   "a": 309,
+   "b": 332,
+   "delta": 23
+  },
+  "Clinical_Medicine": {
+   "n": 325,
+   "a": 172,
+   "b": 185,
+   "delta": 13
+  },
+  "Computer_Science": {
+   "n": 371,
+   "a": 217,
+   "b": 234,
+   "delta": 17
+  },
+  "Design": {
+   "n": 169,
+   "a": 128,
+   "b": 128,
+   "delta": 0
+  },
+  "Diagnostics_and_Laboratory_Medicine": {
+   "n": 162,
+   "a": 62,
+   "b": 75,
+   "delta": 13
+  },
+  "Economics": {
+   "n": 267,
+   "a": 210,
+   "b": 217,
+   "delta": 7
+  },
+  "Electronics": {
+   "n": 256,
+   "a": 80,
+   "b": 108,
+   "delta": 28
+  },
+  "Energy_and_Power": {
+   "n": 432,
+   "a": 204,
+   "b": 266,
+   "delta": 62
+  },
+  "Finance": {
+   "n": 355,
+   "a": 249,
+   "b": 249,
+   "delta": 0
+  },
+  "Geography": {
+   "n": 565,
+   "a": 276,
+   "b": 292,
+   "delta": 16
+  },
+  "History": {
+   "n": 278,
+   "a": 210,
+   "b": 216,
+   "delta": 6
+  },
+  "Literature": {
+   "n": 112,
+   "a": 97,
+   "b": 96,
+   "delta": -1
+  },
+  "Manage": {
+   "n": 245,
+   "a": 162,
+   "b": 165,
+   "delta": 3
+  },
+  "Marketing": {
+   "n": 181,
+   "a": 155,
+   "b": 164,
+   "delta": 9
+  },
+  "Materials": {
+   "n": 458,
+   "a": 192,
+   "b": 224,
+   "delta": 32
+  },
+  "Math": {
+   "n": 505,
+   "a": 355,
+   "b": 360,
+   "delta": 5
+  },
+  "Mechanical_Engineering": {
+   "n": 429,
+   "a": 180,
+   "b": 226,
+   "delta": 46
+  },
+  "Music": {
+   "n": 334,
+   "a": 72,
+   "b": 104,
+   "delta": 32
+  },
+  "Pharmacy": {
+   "n": 430,
+   "a": 298,
+   "b": 327,
+   "delta": 29
+  },
+  "Physics": {
+   "n": 408,
+   "a": 317,
+   "b": 320,
+   "delta": 3
+  },
+  "Psychology": {
+   "n": 305,
+   "a": 228,
+   "b": 234,
+   "delta": 6
+  },
+  "Public_Health": {
+   "n": 509,
+   "a": 354,
+   "b": 344,
+   "delta": -10
+  },
+  "Sociology": {
+   "n": 252,
+   "a": 181,
+   "b": 175,
+   "delta": -6
+  }
+ }
+}

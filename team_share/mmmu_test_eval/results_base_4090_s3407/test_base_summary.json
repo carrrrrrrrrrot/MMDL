@@ -1,0 +1,198 @@
+{
+ "scoring": "2026-02 공개 정답으로 로컬 채점 (v1.2 is_correct)",
+ "n": 10500,
+ "correct": 6211,
+ "acc_pct": 59.15,
+ "no_answer": 1382,
+ "mc_random_fallback_in_submission": 1341,
+ "open_empty_in_submission": 49,
+ "lmms_eval_mmmu_acc": 0.59152,
+ "submission": {
+  "path": "/mnt/SSD-2TB/dekim/eval_runs/test_base/seed_3407/submissions/mmmu_test_for_submission.json",
+  "sha256": "d02b3eecb716e0132ec4299a9b7235585c31f1204f1a8e7fdc714f0d10d2e1c4",
+  "n_ids": 10500,
+  "ids_match_rows": true
+ },
+ "per_subject": {
+  "Accounting": {
+   "n": 380,
+   "correct": 295,
+   "acc_pct": 77.6,
+   "no_answer": 46
+  },
+  "Agriculture": {
+   "n": 287,
+   "correct": 145,
+   "acc_pct": 50.5,
+   "no_answer": 1
+  },
+  "Architecture_and_Engineering": {
+   "n": 551,
+   "correct": 214,
+   "acc_pct": 38.8,
+   "no_answer": 255
+  },
+  "Art": {
+   "n": 231,
+   "correct": 146,
+   "acc_pct": 63.2,
+   "no_answer": 15
+  },
+  "Art_Theory": {
+   "n": 429,
+   "correct": 287,
+   "acc_pct": 66.9,
+   "no_answer": 33
+  },
+  "Basic_Medical_Science": {
+   "n": 326,
+   "correct": 213,
+   "acc_pct": 65.3,
+   "no_answer": 7
+  },
+  "Biology": {
+   "n": 345,
+   "correct": 203,
+   "acc_pct": 58.8,
+   "no_answer": 17
+  },
+  "Chemistry": {
+   "n": 603,
+   "correct": 309,
+   "acc_pct": 51.2,
+   "no_answer": 67
+  },
+  "Clinical_Medicine": {
+   "n": 325,
+   "correct": 172,
+   "acc_pct": 52.9,
+   "no_answer": 11
+  },
+  "Computer_Science": {
+   "n": 371,
+   "correct": 217,
+   "acc_pct": 58.5,
+   "no_answer": 38
+  },
+  "Design": {
+   "n": 169,
+   "correct": 128,
+   "acc_pct": 75.7,
+   "no_answer": 0
+  },
+  "Diagnostics_and_Laboratory_Medicine": {
+   "n": 162,
+   "correct": 62,
+   "acc_pct": 38.3,
+   "no_answer": 5
+  },
+  "Economics": {
+   "n": 267,
+   "correct": 210,
+   "acc_pct": 78.7,
+   "no_answer": 9
+  },
+  "Electronics": {
+   "n": 256,
+   "correct": 80,
+   "acc_pct": 31.2,
+   "no_answer": 77
+  },
+  "Energy_and_Power": {
+   "n": 432,
+   "correct": 204,
+   "acc_pct": 47.2,
+   "no_answer": 152
+  },
+  "Finance": {
+   "n": 355,
+   "correct": 249,
+   "acc_pct": 70.1,
+   "no_answer": 28
+  },
+  "Geography": {
+   "n": 565,
+   "correct": 276,
+   "acc_pct": 48.8,
+   "no_answer": 48
+  },
+  "History": {
+   "n": 278,
+   "correct": 210,
+   "acc_pct": 75.5,
+   "no_answer": 3
+  },
+  "Literature": {
+   "n": 112,
+   "correct": 97,
+   "acc_pct": 86.6,
+   "no_answer": 0
+  },
+  "Manage": {
+   "n": 245,
+   "correct": 162,
+   "acc_pct": 66.1,
+   "no_answer": 3
+  },
+  "Marketing": {
+   "n": 181,
+   "correct": 155,
+   "acc_pct": 85.6,
+   "no_answer": 6
+  },
+  "Materials": {
+   "n": 458,
+   "correct": 192,
+   "acc_pct": 41.9,
+   "no_answer": 148
+  },
+  "Math": {
+   "n": 505,
+   "correct": 355,
+   "acc_pct": 70.3,
+   "no_answer": 39
+  },
+  "Mechanical_Engineering": {
+   "n": 429,
+   "correct": 180,
+   "acc_pct": 42.0,
+   "no_answer": 143
+  },
+  "Music": {
+   "n": 334,
+   "correct": 72,
+   "acc_pct": 21.6,
+   "no_answer": 144
+  },
+  "Pharmacy": {
+   "n": 430,
+   "correct": 298,
+   "acc_pct": 69.3,
+   "no_answer": 32
+  },
+  "Physics": {
+   "n": 408,
+   "correct": 317,
+   "acc_pct": 77.7,
+   "no_answer": 13
+  },
+  "Psychology": {
+   "n": 305,
+   "correct": 228,
+   "acc_pct": 74.8,
+   "no_answer": 4
+  },
+  "Public_Health": {
+   "n": 509,
+   "correct": 354,
+   "acc_pct": 69.5,
+   "no_answer": 38
+  },
+  "Sociology": {
+   "n": 252,
+   "correct": 181,
+   "acc_pct": 71.8,
+   "no_answer": 0
+  }
+ }
+}
